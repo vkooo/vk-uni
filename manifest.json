@@ -1,6 +1,6 @@
 {
-    "name" : "Vk",
-    "appid" : "",
+    "name" : "挚爱包赔",
+    "appid" : "__UNI__EBDA1A4",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -73,6 +73,15 @@
         "router" : {
             "base" : "./"
         },
-        "title" : "Vk"
+        "title" : "挚爱包赔",
+		"devServer": {
+		    "disableHostCheck": true,
+			"proxy": {
+				"/api": {
+					"target": "http://zabp1.ak7.cc",
+					"changeOrigin": true
+				}
+			}
+		}
     }
 }

@@ -1,6 +1,7 @@
 "use strict";
 
 export default { //存放变量的容器
-	baseUrl: 'http://107.148.39.21/api/',
-	fileUrl: 'http://107.148.39.21'
+	baseUrl: '/api',
+	// baseUrl: 'http://zabp1.ak7.cc/api/',
+	wxappid: "wx89bc57b9eb5e0e1d"
 }

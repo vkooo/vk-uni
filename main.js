@@ -3,6 +3,7 @@ import App from './App'
 import uView from "uview-ui";
 import store from 'store/index.js'
 import * as utils from '@/utils'
+import { isMiniProgram, isWechat } from '@/utils/platform'
 import GlobalException from '@/exception/GlobalException.js';
 
 Vue.prototype.$utils = utils
@@ -15,6 +16,16 @@ Vue.prototype.$throw = function (message) {
 	this.$u.toast(message)
 	throw new GlobalException(message);
 };
+
+if (!store.state.member.hasLogin) {
+	// #ifdef H5
+	// 公众号
+	if(isWechat() && !isMiniProgram()){
+		store.dispatch("wechat/authorize")
+	}
+	// #endif
+	
+}
 
 // #ifndef VUE3
 import Vue from 'vue'

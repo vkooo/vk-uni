@@ -1,24 +1,24 @@
 <script>
 	export default {
 		onLaunch: function(options) {
-			if(!this.$store.state.user.hasLogin){
+			// if(!this.$store.state.user.hasLogin){
 				
-				if("pages/tabBar/index".indexOf(options.path) == -1){
-					uni.reLaunch({
-						url: "/pages/auth/login",
-					})
-				}
-			}else{
-				let paths = [
-					"pages/auth/login",
-					"pages/auth/register",
-				];
-				if(paths.indexOf(options.path) > -1){
-					uni.reLaunch({
-						url: "/pages/tabBar/index",
-					})
-				}
-			}
+			// 	if("pages/tabBar/index".indexOf(options.path) == -1){
+			// 		uni.reLaunch({
+			// 			url: "/pages/auth/login",
+			// 		})
+			// 	}
+			// }else{
+			// 	let paths = [
+			// 		"pages/auth/login",
+			// 		"pages/auth/register",
+			// 	];
+			// 	if(paths.indexOf(options.path) > -1){
+			// 		uni.reLaunch({
+			// 			url: "/pages/tabBar/index",
+			// 		})
+			// 	}
+			// }
 			console.log('App Launch')
 		},
 		onShow: function() {

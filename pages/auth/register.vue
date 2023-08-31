@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import { register, captcha } from '@/api/user';
+	import { register, captcha } from '@/api/member';
 	export default {
 		data() {
 			return {
