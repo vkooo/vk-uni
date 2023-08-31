@@ -1,0 +1,47 @@
+{
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+		{
+			"path": "pages/tabBar/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/auth/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/auth/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}
+    ],
+	"tabBar": {
+		"color": "#a5a5a4",
+		"selectedColor": "#fe8113",
+		"borderStyle": "black",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/tabBar/index",
+				"text": "首页",
+				"iconPath": "static/image/tabar/home.png",
+				"selectedIconPath": "static/image/tabar/home1.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTitleText": "uni-app",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#fe8113",
+		"backgroundColor": "#fe8113",
+		"navigationStyle": "custom"
+	},
+	"uniIdRouter": {}
+}
