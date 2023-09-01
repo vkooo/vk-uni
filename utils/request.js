@@ -1,6 +1,6 @@
 import {getToken, removeToken} from '../utils/auth';
 import env from '../utils/env';
-import { $reload } from '../utils/platform.js';
+import { $reLogin } from '../utils/platform.js';
 
 function service(options = {}) {
 	options.url = `${env.baseUrl}${options.url}`;
@@ -26,7 +26,7 @@ function service(options = {}) {
 						content: '登录状态已过期，请重新登录？',
 						success: function(res) {
 							if (res.confirm) {
-								$reload()
+								$reLogin()
 							} 
 						}
 					})

@@ -1,7 +1,7 @@
 import { wechat } from '@/api/oauth';
 import { getUrlQuery } from '@/utils';
 import env from '@/utils/env';
-import { $reload } from '@/utils/platform.js';
+import { $reLogin } from '@/utils/platform.js';
 
 const state = {},
 getters = {},
@@ -26,7 +26,7 @@ mutations = {}
 						content: '是否重新授权？',
 						success: function(res) {
 							if (res.confirm) {
-								$reload()
+								$reLogin()
 							} 
 						}
 					})

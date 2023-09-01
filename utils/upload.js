@@ -1,3 +1,4 @@
+import env from './env';
 /*
  * 单图上传
  * @param object opt
@@ -25,7 +26,6 @@ export function uploadImageOne: function(opt, successCallback, errorCallback) {
 		sizeType = opt.sizeType || ['compressed'],
 		sourceType = opt.sourceType || ['album', 'camera'],
 		is_load = opt.is_load || true,
-		uploadUrl = opt.url || '',
 		inputName = opt.name || 'field';
 	uni.chooseImage({
 		count: count, //最多可以选择的图片总数  
@@ -37,7 +37,7 @@ export function uploadImageOne: function(opt, successCallback, errorCallback) {
 				title: '图片上传中',
 			});
 			uni.uploadFile({
-				url: HTTP_REQUEST_URL + '/api/' + uploadUrl + '/' + inputName,
+				url: env.baseUrl + '/upload/' + inputName,
 				filePath: res.tempFilePaths[0],
 				name: inputName,
 				formData: {

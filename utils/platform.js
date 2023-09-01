@@ -6,7 +6,7 @@ export function isMiniProgram() {
 	return String(navigator.userAgent.toLowerCase().match(/miniProgram/i)) === "miniprogram";
 }
 
-export function $reload() {
+export function $reLogin() {
 	let urlWithoutCode = window.location.href.replace(/code=.*/, '');
 	
 	window.location.href = urlWithoutCode
