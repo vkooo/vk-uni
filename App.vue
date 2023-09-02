@@ -1,6 +1,21 @@
 <script>
 	export default {
+		globalData: {
+			website: {}
+		},
 		onLaunch: function(options) {
+			
+			let website = uni.getStorageSync('website')
+			if(!website){
+				websiteApi().then(res=>{
+					website = res.data
+					uni.setStorageSync('website', website)
+					this.globalData.website = website
+				})
+			}else{
+				this.globalData.website = website
+			}
+			
 			// if(!this.$store.state.user.hasLogin){
 				
 			// 	if("pages/tabBar/index".indexOf(options.path) == -1){
