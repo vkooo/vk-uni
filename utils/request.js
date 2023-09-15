@@ -1,6 +1,6 @@
 import {getToken, removeToken} from '../utils/auth';
 import env from '../utils/env';
-import { $reLogin } from '../utils/platform.js';
+import { reLogin } from '../utils/platform.js';
 
 function service(options = {}) {
 	options.url = `${env.baseUrl}${options.url}`;
@@ -15,22 +15,26 @@ function service(options = {}) {
 // return new Promise((r, e) => {})
 	return new Promise((resolved, rejected) => {
 		options.success = (res) => {
+			console.log(res.data)
 			uni.hideLoading()
-			if (res.data.code !== 0) {
-				
+			if (res.data.code !== 200) {
 				if (res.data.code === 401) {
-					removeToken()
-					uni.removeStorageSync('userInfo')
 					uni.showModal({
 						title: '登录状态已过期',
 						content: '登录状态已过期，请重新登录？',
 						success: function(res) {
 							if (res.confirm) {
-								$reLogin()
+								reLogin()
 							} 
 						}
 					})
 					return
+				}else{
+					uni.showToast({
+						icon: 'none',
+						duration: 3000,
+						title: '服务器错误,请稍后再试'
+					});
 				}
 			} 
 			resolved(res.data)

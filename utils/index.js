@@ -79,5 +79,37 @@ export function callPhone(phone) {
 export function getUrlQuery(name) {
 	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||[, ''])[1].replace(/\+/g, '%20')) || null
 }
+console.log(getUrlQuery("state"))
 
+export function pickerFormart(value, format = "yyyy-mm-dd") {
+	const timeFormat = uni.$u.timeFormat;
+	console.log(timeFormat(value, 'yyyy-mm-dd'));
+	console.log(timeFormat(value, 'yyyy-mm-dd hh:MM'));
+	console.log(timeFormat(value, 'yyyy-mm'));
+	return timeFormat(value, 'yyyy-mm-dd');
+}
 
+export function getCurrentPage(){
+	const pages = getCurrentPages();
+	let route = ""
+	if(pages.length > 0){
+		route = pages[pages.length-1].route
+	}
+	return route
+}
+
+export function setAvatar(avatar){
+	return avatar? avatar: '../../static/image/avatar.png'
+}
+
+export function minYear(){
+	let currentDate = new Date();
+	// 获取当前年份
+	let currentYear = currentDate.getFullYear();
+	// 将当前年份减去100
+	let newYear = currentYear - 100;
+	// 将当前时间设置为减去100年后的时间
+	currentDate.setFullYear(newYear);
+	let timestamp = currentDate.getTime();
+	return timestamp
+}

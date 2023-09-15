@@ -1,10 +1,10 @@
 <script>
+	import { website as websiteApi } from "@/api/website.js"
 	export default {
 		globalData: {
 			website: {}
 		},
 		onLaunch: function(options) {
-			
 			let website = uni.getStorageSync('website')
 			if(!website){
 				websiteApi().then(res=>{
@@ -57,12 +57,43 @@
 	.vk--flex__item{
 		flex: 1;
 	}
+	.container{
+		font-size: $vk-font-size;
+	}
 	
 	// 顶部
 	.nav{
 		height: var(--status-bar-height);// --status-bar-height系统状态栏高度
 	}
 	
+	.mt5{
+		margin-top: 10rpx !important;
+	}
+	.mt10{
+		margin-top: 20rpx !important;
+	}
+	
+	.mr10{
+		margin-right: 20rpx !important;
+	}
+	.p15{
+		padding: 15rpx !important;
+	}
+	.p20{
+		padding: 20rpx !important;
+	}
+	.pt10{
+		padding-top: 20rpx !important;
+	}
+	.pb10{
+		padding-bottom: 20rpx !important;
+	}
+	.pb5{
+		padding-bottom: 10rpx !important;
+	}
+	.pb0{
+		padding-bottom: 0 !important;
+	}
 	button::after {
 	  border: none;
 	}

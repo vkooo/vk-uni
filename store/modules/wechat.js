@@ -1,24 +1,34 @@
 import { wechat } from '@/api/oauth';
-import { getUrlQuery } from '@/utils';
+import { getUrlQuery, getCurrentPage } from '@/utils';
 import env from '@/utils/env';
-import { $reLogin } from '@/utils/platform.js';
+import { reLogin } from '@/utils/platform.js';
 
 const state = {},
 getters = {},
 mutations = {}
 , actions = {
-	authorize({ commit }) {
+	authorize({ commit, dispatch }) {
 		let code = getUrlQuery("code")
+		const searchParams = new URLSearchParams(getUrlQuery("state"));
+		const ii = searchParams.get('ii');
 		if(code){
 			wechat({
-				code: code
+				code: code,
+				ii: ii,
 			}).then(res=>{
 				console.log(res)
 				if(res.code == 200){
 					commit('member/setUserInfo', res.data, { root: true })
-					uni.reLaunch({
-						url: "/pages/tabBar/index",
-					})
+					// #ifdef H5
+					const redirect = searchParams.get('redirect');
+					let url = env.redirectUrl
+					console.log(redirect)
+					if(redirect){
+						url = url + "/#/" + redirect
+						// window.location.href = url
+					}
+					window.location.href = url
+					// #endif
 				}else{
 					this._vm.$u.toast(res.msg)
 					uni.showModal({
@@ -26,20 +36,36 @@ mutations = {}
 						content: '是否重新授权？',
 						success: function(res) {
 							if (res.confirm) {
-								$reLogin()
+								// reLogin()
+								dispatch("location")
 							} 
 						}
 					})
 				}
 			})
 		}else{
-			let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +
-					'&redirect_uri=' + encodeURIComponent(window.location.href) +
-					'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
-					
-			window.location.href = url
+			dispatch("location")
 		}
-	   
+	},
+	location(){
+		let ii = getUrlQuery('ii')
+			, state = []
+		if(ii)
+			state.push("ii=" + ii)
+		
+		setTimeout(function(){
+			let path = uni.getLaunchOptionsSync().path
+			if(path)
+				state.push("redirect=" + path)
+			
+			let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +
+					'&redirect_uri=' + env.redirectUrl +
+					'&response_type=code&scope=snsapi_userinfo'+
+					"&state=" + encodeURIComponent(state.join("&"))
+					'#wechat_redirect';
+			window.location.href = url
+		}, 100)
+		
 	}
 };
 

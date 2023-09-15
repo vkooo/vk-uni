@@ -14,3 +14,12 @@ export function info() {
 		method: 'GET',
 	})
 }
+
+export function setProfile(data) {
+	return request({
+		url: '/setProfile',
+		method: 'POST',
+		data
+	})
+}
+

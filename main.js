@@ -3,10 +3,11 @@ import App from './App'
 import uView from "uview-ui";
 import store from 'store/index.js'
 import * as utils from '@/utils'
-import { isMiniProgram, isWechat } from '@/utils/platform'
-import GlobalException from '@/exception/GlobalException.js';
+import * as upload from '@/utils/upload'
 
+import GlobalException from '@/exception/GlobalException.js';
 Vue.prototype.$utils = utils
+Vue.prototype.$upload = upload
 
 Vue.prototype.$navigateBack = function () {
 	this.$utils.comeback()
@@ -16,15 +17,13 @@ Vue.prototype.$throw = function (message) {
 	this.$u.toast(message)
 	throw new GlobalException(message);
 };
-
 if (!store.state.member.hasLogin) {
-	// #ifdef H5
 	// 公众号
-	if(isWechat() && !isMiniProgram()){
-		store.dispatch("wechat/authorize")
+	if(utils.isWechat() && !utils.isMiniProgram()){
+		store.dispatch('wechat/authorize');
+	}else{
+		store.dispatch('mengsuban/authorize');
 	}
-	// #endif
-	
 }
 
 // #ifndef VUE3
