@@ -7,19 +7,22 @@
 			"path": "pages/tabBar/index",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/auth/login",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/auth/register",
+			"path": "pages/auth/code",
 			"style": {
-				"navigationBarTitleText": "注册"
+				"navigationBarTitleText": "获取验证码",
+				"navigationStyle": "custom"
 			}
 		}
     ],
@@ -39,9 +42,8 @@
 	"globalStyle": {
 		"navigationBarTitleText": "uni-app",
 		"navigationBarTextStyle": "white",
-		"navigationBarBackgroundColor": "#fe8113",
-		"backgroundColor": "#fe8113",
-		"navigationStyle": "custom"
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
 	},
 	"uniIdRouter": {}
 }

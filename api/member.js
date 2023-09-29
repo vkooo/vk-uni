@@ -23,3 +23,18 @@ export function setProfile(data) {
 	})
 }
 
+export function wechat(data) {
+	return request({
+		url: '/authorize/wechat',
+		method: 'GET',
+		data
+	})
+}
+
+export function getSmsCode(data) {
+	return request({
+		url: '/authorize/getSmsCode',
+		method: 'POST',
+		data
+	})
+}

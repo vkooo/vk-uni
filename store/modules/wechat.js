@@ -1,4 +1,4 @@
-import { wechat } from '@/api/oauth';
+import { wechat } from '@/api/member.js';
 import { getUrlQuery, getCurrentPage } from '@/utils';
 import env from '@/utils/env';
 import { reLogin } from '@/utils/platform.js';

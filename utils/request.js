@@ -33,7 +33,7 @@ function service(options = {}) {
 					uni.showToast({
 						icon: 'none',
 						duration: 3000,
-						title: '服务器错误,请稍后再试'
+						title: res.data.msg || '服务器错误,请稍后再试'
 					});
 				}
 			} 

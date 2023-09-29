@@ -1,126 +1,173 @@
 <template>
-	<view class="loginWrap ">
-		<view class="imgWrap">
-			<image  class="logo" style="width: 100upx;height: 100upx;" src="../../static/logo.png" mode=""></image>
-		</view>
-		
-		<!-- <u-form v-if="loginWay == 1" class="loginForm" @submit="formSubmit">
-			<view class="uni-form-item uni-column">
-				<u-input placeholder="请输入登录账号"  v-model="value" type="number" clearable />
-			</view>
-			<view class="uni-form-item uni-column">
-				<u-input v-model="value" type="password" placeholder="请输入密码" :password-icon="true" />
-				<text class="forgetText">忘记密码</text>
-			</view>
-			<u-button form-type="submit" class="loginbtn" type="default">登录</u-button>
-		</u-form> -->
-		
-		<u-form class="loginForm" v-if="loginWay == 2" :model="form">
-			<view class="uni-form-item uni-column">
-				<u-input maxlength="11" placeholder="请输入手机号码" type="number" prop="mobile" v-model="form.mobile" />
-			</view>
-			<view class="uni-form-item uni-column">
-				<u-input maxlength="5" placeholder="请输入验证码" type="number" prop="code" v-model="form.code" />
-				<view class="wrap">
-					<u-toast ref="uToast"></u-toast>
-					<u-verification-code 
-					:seconds="seconds" 
-					ref="uCode" 
-					@change="codeChange"
-					></u-verification-code>
-					<u-button type="success" size="mini" @click="getCode">{{tips}}</u-button>
+	<view class="">
+		<u-navbar
+			leftIcon="close"
+			:fixed="false"
+		/>
+		<view class="wrap">
+			<view class="top"></view>
+			<view class="content">
+				<view class="title">欢迎登录{{website.basic.name}}</view>
+				<block v-if="way == 1">
+					<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" maxlength="11" />
+					<view class="tips">未注册的手机号验证后自动创建{{website.basic.name}}账号</view>
+					<button @tap="submit" :style="[inputStyle]" class="getCaptcha">获取短信验证码</button>
+				</block>
+				<block v-if="way == 2">
+					<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" maxlength="11" />
+					<u-gap height="15"></u-gap>
+					<input class="u-border-bottom" type="number" v-model="password" placeholder="请输入密码" maxlength="11" />
+					<view class="tips">未注册的手机号验证后自动创建{{website.basic.name}}账号</view>
+					<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
+				</block>
+				<view class="alternative">
+					<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
+					<!-- <view class="issue">遇到问题</view> -->
 				</view>
 			</view>
-			<u-button class="loginbtn" @click="formSubmit" type="default">登录</u-button>
-		</u-form>
-		
-		<!-- <view class="action center">
-			<text @click="changeLoginWay" style="color: #71B6F7;">{{loginWay == 2?'账号密码登录':'短信验证登录'}}</text>
-		</view> -->
+			<view class="buttom">
+				<view class="loginType">
+					<view class="wechat item" @click="$store.dispatch('member/wxOauth')">
+						<view class="icon"><u-icon size="38" name="weixin-fill" color="rgb(83,194,64)"></u-icon></view>
+						微信
+					</view>
+					<view class="QQ item">
+						<view class="icon"><u-icon size="38" name="qq-fill" color="rgb(17,183,233)"></u-icon></view>
+						QQ
+					</view>
+				</view>
+				<view class="hint" v-if="website.userAgreement">
+					登录代表同意
+					<text class="link" @click="$utils.navigate('')">{{website.basic.name}}用户协议、隐私政策，</text>
+					并授权使用您的{{website.basic.name}}账号信息（如昵称、头像、收获地址）以便您统一管理
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
- 
+
 <script>
-	export default{
-		data(){
-			return{
-				form:{
-					mobile: "",
-					code: ""
-				},
-				loginWay: 2,
-				seconds: 5,
-				tips:''
+	let app = getApp()
+	import { website as websiteApi } from "@/api/website.js"
+export default {
+	data() {
+		return {
+			way: 1,
+			mobile: "",
+			password: "",
+			website: app.globalData.website
+		}
+	},
+	computed: {
+		inputStyle() {
+			let style = {
+				color: "#fff",
+				backgroundColor: this.$u.color['warning'],
+			};
+			if(this.way == 1){
+				if(this.mobile) {
+					return style;
+				}
+			}else if(this.way == 2){
+				if(this.mobile && this.password) {
+					return style;
+				}
 			}
-		},
-		methods:{
-			formSubmit(){
-				let loginWay = this.loginWay
-					, form = this.form
-					, that = this
-				if(loginWay == 2){
-					if(!that.$validate.mobile(form.mobile)){
-						this.$u.toast('请输入正确手机号');
-						return
-					}
-					if(form.code.length != 5){
-						this.$u.toast('请输入正确验证码');
-						return
-					}
-					this.$store.dispatch("member/login")
+			return {};
+		}
+	},
+	onLoad() {
+		let that = this
+		websiteApi().then(res=>{
+			let website = res.data
+			uni.setStorageSync('website', website)
+			that.website = website
+		})
+	},
+	methods: {
+		submit() {
+			let way = this.way
+			if(this.$u.test.mobile(this.mobile)) {
+				if(way == 1){
+					this.$utils.navigate('/pages/auth/code?mobile=' + this.mobile)
+				}else if(way == 2){
+					this.$store.dispatch("member/login", {
+						mobile: this.mobile,
+						password: this.password,
+					})
 				}
-			},
-			changeLoginWay(){
-				this.loginWay = this.loginWay == 1?2:1;
-			},
-			codeChange(text) {
-				this.tips = text;
-			},
-			getCode(){
-				if(this.$refs.uCode.canGetCode) {
-					// 模拟向后端请求验证码
-					// uni.showLoading({
-					// 	title: '正在获取验证码'
-					// })
-					this.$u.toast('验证码已发送');
-					this.$refs.uCode.start();
-				}
-			},
+			}
 		}
 	}
+};
 </script>
- 
-<style lang="less">
-		
-	.loginWrap{
-		.imgWrap{
-			text-align: center;
-			padding: 50upx;
+
+<style lang="scss" scoped>
+.wrap {
+	font-size: 28rpx;
+	.content {
+		width: 85vw;
+		margin: 15% auto 0;
+
+		.title {
+			text-align: left;
+			font-size: 60rpx;
+			font-weight: 500;
+			margin-bottom: 100rpx;
 		}
-		.loginForm{
-			.uni-form-item{
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				border-bottom: 1upx solid #DCDCDC;
-				padding: 10upx 30upx;
-				margin: 20upx;
-				u-input{
-					flex: 1;
-				}
-				.forgetText{
-					color: #C8C7CC;
-				}
-				
-			}
-				
-			.wrap{
-				height: auto;
-			}
-			.loginbtn{margin: 20upx; margin-top: 60upx;background: #2CA800;color: #fff;}
+		input {
+			text-align: left;
+			margin-bottom: 10rpx;
+			padding-bottom: 6rpx;
 		}
-		.action{
-			padding: 10upx 30upx;
+		.tips {
+			color: #909399;
+			margin-bottom: 60rpx;
+			margin-top: 8rpx;
+		}
+		.getCaptcha {
+			background-color: rgb(253, 243, 208);
+			color: #909399;
+			border: none;
+			font-size: 30rpx;
+			padding: 5rpx 0;
+			border-radius: 10rpx;
+			
+			&::after {
+				border: none;
+			}
+		}
+		.alternative {
+			color: #909399;
+			display: flex;
+			justify-content: space-between;
+			margin-top: 30rpx;
 		}
 	}
+	.buttom {
+		.loginType {
+			display: flex;
+			padding: 350rpx 150rpx 150rpx 150rpx;
+			justify-content:space-between;
+			
+			.item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				color: #606266;
+				font-size: 28rpx;
+			}
+		}
+		
+		.hint {
+			padding: 20rpx 40rpx;
+			font-size: 20rpx;
+			color: #909399;
+			
+			.link {
+				color: #ff9900;
+			}
+		}
+	}
+}
 </style>

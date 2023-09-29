@@ -2,6 +2,7 @@ import App from './App'
 
 import uView from "uview-ui";
 import store from 'store/index.js'
+import { isMiniProgram, isWechat, reLogin } from '@/utils/platform'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
 
@@ -17,14 +18,14 @@ Vue.prototype.$throw = function (message) {
 	this.$u.toast(message)
 	throw new GlobalException(message);
 };
-if (!store.state.member.hasLogin) {
-	// 公众号
-	if(utils.isWechat() && !utils.isMiniProgram()){
-		store.dispatch('wechat/authorize');
-	}else{
-		store.dispatch('mengsuban/authorize');
-	}
-}
+// if (!store.state.member.hasLogin) {
+// 	// #ifdef H5
+// 	// 公众号
+// 	if(isWechat() && !isMiniProgram()){
+// 		store.dispatch('wechat/authorize');
+// 	}
+// 	// #endif
+// }
 
 // #ifndef VUE3
 import Vue from 'vue'
