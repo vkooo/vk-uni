@@ -12,6 +12,14 @@
 			}
 		},
 		{
+			"path": "pages/tabBar/member",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/auth/login",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -31,11 +39,18 @@
 		"selectedColor": "#fe8113",
 		"borderStyle": "black",
 		"backgroundColor": "#fff",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/tabBar/index",
 				"text": "首页",
-				"iconPath": "static/image/tabar/home.png",
-				"selectedIconPath": "static/image/tabar/home1.png"
+				"iconPath": "/static/image/tabar/home.png",
+				"selectedIconPath": "/static/image/tabar/home1.png"
+			},
+			{
+				"pagePath": "pages/tabBar/member",
+				"text": "我的",
+				"iconPath": "/static/image/tabar/home.png",
+				"selectedIconPath": "/static/image/tabar/home1.png"
 			}
 		]
 	},

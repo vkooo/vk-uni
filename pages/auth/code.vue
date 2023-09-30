@@ -27,7 +27,6 @@
 		<u-code :seconds="second" ref="uCode"
 			@start="start"
 			@change="codeChange"
-			:keepRunning="true"
 			changeText="x秒后重新获取验证码"
 			endText="重新获取验证码"
 		></u-code>
@@ -76,9 +75,6 @@ export default {
 					}
 					uni.hideLoading();
 				})
-				
-				
-				
 			} else {
 				uni.$u.toast('倒计时结束后再发送');
 			}
@@ -87,10 +83,13 @@ export default {
 			this.tips = text;
 		},
 		start(){
-			console.log(123)
+			console.log("start")
 		},
 		finish(value) {
-			console.log(value);
+			this.$store.dispatch("member/loginToSms", {
+				mobile: this.mobile,
+				code: value
+			})
 		},
 		leftClick(){
 			this.$utils.navigate('./login')

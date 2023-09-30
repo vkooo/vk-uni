@@ -2,7 +2,7 @@
 	<view>
 		<view class="nav"></view>
 		<view class="container">
-			
+			12313
 		</view>
 	</view>
 </template>

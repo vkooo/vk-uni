@@ -2,7 +2,7 @@ import App from './App'
 
 import uView from "uview-ui";
 import store from 'store/index.js'
-import { isMiniProgram, isWechat, reLogin } from '@/utils/platform'
+import { isMiniProgram, isWechat } from '@/utils/platform'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
 

@@ -38,3 +38,11 @@ export function getSmsCode(data) {
 		data
 	})
 }
+
+export function loginToSms(data) {
+	return request({
+		url: '/loginToSms',
+		method: 'POST',
+		data
+	})
+}

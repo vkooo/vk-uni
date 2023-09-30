@@ -1,5 +1,7 @@
-import { wechat, login } from '@/api/member.js';
+import { wechat, login, loginToSms, info } from '@/api/member.js';
 import { getUrlQuery } from '@/utils';
+import { setToken } from '@/utils/auth.js';
+
 import env from '@/utils/env';
 import { reLogin } from '@/utils/platform.js';
 let infoHistory = uni.getStorageSync('userInfo') || {};
@@ -20,6 +22,7 @@ mutations = {
 	setUserInfo(state, data) { 
 		state.hasLogin = true;
 		state.info = data;
+		console.log(data)
 		if(data.token){
 			setToken(data.token)
 		}
@@ -89,6 +92,17 @@ mutations = {
 	},
 	login({ commit }, param) {
 	    login(param).then(response => {
+	    	if(response.code == 200){
+	    		const { data } = response;
+	    		commit('setUserInfo', data)
+	    	}
+	    	
+	    }).catch(error => {
+	        console.log(error)
+	    })
+	},
+	loginToSms({ commit }, param) {
+	    loginToSms(param).then(response => {
 	    	if(response.code == 200){
 	    		const { data } = response;
 	    		commit('setUserInfo', data)
