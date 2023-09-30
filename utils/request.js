@@ -1,5 +1,7 @@
 import {getToken, removeToken} from '../utils/auth';
 import env from '../utils/env';
+import { getUrlQuery } from '@/utils';
+import { Base64 } from 'js-base64'
 
 function service(options = {}) {
 	options.url = `${env.baseUrl}${options.url}`;
@@ -23,8 +25,20 @@ function service(options = {}) {
 						content: '登录状态已过期，请重新登录？',
 						success: function(res) {
 							if (res.confirm) {
+								let pathOptions = uni.getLaunchOptionsSync()
+								const queryString = Object.keys(pathOptions.query)
+								  .map(key => `${key}=${encodeURIComponent(pathOptions.query[key])}`)
+								  .join('&');
+								let redirect = pathOptions.path + (queryString? "?" + queryString: "" )
+								
+								let ii = getUrlQuery('ii')
+									, state = []
+								if(ii)
+									state.push("ii=" + ii)
+								if(redirect)
+									state.push("redirect=" + encodeURIComponent(Base64.encodeURL(redirect)))
 								uni.reLaunch({
-									url: "/pages/auth/login"
+									url: "/pages/auth/login?" + state.join("&")
 								})
 							} 
 						}

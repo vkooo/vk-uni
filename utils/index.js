@@ -88,15 +88,6 @@ export function pickerFormart(value, format = "yyyy-mm-dd") {
 	return timeFormat(value, 'yyyy-mm-dd');
 }
 
-export function getCurrentPage(){
-	const pages = getCurrentPages();
-	let route = ""
-	if(pages.length > 0){
-		route = pages[pages.length-1].route
-	}
-	return route
-}
-
 export function setAvatar(avatar){
 	return avatar? avatar: '../../static/image/avatar.png'
 }

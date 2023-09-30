@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "js-base64": "^3.7.5",
     "uview-ui": "^2.0.36"
   },
   "devDependencies": {},

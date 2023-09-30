@@ -4,6 +4,7 @@ import { setToken } from '@/utils/auth.js';
 
 import env from '@/utils/env';
 import { reLogin } from '@/utils/platform.js';
+import { Base64 } from 'js-base64';
 let infoHistory = uni.getStorageSync('userInfo') || {};
 
 const state = {
@@ -33,6 +34,17 @@ mutations = {
 		state.hasLogin = false;
 		removeToken();
 		uni.removeStorageSync('userInfo')
+	},
+	redirect(){
+		let redirectUrl = uni.getLaunchOptionsSync().query.redirect;
+		if(redirectUrl){
+			redirectUrl = decodeURIComponent(Base64.decode(redirectUrl))
+		}else{
+			redirectUrl = "pages/tabBar/member"
+		}
+		uni.reLaunch({
+			url: "/" + redirectUrl
+		})
 	}
 }
 , actions = {
@@ -95,6 +107,7 @@ mutations = {
 	    	if(response.code == 200){
 	    		const { data } = response;
 	    		commit('setUserInfo', data)
+				commit('redirect')
 	    	}
 	    	
 	    }).catch(error => {
@@ -106,6 +119,7 @@ mutations = {
 	    	if(response.code == 200){
 	    		const { data } = response;
 	    		commit('setUserInfo', data)
+				commit('redirect')
 	    	}
 	    	
 	    }).catch(error => {
