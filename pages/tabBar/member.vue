@@ -1,13 +1,17 @@
 <template>
 	<view>
-		<view class="user">
-			<view style="margin: auto;">
-				<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" shape="circle" size="65"></u-avatar>
-				<view class="user-text">点击获取头像</view>
+		<view class="header">
+			<!-- #ifdef MP -->
+			<u-gap height="44" />
+			<!-- #endif -->
+			<view class="user">
+				<u-avatar :src="info.avatar" shape="circle" size="65"></u-avatar>
+				<view class="sitting" :style="{top: getCapsuleHeight()}" v-if="hasLogin">
+					<u-icon name="setting" color="#000000" size="25" @click="$utils.navigate('/pages/member/info')" />
+				</view>
 			</view>
 		</view>
 		<u-cell-group>
-			<u-cell icon="account-fill" url="/pages/user/info" title="个人设置" :isLink="true"></u-cell>
 			<u-cell icon="info-circle-fill" url="/pages/user/address/index" title="收货地址" :isLink="true"></u-cell>
 		</u-cell-group>
 	</view>
@@ -23,7 +27,6 @@
 		},
 		data() {
 			return {
-
 			}
 		},
 		onShow() {
@@ -33,25 +36,33 @@
 			}
 		},
 		methods: {
-
+			getCapsuleHeight(){
+				let top = "20px";
+				// #ifdef MP
+				top = getApp().globalData.capsuleHeight
+				// #endif
+				return top
+			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.user {
-		display: flex;
-		padding: 60rpx 0 60rpx 0;
+	.header {
+		padding: 60rpx 0;
 		background: linear-gradient(to bottom, #c3eff0, #ffffff);
+		position: relative;
 		text-align: center;
 		.u-avatar{
 			margin: 0 auto;
 		}
-	}
-
-	.user-text {
-		font-size: 30rpx;
-		color: #8a8b8d;
-		padding-top: 20rpx;
+		.user {
+			// padding: 35rpx 0 50rpx;
+		}
+		
+		.sitting{
+			right: 20rpx;
+			position: absolute;
+		}
 	}
 </style>

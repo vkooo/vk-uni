@@ -32,6 +32,13 @@
 				"navigationBarTitleText": "获取验证码",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/member/info",
+			"style": {
+				"navigationBarTitleText": "个人资料",
+				"navigationStyle": "custom"
+			}
 		}
     ],
 	"tabBar": {

@@ -10,9 +10,6 @@ import GlobalException from '@/exception/GlobalException.js';
 Vue.prototype.$utils = utils
 Vue.prototype.$upload = upload
 
-Vue.prototype.$navigateBack = function () {
-	this.$utils.comeback()
-}
 Vue.use(uView);
 Vue.prototype.$throw = function (message) {
 	this.$u.toast(message)

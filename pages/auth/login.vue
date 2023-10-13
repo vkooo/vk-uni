@@ -3,6 +3,7 @@
 		<u-navbar
 			leftIcon="close"
 			:fixed="false"
+			@leftClick="leftClick"
 		/>
 		<view class="wrap">
 			<view class="top"></view>
@@ -97,6 +98,9 @@ export default {
 					})
 				}
 			}
+		},
+		leftClick(){
+			this.$utils.reLaunch("/pages/tabBar/index")
 		}
 	}
 };

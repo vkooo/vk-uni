@@ -1,13 +1,4 @@
-import env from './env';
-
-
-export function navigateTo(url) {
-	setTimeout(function() {
-		uni.navigateTo({
-			url: url
-		})
-	}, 1000)
-}
+import env from '@/env';
 
 export function getLocation() {
 	uni.getLocation({
@@ -43,6 +34,21 @@ export function copy(data) {
 				mask: true
 			})
 		}
+	})
+}
+
+
+export function navigateTo(url) {
+	setTimeout(function() {
+		uni.navigateTo({
+			url: url
+		})
+	}, 1000)
+}
+
+export function reLaunch(url) {
+	uni.reLaunch({
+		url: url
 	})
 }
 

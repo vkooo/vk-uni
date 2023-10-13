@@ -2,7 +2,7 @@ import { wechat, login, loginToSms, info } from '@/api/member.js';
 import { getUrlQuery } from '@/utils';
 import { setToken } from '@/utils/auth.js';
 
-import env from '@/utils/env';
+import env from '@/env';
 import { reLogin } from '@/utils/platform.js';
 import { Base64 } from 'js-base64';
 let infoHistory = uni.getStorageSync('userInfo') || {};
@@ -42,12 +42,15 @@ mutations = {
 		}else{
 			redirectUrl = "pages/tabBar/member"
 		}
-		uni.reLaunch({
-			url: "/" + redirectUrl
-		})
+		setTimeout(function(){
+			uni.reLaunch({
+				url: "/" + redirectUrl
+			})
+		},500)
 	}
 }
 , actions = {
+	//#ifdef MP-WEIXIN
 	wxOauth({ commit }) {
 		let code = getUrlQuery("code")
 		const searchParams = new URLSearchParams(getUrlQuery("state"));
@@ -102,6 +105,7 @@ mutations = {
 		}
 	   
 	},
+	//#endif
 	login({ commit }, param) {
 	    login(param).then(response => {
 	    	if(response.code == 200){

@@ -1,5 +1,5 @@
 import {getToken, removeToken} from '../utils/auth';
-import env from '../utils/env';
+import env from '@/env';
 import { getUrlQuery } from '@/utils';
 import { Base64 } from 'js-base64'
 
@@ -20,6 +20,7 @@ function service(options = {}) {
 			uni.hideLoading()
 			if (res.data.code !== 200) {
 				if (res.data.code === 401) {
+					removeToken()
 					uni.showModal({
 						title: '登录状态已过期',
 						content: '登录状态已过期，请重新登录？',
@@ -30,11 +31,14 @@ function service(options = {}) {
 								  .map(key => `${key}=${encodeURIComponent(pathOptions.query[key])}`)
 								  .join('&');
 								let redirect = pathOptions.path + (queryString? "?" + queryString: "" )
-								
-								let ii = getUrlQuery('ii')
 									, state = []
+								
+								//#ifdef H5
+								let ii = getUrlQuery('ii')
 								if(ii)
 									state.push("ii=" + ii)
+								//#endif
+								
 								if(redirect)
 									state.push("redirect=" + encodeURIComponent(Base64.encodeURL(redirect)))
 								uni.reLaunch({

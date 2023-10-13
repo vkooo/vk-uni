@@ -1,4 +1,4 @@
-import env from './env';
+import env from '@/env';
 import {getToken} from '../utils/auth';
 /*
  * 单图上传

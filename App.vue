@@ -2,7 +2,8 @@
 	import { website as websiteApi } from "@/api/website.js"
 	export default {
 		globalData: {
-			website: {}
+			website: {},
+			capsuleHeight: 0,
 		},
 		onLaunch: function(options) {
 			let website = uni.getStorageSync('website')
@@ -15,7 +16,12 @@
 			}else{
 				this.globalData.website = website
 			}
-			
+			// #ifdef MP-WEIXIN
+			let menu = uni.getMenuButtonBoundingClientRect()
+			let navigationBarHeight = menu.bottom + menu.top - uni.getSystemInfoSync().statusBarHeight + "px"
+			uni.setStorageSync('capsuleHeight', navigationBarHeight)
+			this.globalData.capsuleHeight = navigationBarHeight
+			// #endif
 			// if(!this.$store.state.user.hasLogin){
 				
 			// 	if("pages/tabBar/index".indexOf(options.path) == -1){
