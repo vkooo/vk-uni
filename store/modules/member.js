@@ -1,5 +1,6 @@
-import { wechat, login, loginToSms, info } from '@/api/member.js';
+import { wechat, login, loginBySms, info } from '@/api/member.js';
 import { getUrlQuery } from '@/utils';
+import { isWechat } from '@/utils/platform';
 import { setToken } from '@/utils/auth.js';
 
 import env from '@/env';
@@ -118,8 +119,8 @@ mutations = {
 	        console.log(error)
 	    })
 	},
-	loginToSms({ commit }, param) {
-	    loginToSms(param).then(response => {
+	loginBySms({ commit }, param) {
+	    loginBySms(param).then(response => {
 	    	if(response.code == 200){
 	    		const { data } = response;
 	    		commit('setUserInfo', data)

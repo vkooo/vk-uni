@@ -8,17 +8,17 @@
 		<view class="wrap">
 			<view class="top"></view>
 			<view class="content">
-				<view class="title">欢迎登录{{website.basic.name}}</view>
+				<view class="title">欢迎登录{{website.name}}</view>
 				<block v-if="way == 1">
 					<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" maxlength="11" />
-					<view class="tips">未注册的手机号验证后自动创建{{website.basic.name}}账号</view>
+					<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
 					<button @tap="submit" :style="[inputStyle]" class="getCaptcha">获取短信验证码</button>
 				</block>
 				<block v-if="way == 2">
 					<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" maxlength="11" />
 					<u-gap height="15"></u-gap>
 					<input class="u-border-bottom" type="number" v-model="password" placeholder="请输入密码" maxlength="11" />
-					<view class="tips">未注册的手机号验证后自动创建{{website.basic.name}}账号</view>
+					<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
 					<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
 				</block>
 				<view class="alternative">
@@ -39,8 +39,8 @@
 				</view>
 				<view class="hint" v-if="website.userAgreement">
 					登录代表同意
-					<text class="link" @click="$utils.navigate('')">{{website.basic.name}}用户协议、隐私政策，</text>
-					并授权使用您的{{website.basic.name}}账号信息（如昵称、头像、收获地址）以便您统一管理
+					<text class="link" @click="$utils.navigate('')">{{website.name}}用户协议、隐私政策，</text>
+					并授权使用您的{{website.name}}账号信息（如昵称、头像、收获地址）以便您统一管理
 				</view>
 			</view>
 		</view>
@@ -50,6 +50,9 @@
 <script>
 	let app = getApp()
 	import { website as websiteApi } from "@/api/website.js"
+	import {
+		mapState
+	} from "vuex"
 export default {
 	data() {
 		return {
@@ -75,10 +78,14 @@ export default {
 				}
 			}
 			return {};
-		}
+		},
+		...mapState('member', ["info", "hasLogin"]),
 	},
 	onLoad() {
 		let that = this
+		if(this.hasLogin){
+			this.$utils.reLaunch("/pages/tabBar/index")
+		}
 		websiteApi().then(res=>{
 			let website = res.data
 			uni.setStorageSync('website', website)

@@ -6,16 +6,13 @@
 			capsuleHeight: 0,
 		},
 		onLaunch: function(options) {
-			let website = uni.getStorageSync('website')
-			if(!website){
-				websiteApi().then(res=>{
-					website = res.data
-					uni.setStorageSync('website', website)
-					this.globalData.website = website
-				})
-			}else{
+			this.globalData.website = uni.getStorageSync('website')
+			websiteApi().then(res=>{
+				let website = res.data
+				uni.setStorageSync('website', website)
 				this.globalData.website = website
-			}
+			})
+			
 			// #ifdef MP-WEIXIN
 			let menu = uni.getMenuButtonBoundingClientRect()
 			let navigationBarHeight = menu.bottom + menu.top - uni.getSystemInfoSync().statusBarHeight + "px"
@@ -56,6 +53,10 @@
 
 	@import url("static/iconfont/iconfont.css");
 	/*每个页面公共css */
+	
+	page{
+		background-color: #fafafa;
+	}
 	.vk-flex {
 		display: flex;
 	}
@@ -96,6 +97,9 @@
 	}
 	.pb5{
 		padding-bottom: 10rpx !important;
+	}
+	.pt0{
+		padding-top: 0 !important;
 	}
 	.pb0{
 		padding-bottom: 0 !important;

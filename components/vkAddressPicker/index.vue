@@ -66,6 +66,15 @@ import vkAddressPicker from '@/components/vkAddressPicker';
 			indexs: Array,
 			closeOnClickOverlay: Boolean,
 		},
+		watch: {
+			indexs:{
+				handler(newVal){
+					this.init();
+				},
+				deep: true,
+				immediate: true
+			}
+		},
 		data() {
 			return {
 				show: false,
@@ -77,9 +86,9 @@ import vkAddressPicker from '@/components/vkAddressPicker';
 				// street:[],
 			};
 		},
-		created(){
-			this.init();
-		},
+		// created(){
+		// 	this.init();
+		// },
 		methods:{
 			changeHandler(e) {
 				const {

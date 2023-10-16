@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import { getSmsCode } from "@/api/member.js"
+	import { getLoginSmsCode } from "@/api/member.js"
 export default {
 	data() {
 		return {
@@ -66,7 +66,7 @@ export default {
 				uni.showLoading({
 					title: '正在获取验证码'
 				})
-				getSmsCode({
+				getLoginSmsCode({
 					mobile: this.mobile
 				}).then(res=>{
 					if(res.code == 200){
@@ -86,7 +86,7 @@ export default {
 			console.log("start")
 		},
 		finish(value) {
-			this.$store.dispatch("member/loginToSms", {
+			this.$store.dispatch("member/loginBySms", {
 				mobile: this.mobile,
 				code: value
 			})

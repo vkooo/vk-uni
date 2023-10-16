@@ -34,9 +34,74 @@
 			}
 		},
 		{
-			"path": "pages/member/info",
+			"path": "pages/member/setting",
 			"style": {
-				"navigationBarTitleText": "个人资料",
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/help/about",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/help/userAgreement",
+			"style": {
+				"navigationBarTitleText": "用户协议"
+			}
+		},
+		{
+			"path": "pages/help/privacyPolicy",
+			"style": {
+				"navigationBarTitleText": "隐私政策"
+			}
+		},
+		{
+			"path": "pages/member/info/index",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		},
+		{
+			"path": "pages/member/info/modify/nickname",
+			"style": {
+				"navigationBarTitleText": "修改昵称",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/member/info/modify/mobile",
+			"style": {
+				"navigationBarTitleText": "修改手机号",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/member/info/modify/password",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/member/info/modify/birthday",
+			"style": {
+				"navigationBarTitleText": "修改生日",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/member/info/address/index",
+			"style": {
+				"navigationBarTitleText": "收货地址",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/member/info/address/modify",
+			"style": {
+				"navigationBarTitleText": "编辑收货地址",
 				"navigationStyle": "custom"
 			}
 		}
@@ -62,8 +127,8 @@
 		]
 	},
 	"globalStyle": {
-		"navigationBarTitleText": "uni-app",
-		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "VK",
+		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#ffffff",
 		"backgroundColor": "#ffffff"
 	},

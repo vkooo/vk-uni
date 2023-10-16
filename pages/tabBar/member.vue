@@ -7,7 +7,7 @@
 			<view class="user">
 				<u-avatar :src="info.avatar" shape="circle" size="65"></u-avatar>
 				<view class="sitting" :style="{top: getCapsuleHeight()}" v-if="hasLogin">
-					<u-icon name="setting" color="#000000" size="25" @click="$utils.navigate('/pages/member/info')" />
+					<u-icon name="setting" color="#808080" size="25" @click="$utils.navigate('/pages/member/setting')" />
 				</view>
 			</view>
 		</view>
@@ -37,7 +37,7 @@
 		},
 		methods: {
 			getCapsuleHeight(){
-				let top = "20px";
+				let top = "15px";
 				// #ifdef MP
 				top = getApp().globalData.capsuleHeight
 				// #endif
@@ -47,7 +47,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.header {
 		padding: 60rpx 0;
 		background: linear-gradient(to bottom, #c3eff0, #ffffff);
