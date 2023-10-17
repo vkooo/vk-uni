@@ -5,7 +5,7 @@
 				<u-form  ref="uForm" 
 				  labelWidth="80" :labelStyle="{color: '#282828', padding: '3px 0'}">
 					<view class="avatar p20">
-						<image :src="avatar?avatar:'../../../static/image/avatar.png'" @click="upload" class="" mode=""></image>
+						<image :src="avatar? avatar: '/static/image/avatar.png'" @click="upload" />
 					</view>
 					<view class="p20 pb0">
 						<u-form-item label="昵称" borderBottom @click="$utils.navigate('modify/nickname')">
@@ -31,7 +31,7 @@
 							<u-text :color="color()" mode="date" :text="info.birthday" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
-						<u-form-item label="所在城市"  @click="$utils.navigate('address/index')">
+						<u-form-item label="收货地址"  @click="$utils.navigate('address/index')">
 							<u-text :color="color()" text="立即前往" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
@@ -69,10 +69,11 @@
 			upload(){
 				let that = this
 				this.$upload.uploadImage('upload/image', function(res) {
+					let url = res.full_url
 					setProfile({
-						avatar: res.full_url
+						avatar: url
 					}).then(res=>{
-						that.avatar = res.full_url
+						that.avatar = url
 						that.$forceUpdate()
 					})
 				})

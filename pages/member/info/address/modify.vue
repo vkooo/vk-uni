@@ -30,7 +30,10 @@
 						<u-input placeholder="请输入你的详细地址" border="none" v-model="form.address_info" />
 					</u-form-item>
 					<u-form-item borderBottom label="默认地址" prop="default">
-						<u-switch v-model="form.default"></u-switch>
+						<u-switch v-model="form.default" 
+							:inactiveValue="0"
+							:activeValue="1"
+						></u-switch>
 					</u-form-item>
 					
 				</view>
@@ -134,8 +137,8 @@
 					uni.showLoading({
 						title: '加载中',
 					});
-					
 					(that.form.id)? update(that.form): create(that.form).then(res=>{
+						console.log(res)
 						if(res.code == 200){
 							that.$u.toast("操作成功")
 							setTimeout(function(){

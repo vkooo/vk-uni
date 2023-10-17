@@ -2,6 +2,7 @@ import {getToken, removeToken} from '../utils/auth';
 import env from '@/env';
 import { getUrlQuery } from '@/utils';
 import { Base64 } from 'js-base64'
+import store from 'store/index.js'
 
 function service(options = {}) {
 	options.url = `${env.baseUrl}${options.url}`;
@@ -20,7 +21,8 @@ function service(options = {}) {
 			uni.hideLoading()
 			if (res.data.code !== 200) {
 				if (res.data.code === 401) {
-					removeToken()
+					// removeToken()
+					store.commit("member/LOGOUT")
 					uni.showModal({
 						title: '登录状态已过期',
 						content: '登录状态已过期，请重新登录？',

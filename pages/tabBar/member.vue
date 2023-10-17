@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<u-cell-group>
-			<u-cell icon="info-circle-fill" url="/pages/user/address/index" title="收货地址" :isLink="true"></u-cell>
+			<!-- <u-cell icon="info-circle-fill" url="/pages/user/address/index" title="收货地址" :isLink="true"></u-cell> -->
 		</u-cell-group>
 	</view>
 </template>

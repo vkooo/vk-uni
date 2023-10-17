@@ -10,22 +10,22 @@
 				<text style="color: #9b9b9b">添加新地址</text>
 			</template>
 		</u-navbar>
-		<view class="addres-list">
+		<view class="addres-list" v-if="list.length > 0">
 			<view class="address-item" v-for="(item, index) in list" :key="index">
 				<view class="contacts">
-					<text class="name">{{ item.name }}</text>
-					<text class="phone">{{ item.phone }}</text>
+					<text class="name">{{ item.realname }}</text>
+					<text class="phone">{{ item.mobile }}</text>
 				</view>
 				<view class="address">
-					<text class="region" v-for="(region, idx) in item.region" :key="idx">{{ region }}</text>
-					<text class="detail">{{ item.detail }}</text>
+					<text class="region" >{{ item.region_text }}</text>
+					<text class="detail">{{ item.address_info }}</text>
 				</view>
 				<view class="line"></view>
 				<view class="item-option">
 					<view class="_left">
 						<label class="item-radio" @click.stop="handleSetDefault(item)">
-							<radio class="radio" color="#fa2209" :checked="item.address_default"></radio>
-							<text class="text">{{ item.address_default ? '已设为默认' : '设为默认' }}</text>
+							<radio class="radio" color="#fa2209" :checked="item.default == 1"></radio>
+							<text class="text">设为默认</text>
 						</label>
 					</view>
 					<view class="_right">
@@ -34,7 +34,7 @@
 								<text class="iconfont icon-edit"></text>
 								<u-text prefixIcon="edit-pen" iconStyle="font-size: 19px" text="编辑" />
 							</view>
-							<view class="event-item" @click="handleRemove(item.id)">
+							<view class="event-item" @click="del(index, item.id)">
 								<text class="iconfont icon-delete"></text>
 								<u-text prefixIcon="trash" iconStyle="font-size: 19px" text="删除" />
 							</view>
@@ -43,43 +43,46 @@
 				</view>
 			</view>
 		</view>
+		<vk-empty v-else />
 	</view>
 </template>
 
 <script>
-	import { lists } from '@/api/address.js';
+	import { lists, setDefault, del } from '@/api/address.js';
 	export default {
 		data() {
 			return {
 				list: [],
 			}
 		},
-		onLoad() {
-			let that = this
-			lists().then(res=>{
-				that.list = res.data
-			})
+		onShow() {
+			this.getList()
 		},
 		methods: {
+			getList(){
+				let that = this
+				lists().then(res=>{
+					that.list = res.data
+				})
+			},
 			rightClick() {
 				this.$utils.navigate("modify")
 			},
 			// 删除地址
-			handleRemove(addressId) {
+			del(index, id) {
 				const that = this
 				uni.showModal({
 					title: "提示",
 					content: "您确定要删除当前收货地址吗?",
 					success: function(res) {
 						if (res.confirm) {
-							const list = uni.getStorageSync('savedData')
-							const item = list.filter(address => address.id !== addressId);
-							uni.setStorageSync('savedData', item);
-							uni.showToast({
-								title: '删除成功',
-								duration: 2000
-							});
-							that.getAddressList()
+							del(id).then(res=>{
+								uni.showToast({
+									title: '删除成功',
+									duration: 2000
+								});
+								that.list.splice(index, 1)
+							})
 						} else if (res.cancel) {
 							console.log('用户点击取消');
 						}
@@ -92,15 +95,13 @@
 			// 设置默认地址
 			handleSetDefault(item) {
 				const id = item.id
-				this.addresslist.forEach(item => {
+				this.list.forEach(item => {
+					item.default = 0
 					if (item.id == id) {
-						item.address_default = true
-						return
+						item.default = 1
+						setDefault(id)
 					}
-					item.address_default = false
 				})
-				uni.setStorageSync('savedData', this.addresslist);
-				this.getAddressList()
 			}
 		}
 	}

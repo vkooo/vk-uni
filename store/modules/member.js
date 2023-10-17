@@ -1,8 +1,7 @@
 import { wechat, login, loginBySms, info } from '@/api/member.js';
 import { getUrlQuery } from '@/utils';
 import { isWechat } from '@/utils/platform';
-import { setToken } from '@/utils/auth.js';
-
+import { setToken, removeToken } from '@/utils/auth.js';
 import env from '@/env';
 import { Base64 } from 'js-base64';
 let infoHistory = uni.getStorageSync('userInfo') || {};
