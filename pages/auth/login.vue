@@ -48,18 +48,13 @@
 </template>
 
 <script>
-	let app = getApp()
-	import { website as websiteApi } from "@/api/website.js"
-	import {
-		mapState
-	} from "vuex"
+	import { mapState } from "vuex"
 export default {
 	data() {
 		return {
 			way: 1,
 			mobile: "",
 			password: "",
-			website: app.globalData.website
 		}
 	},
 	computed: {
@@ -80,17 +75,7 @@ export default {
 			return {};
 		},
 		...mapState('member', ["info", "hasLogin"]),
-	},
-	onLoad() {
-		let that = this
-		if(this.hasLogin){
-			this.$utils.reLaunch("/pages/tabBar/index")
-		}
-		websiteApi().then(res=>{
-			let website = res.data
-			uni.setStorageSync('website', website)
-			that.website = website
-		})
+		...mapState('website', ["website"]),
 	},
 	methods: {
 		submit() {

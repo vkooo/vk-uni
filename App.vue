@@ -2,16 +2,10 @@
 	import { website as websiteApi } from "@/api/website.js"
 	export default {
 		globalData: {
-			website: {},
 			capsuleHeight: 0,
 		},
 		onLaunch: function(options) {
-			this.globalData.website = uni.getStorageSync('website')
-			websiteApi().then(res=>{
-				let website = res.data
-				uni.setStorageSync('website', website)
-				this.globalData.website = website
-			})
+			this.$store.dispatch("website/init")
 			
 			// #ifdef MP-WEIXIN
 			let menu = uni.getMenuButtonBoundingClientRect()

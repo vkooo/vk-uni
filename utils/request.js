@@ -16,7 +16,7 @@ function service(options = {}) {
 // return new Promise((r, e) => {})
 	return new Promise((resolved, rejected) => {
 		options.success = (res) => {
-			console.log(res.data)
+			// console.log(res.data)
 			uni.hideLoading()
 			if (res.data.code !== 200) {
 				if (res.data.code === 401) {

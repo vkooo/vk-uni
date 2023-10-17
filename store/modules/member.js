@@ -4,7 +4,6 @@ import { isWechat } from '@/utils/platform';
 import { setToken } from '@/utils/auth.js';
 
 import env from '@/env';
-import { reLogin } from '@/utils/platform.js';
 import { Base64 } from 'js-base64';
 let infoHistory = uni.getStorageSync('userInfo') || {};
 
@@ -21,7 +20,7 @@ getters = {
 	}
 },
 mutations = {
-	setUserInfo(state, data) { 
+	SET_USER_INFO(state, data) { 
 		state.hasLogin = true;
 		state.info = data;
 		console.log(data)
@@ -30,13 +29,13 @@ mutations = {
 		}
 		uni.setStorageSync('userInfo', data)
 	},
-	logout(state) {
+	LOGOUT(state) {
 		state.info = {};
 		state.hasLogin = false;
 		removeToken();
 		uni.removeStorageSync('userInfo')
 	},
-	redirect(){
+	REDIRECT(){
 		let redirectUrl = uni.getLaunchOptionsSync().query.redirect;
 		if(redirectUrl){
 			redirectUrl = decodeURIComponent(Base64.decode(redirectUrl))
@@ -63,7 +62,7 @@ mutations = {
 			}).then(res=>{
 				console.log(res)
 				if(res.code == 200){
-					commit('setUserInfo', data)
+					commit('SET_USER_INFO', data)
 					const redirect = searchParams.get('redirect');
 					let url = env.redirectUrl
 					// console.log(redirect)
@@ -79,7 +78,7 @@ mutations = {
 						content: '是否重新授权？',
 						success: function(res) {
 							if (res.confirm) {
-								reLogin()
+								// reLogin()
 							} 
 						}
 					})
@@ -111,8 +110,8 @@ mutations = {
 	    login(param).then(response => {
 	    	if(response.code == 200){
 	    		const { data } = response;
-	    		commit('setUserInfo', data)
-				commit('redirect')
+	    		commit('SET_USER_INFO', data)
+				commit('REDIRECT')
 	    	}
 	    	
 	    }).catch(error => {
@@ -123,8 +122,8 @@ mutations = {
 	    loginBySms(param).then(response => {
 	    	if(response.code == 200){
 	    		const { data } = response;
-	    		commit('setUserInfo', data)
-				commit('redirect')
+	    		commit('SET_USER_INFO', data)
+				commit('REDIRECT')
 	    	}
 	    	
 	    }).catch(error => {
@@ -135,7 +134,7 @@ mutations = {
 		info().then(response => {
 			if(response.code == 200){
 				const { data } = response;
-				commit('setUserInfo', data)
+				commit('SET_USER_INFO', data)
 			}
 		}).catch(error => {
 		    console.log(error)
