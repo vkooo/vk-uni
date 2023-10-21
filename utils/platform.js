@@ -39,13 +39,13 @@ export function getRedirectUrl() {
 	let redirect = pathOptions.path + (queryString? "?" + queryString: "" )
 	
 	if(['pages/auth/login', 'pages/auth/code'].indexOf(redirect) < 0){
-		return "redirect=" + encodeURIComponent(Base64.encodeURL(redirect))
+		return encodeURIComponent(Base64.encodeURL(redirect))
 	}
 	return ""
 }
 
 export function getWxCode() {
-	let urlRedirect = `${env.redirectUrl}?${getRedirectUrl()}`
+	let urlRedirect = `${env.redirectUrl}?redirect=${getRedirectUrl()}`
 	let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +
 			'&redirect_uri=' + urlRedirect +
 			'&response_type=code&scope=snsapi_userinfo'+

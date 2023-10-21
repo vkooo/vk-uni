@@ -5,7 +5,7 @@
 			<u-gap height="44" />
 			<!-- #endif -->
 			<view class="user">
-				<u-avatar :src="info.avatar" shape="circle" size="65"></u-avatar>
+				<u-avatar :src="info.avatar" shape="circle" size="65" />
 				<view class="sitting" :style="{top: getCapsuleHeight()}" v-if="hasLogin">
 					<u-icon name="setting" color="#808080" size="25" @click="$utils.navigate('/member/setting')" />
 				</view>
@@ -56,8 +56,10 @@
 		.u-avatar{
 			margin: 0 auto;
 		}
-		.user {
-			// padding: 35rpx 0 50rpx;
+		/deep/ .user {
+			.u-avatar{
+				margin: 0 auto;
+			}
 		}
 		
 		.sitting{

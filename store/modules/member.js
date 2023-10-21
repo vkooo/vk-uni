@@ -1,6 +1,6 @@
-import { wechat, login, loginBySms } from '@/api/auth.js';
+import { wechat, wechatMini, login, loginBySms } from '@/api/auth.js';
 import { info } from '@/api/member.js';
-import { getRedirectUrl, getWxCode, getUrlQuery } from '@/utils/platform';
+import { getWxCode, getUrlQuery } from '@/utils/platform';
 import { setToken, removeToken } from '@/utils/auth.js';
 import env from '@/env';
 import { Base64 } from 'js-base64';
@@ -64,7 +64,6 @@ mutations = {
 				code: code,
 				ii: uni.getStorageSync('ii'),
 			}).then(res=>{
-				console.log(res)
 				if(res.code == 200){
 					commit('SET_USER_INFO', res.data)
 					let redirect = getUrlQuery('redirect');
@@ -73,7 +72,11 @@ mutations = {
 					}
 					window.location.href = `${env.redirectUrl}/#/${redirect}`
 				}else{
-					this._vm.$u.toast(res.msg)
+					uni.showToast({
+						title: res.msg,
+						icon: 'none',
+						duration: 2000
+					})  
 					uni.showModal({
 						title: '授权失败',
 						content: '请重新微信授权',
@@ -92,8 +95,29 @@ mutations = {
 	//#endif
 	//#ifdef MP-WEIXIN
 	wxOauth({ commit }) {
-		
-	   
+		uni.login({
+		    provider: 'weixin',
+		    success(res) {
+				wechatMini({
+					code: res.code,
+					ii: uni.getStorageSync('ii'),
+				}).then(res=>{
+					if(res.code == 200){
+						commit('SET_USER_INFO', res.data)
+						commit('REDIRECT')
+					}else{
+						uni.showToast({
+							title: res.msg,
+							icon: 'none',
+							duration: 2000
+						})  
+					}
+				})
+		    },
+			fail(err) {
+		        console.log(err)
+		    }
+		})
 	},
 	//#endif
 	setRedirect({ commit }, url){

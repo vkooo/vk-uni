@@ -16,6 +16,14 @@ export function wechat(data) {
 	})
 }
 
+export function wechatMini(data) {
+	return request({
+		url: '/authorize/wechat/mini',
+		method: 'GET',
+		data
+	})
+}
+
 export function getCaptcha() {
 	return request({
 		url: '/get_captcha',

@@ -27,8 +27,10 @@ function service(options = {}) {
 						content: '登录状态已过期，请重新登录？',
 						success: function(res) {
 							if (res.confirm) {
+								let url = getRedirectUrl()
+								store.dispatch("member/setRedirect", url)
 								uni.reLaunch({
-									url: "/pages/auth/login?" + getRedirectUrl()
+									url: "/pages/auth/login?redirect=" + url
 								})
 							} 
 						}

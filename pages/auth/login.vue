@@ -143,9 +143,7 @@ export default {
 			this.$utils.reLaunch("/pages/tabBar/index")
 		},
 		wxOauth(){
-			if(this.getPlatform == 'wx_official'){
-				this.$store.dispatch("member/wxOauth")
-			}
+			this.$store.dispatch("member/wxOauth")
 		}
 	}
 };
