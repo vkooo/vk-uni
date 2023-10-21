@@ -1,10 +1,28 @@
 <script>
 	import { website as websiteApi } from "@/api/website.js"
+	import { getPlatform } from '@/utils/platform';
 	export default {
 		globalData: {
 			capsuleHeight: 0,
+			platform: ""
 		},
 		onLaunch: function(options) {
+			let platform = getPlatform();
+			this.globalData.platform = platform
+			
+			// 邀请码
+			if(options.query.ii){
+				uni.setStorageSync('ii', options.query.ii)
+			}
+			if(platform == "wx_official" && options.query.code){
+				this.$store.dispatch("member/wxOauth")
+			}
+			
+			// 如果有回调页面
+			if(options.query.redirect){
+				this.$store.dispatch("member/setRedirect", options.query.redirect)
+			}
+			
 			this.$store.dispatch("website/init")
 			
 			// #ifdef MP-WEIXIN
@@ -13,24 +31,7 @@
 			uni.setStorageSync('capsuleHeight', navigationBarHeight)
 			this.globalData.capsuleHeight = navigationBarHeight
 			// #endif
-			// if(!this.$store.state.user.hasLogin){
-				
-			// 	if("pages/tabBar/index".indexOf(options.path) == -1){
-			// 		uni.reLaunch({
-			// 			url: "/pages/auth/login",
-			// 		})
-			// 	}
-			// }else{
-			// 	let paths = [
-			// 		"pages/auth/login",
-			// 		"pages/auth/register",
-			// 	];
-			// 	if(paths.indexOf(options.path) > -1){
-			// 		uni.reLaunch({
-			// 			url: "/pages/tabBar/index",
-			// 		})
-			// 	}
-			// }
+			
 			console.log('App Launch')
 		},
 		onShow: function() {
@@ -48,9 +49,6 @@
 	@import url("static/iconfont/iconfont.css");
 	/*每个页面公共css */
 	
-	page{
-		background-color: #fafafa;
-	}
 	.vk-flex {
 		display: flex;
 	}

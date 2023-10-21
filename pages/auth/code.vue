@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import { getLoginSmsCode } from "@/api/member.js"
+	import { getLoginSmsCode } from "@/api/auth.js"
 export default {
 	data() {
 		return {
@@ -49,6 +49,12 @@ export default {
 	},
 	computed: {},
 	onLoad(options) {
+		if(this.hasLogin){
+			uni.reLaunch({
+				url: "/pages/tabBar/index"
+			})
+			return
+		}
 		if(this.$u.test.mobile(options.mobile)){
 			this.mobile = options.mobile
 		}else{
@@ -99,6 +105,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	page{
+		background: #ffffff;
+	}
 .wrap {
 	padding: 80rpx;
 }

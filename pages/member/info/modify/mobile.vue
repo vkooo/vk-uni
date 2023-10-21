@@ -41,7 +41,8 @@
 </template>
 
 <script>
-	import { setMobile, getSmsCode } from '@/api/member.js';
+	import { setMobile } from '@/api/member.js';
+	import { getSmsCode } from '@/api/auth.js';
 	
 	import {
 		mapState
@@ -127,7 +128,11 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	
+	page{
+		background-color: #fafafa;
+	}
 	.form{
 		background: #ffffff;
 	}

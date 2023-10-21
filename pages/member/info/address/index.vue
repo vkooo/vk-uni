@@ -109,6 +109,9 @@
 
 <style lang="scss" scoped>
 
+	page{
+		background-color: #fafafa;
+	}
 	// 项目内容
 	.address-item {
 		margin: 20rpx auto 20rpx auto;

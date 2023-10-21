@@ -1,7 +1,6 @@
 import {getToken, removeToken} from '../utils/auth';
 import env from '@/env';
-import { getUrlQuery } from '@/utils';
-import { Base64 } from 'js-base64'
+import { getRedirectUrl } from '@/utils/platform.js';
 import store from 'store/index.js'
 
 function service(options = {}) {
@@ -22,29 +21,14 @@ function service(options = {}) {
 			if (res.data.code !== 200) {
 				if (res.data.code === 401) {
 					// removeToken()
-					store.commit("member/LOGOUT")
+					store.commit("member/CLEAR_USER_INFO")
 					uni.showModal({
 						title: '登录状态已过期',
 						content: '登录状态已过期，请重新登录？',
 						success: function(res) {
 							if (res.confirm) {
-								let pathOptions = uni.getLaunchOptionsSync()
-								const queryString = Object.keys(pathOptions.query)
-								  .map(key => `${key}=${encodeURIComponent(pathOptions.query[key])}`)
-								  .join('&');
-								let redirect = pathOptions.path + (queryString? "?" + queryString: "" )
-									, state = []
-								
-								//#ifdef H5
-								let ii = getUrlQuery('ii')
-								if(ii)
-									state.push("ii=" + ii)
-								//#endif
-								
-								if(redirect)
-									state.push("redirect=" + encodeURIComponent(Base64.encodeURL(redirect)))
 								uni.reLaunch({
-									url: "/pages/auth/login?" + state.join("&")
+									url: "/pages/auth/login?" + getRedirectUrl()
 								})
 							} 
 						}

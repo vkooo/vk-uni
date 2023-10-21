@@ -1,6 +1,7 @@
-import { wechat, login, loginBySms, info } from '@/api/member.js';
+import { wechat, login, loginBySms } from '@/api/auth.js';
+import { info } from '@/api/member.js';
 import { getUrlQuery } from '@/utils';
-import { isWechat } from '@/utils/platform';
+import { getRedirectUrl } from '@/utils/platform';
 import { setToken, removeToken } from '@/utils/auth.js';
 import env from '@/env';
 import { Base64 } from 'js-base64';
@@ -8,7 +9,8 @@ let infoHistory = uni.getStorageSync('userInfo') || {};
 
 const state = {
 	hasLogin: Boolean(Object.keys(infoHistory).length),
-	info: infoHistory
+	info: infoHistory,
+	redirect: ""
 },
 getters = {
 	info(state) {
@@ -28,19 +30,25 @@ mutations = {
 		}
 		uni.setStorageSync('userInfo', data)
 	},
-	LOGOUT(state) {
+	CLEAR_USER_INFO(state) {
 		state.info = {};
 		state.hasLogin = false;
 		removeToken();
 		uni.removeStorageSync('userInfo')
 	},
-	REDIRECT(){
-		let redirectUrl = uni.getLaunchOptionsSync().query.redirect;
+	SET_REDIRECT(state, redirect){
+		state.redirect = redirect
+	},
+	REDIRECT(state, redirectUrl){
 		if(redirectUrl){
 			redirectUrl = decodeURIComponent(Base64.decode(redirectUrl))
 		}else{
 			redirectUrl = "pages/tabBar/member"
+			if(state.redirect){
+				redirectUrl = decodeURIComponent(Base64.decode(state.redirect))
+			}
 		}
+		state.redirect = ""
 		setTimeout(function(){
 			uni.reLaunch({
 				url: "/" + redirectUrl
@@ -49,55 +57,44 @@ mutations = {
 	}
 }
 , actions = {
-	//#ifdef MP-WEIXIN
+	//#ifdef H5
 	wxOauth({ commit }) {
 		let code = getUrlQuery("code")
 		const searchParams = new URLSearchParams(getUrlQuery("state"));
-		const ii = searchParams.get('ii');
 		if(code){
 			wechat({
 				code: code,
-				ii: ii,
+				ii: uni.getStorageSync('ii'),
 			}).then(res=>{
 				console.log(res)
 				if(res.code == 200){
 					commit('SET_USER_INFO', data)
 					const redirect = searchParams.get('redirect');
-					let url = env.redirectUrl
-					// console.log(redirect)
-					// if(redirect){
-					// 	url = url + "/#/" + redirect
-					// 	// window.location.href = url
-					// }
+					
+					commit('REDIRECT', redirect)
 					window.location.href = url
 				}else{
 					this._vm.$u.toast(res.msg)
 					uni.showModal({
 						title: '授权失败',
-						content: '是否重新授权？',
+						content: '请重新进行授权',
 						success: function(res) {
 							if (res.confirm) {
-								// reLogin()
+								uni.reLaunch({
+									url: "/pages/auth/login"
+								})
 							} 
 						}
 					})
 				}
 			})
 		}else{
-			let ii = getUrlQuery('ii')
-				, state = []
-			if(ii)
-				state.push("ii=" + ii)
-			
 			setTimeout(function(){
-				let path = uni.getLaunchOptionsSync().path
-				if(path)
-					state.push("redirect=" + path)
 				
 				let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +
 						'&redirect_uri=' + env.redirectUrl +
 						'&response_type=code&scope=snsapi_userinfo'+
-						"&state=" + encodeURIComponent(state.join("&"))
+						"&state=" + getRedirectUrl()
 						'#wechat_redirect';
 				window.location.href = url
 			}, 100)
@@ -105,7 +102,17 @@ mutations = {
 	   
 	},
 	//#endif
+	//#ifdef MP-WEIXIN
+	wxOauth({ commit }) {
+		
+	   
+	},
+	//#endif
+	setRedirect({ commit }, url){
+		commit('SET_REDIRECT', url)
+	},
 	login({ commit }, param) {
+		param.ii = uni.getStorageSync('ii')
 	    login(param).then(response => {
 	    	if(response.code == 200){
 	    		const { data } = response;
@@ -118,6 +125,7 @@ mutations = {
 	    })
 	},
 	loginBySms({ commit }, param) {
+		param.ii = uni.getStorageSync('ii')
 	    loginBySms(param).then(response => {
 	    	if(response.code == 200){
 	    		const { data } = response;
@@ -137,6 +145,12 @@ mutations = {
 			}
 		}).catch(error => {
 		    console.log(error)
+		})
+	},
+	logout({ commit }){
+		commit("CLEAR_USER_INFO")
+		uni.reLaunch({
+			url: "/pages/auth/login"
 		})
 	}
 };

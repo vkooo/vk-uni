@@ -83,6 +83,10 @@
 </script>
 
 <style lang="scss" scoped>
+	
+	page{
+		background-color: #fafafa;
+	}
 	.container {
 		background-color: #ffffff;
 		.form{

@@ -8,27 +8,59 @@
 		<view class="wrap">
 			<view class="top"></view>
 			<view class="content">
-				<view class="title">欢迎登录{{website.name}}</view>
-				<block v-if="way == 1">
-					<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" maxlength="11" />
-					<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
-					<button @tap="submit" :style="[inputStyle]" class="getCaptcha">获取短信验证码</button>
-				</block>
-				<block v-if="way == 2">
-					<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" maxlength="11" />
-					<u-gap height="15"></u-gap>
-					<input class="u-border-bottom" type="number" v-model="password" placeholder="请输入密码" maxlength="11" />
-					<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
-					<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
-				</block>
-				<view class="alternative">
-					<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
-					<!-- <view class="issue">遇到问题</view> -->
+				<view class="logo">
+					<image :src="website.logo" mode="widthFix"></image>
 				</view>
+				
+				<block v-if="getPlatform === 'wx_official' || getPlatform === 'wx_mini' ">
+					<u-gap height="90"></u-gap>
+					<u-button text="微信授权登录" type="success" size="large"
+						@click="wxOauth"
+						shape="circle" />
+					<u-gap height="20"></u-gap>
+					<u-button text="暂不登录" @click="leftClick" color="#eeeeee"  size="large"  :customStyle="{color: '#a9a9a9'}" shape="circle" type="success" />
+				</block>
+				
+				<block v-else>
+					<u-gap height="40"></u-gap>
+					<block v-if="way == 1">
+						<u-input
+							border="bottom"
+							type="number" placeholderStyle="color: #909399" 
+							v-model="mobile" placeholder="请输入手机号" maxlength="11" 
+							clearable
+							></u-input>
+						<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
+						<button @tap="submit" :style="[inputStyle]" class="getCaptcha">获取短信验证码</button>
+					</block>
+					<block v-if="way == 2">
+						<u-input
+							border="bottom"
+							type="number" placeholderStyle="color: #909399" 
+							v-model="mobile" placeholder="请输入手机号" maxlength="11" 
+							clearable
+							></u-input>
+						<u-gap height="5"></u-gap>
+						<u-input 
+							border="bottom"
+							type="password" placeholderStyle="color: #909399" 
+							v-model="password" placeholder="请输入密码" maxlength="11" 
+							clearable
+							password
+							></u-input>
+						<u-gap height="15"></u-gap>
+						<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
+					</block>
+					<view class="alternative">
+						<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
+						<!-- <view class="issue">遇到问题</view> -->
+					</view>
+				</block>
+				
 			</view>
 			<view class="buttom">
-				<view class="loginType">
-					<view class="wechat item" @click="$store.dispatch('member/wxOauth')">
+				<view class="loginType" v-if="getPlatform == 'app'">
+					<view class="wechat item">
 						<view class="icon"><u-icon size="38" name="weixin-fill" color="rgb(83,194,64)"></u-icon></view>
 						微信
 					</view>
@@ -37,10 +69,12 @@
 						QQ
 					</view>
 				</view>
-				<view class="hint" v-if="website.userAgreement">
-					登录代表同意
-					<text class="link" @click="$utils.navigate('')">{{website.name}}用户协议、隐私政策，</text>
-					并授权使用您的{{website.name}}账号信息（如昵称、头像、收获地址）以便您统一管理
+				<u-gap height="150" v-if="getPlatform !== 'app'"></u-gap>
+				<view class="hint">
+					登录代表同意{{website.name}}
+					<text class="link" @click="$utils.navigate('/pages/help/userAgreement')">《用户协议》</text>、
+					<text class="link" @click="$utils.navigate('/pages/help/privacyPolicy')">《隐私政策》</text>，
+					并授权{{website.name}}使用您的账号信息（如昵称、头像、收获地址）以便您统一管理
 				</view>
 			</view>
 		</view>
@@ -55,6 +89,14 @@ export default {
 			way: 1,
 			mobile: "",
 			password: "",
+		}
+	},
+	onLoad() {
+		if(this.hasLogin){
+			uni.reLaunch({
+				url: "/pages/tabBar/index"
+			})
+			return
 		}
 	},
 	computed: {
@@ -73,6 +115,9 @@ export default {
 				}
 			}
 			return {};
+		},
+		getPlatform(){
+			return getApp().globalData.platform
 		},
 		...mapState('member', ["info", "hasLogin"]),
 		...mapState('website', ["website"]),
@@ -93,28 +138,34 @@ export default {
 		},
 		leftClick(){
 			this.$utils.reLaunch("/pages/tabBar/index")
+		},
+		wxOauth(){
+			if(this.getPlatform == 'wx_official'){
+				this.$store.dispatch("member/wxOauth")
+			}
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+	page{
+		background: #ffffff;
+	}
 .wrap {
 	font-size: 28rpx;
 	.content {
 		width: 85vw;
-		margin: 15% auto 0;
-
-		.title {
-			text-align: left;
-			font-size: 60rpx;
-			font-weight: 500;
-			margin-bottom: 100rpx;
-		}
-		input {
-			text-align: left;
-			margin-bottom: 10rpx;
-			padding-bottom: 6rpx;
+		margin: 2% auto 0;
+		
+		
+		.logo{
+			margin: 0 auto;
+			text-align: center;
+			image{
+				width: 100px;
+				height: 100px;
+			}
 		}
 		.tips {
 			color: #909399;
@@ -143,7 +194,7 @@ export default {
 	.buttom {
 		.loginType {
 			display: flex;
-			padding: 350rpx 150rpx 150rpx 150rpx;
+			padding: 140rpx;
 			justify-content:space-between;
 			
 			.item {

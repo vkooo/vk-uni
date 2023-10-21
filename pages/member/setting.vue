@@ -9,17 +9,33 @@
 			<u-cell title="用户协议" isLink url="/pages/help/userAgreement"></u-cell>
 			<u-cell title="隐私政策" isLink url="/pages/help/privacyPolicy"></u-cell>
 		</u-cell-group>
+		
+		<view class="logout">
+			<u-button :customStyle="{
+				width: '90%',
+				margin: '0 auto'
+			}" type="error" text="退出登录" @click='logout' />
+		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		
+		methods: {
+			logout(){
+				this.$store.dispatch("member/logout")
+			}
+		}
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	page{
 		background: #f5f5f5;
+	}
+	.logout{
+		position: fixed;
+		bottom: 20px;
+		width: 100%;
 	}
 </style>
