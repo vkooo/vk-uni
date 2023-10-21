@@ -34,12 +34,6 @@
 			}
 		},
 		{
-			"path": "pages/member/setting",
-			"style": {
-				"navigationBarTitleText": "设置"
-			}
-		},
-		{
 			"path": "pages/help/about",
 			"style": {
 				"navigationBarTitleText": "关于我们"
@@ -56,56 +50,69 @@
 			"style": {
 				"navigationBarTitleText": "隐私政策"
 			}
-		},
-		{
-			"path": "pages/member/info/index",
-			"style": {
-				"navigationBarTitleText": "个人资料"
-			}
-		},
-		{
-			"path": "pages/member/info/modify/nickname",
-			"style": {
-				"navigationBarTitleText": "修改昵称",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/member/info/modify/mobile",
-			"style": {
-				"navigationBarTitleText": "修改手机号",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/member/info/modify/password",
-			"style": {
-				"navigationBarTitleText": "修改密码",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/member/info/modify/birthday",
-			"style": {
-				"navigationBarTitleText": "修改生日",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/member/info/address/index",
-			"style": {
-				"navigationBarTitleText": "收货地址",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/member/info/address/modify",
-			"style": {
-				"navigationBarTitleText": "编辑收货地址",
-				"navigationStyle": "custom"
-			}
 		}
     ],
+	"subPackages": [
+		{
+			"root": "member",
+			"pages": [
+				{
+					"path": "setting",
+					"style": {
+						"navigationBarTitleText": "设置"
+					}
+				},
+				{
+					"path": "info/index",
+					"style": {
+						"navigationBarTitleText": "个人资料"
+					}
+				},
+				{
+					"path": "info/modify/nickname",
+					"style": {
+						"navigationBarTitleText": "修改昵称",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "info/modify/mobile",
+					"style": {
+						"navigationBarTitleText": "绑定手机号",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "info/modify/password",
+					"style": {
+						"navigationBarTitleText": "修改密码",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "info/modify/birthday",
+					"style": {
+						"navigationBarTitleText": "修改生日",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "info/address/index",
+					"style": {
+						"navigationBarTitleText": "收货地址",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "info/address/modify",
+					"style": {
+						"navigationBarTitleText": "编辑收货地址",
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		}
+	],
 	"tabBar": {
 		"color": "#a5a5a4",
 		"selectedColor": "#fe8113",

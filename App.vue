@@ -1,6 +1,6 @@
 <script>
 	import { website as websiteApi } from "@/api/website.js"
-	import { getPlatform } from '@/utils/platform';
+	import { getPlatform, getUrlQuery } from '@/utils/platform';
 	export default {
 		globalData: {
 			capsuleHeight: 0,
@@ -9,14 +9,16 @@
 		onLaunch: function(options) {
 			let platform = getPlatform();
 			this.globalData.platform = platform
-			
 			// 邀请码
 			if(options.query.ii){
 				uni.setStorageSync('ii', options.query.ii)
 			}
-			if(platform == "wx_official" && options.query.code){
+			
+			// #ifdef H5
+			if(platform == "wx_official" && getUrlQuery("code")){
 				this.$store.dispatch("member/wxOauth")
 			}
+			// #endif
 			
 			// 如果有回调页面
 			if(options.query.redirect){

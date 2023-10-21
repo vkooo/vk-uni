@@ -1,7 +1,6 @@
 import { wechat, login, loginBySms } from '@/api/auth.js';
 import { info } from '@/api/member.js';
-import { getUrlQuery } from '@/utils';
-import { getRedirectUrl } from '@/utils/platform';
+import { getRedirectUrl, getWxCode, getUrlQuery } from '@/utils/platform';
 import { setToken, removeToken } from '@/utils/auth.js';
 import env from '@/env';
 import { Base64 } from 'js-base64';
@@ -48,12 +47,11 @@ mutations = {
 				redirectUrl = decodeURIComponent(Base64.decode(state.redirect))
 			}
 		}
+		console.log(redirectUrl)
 		state.redirect = ""
-		setTimeout(function(){
-			uni.reLaunch({
-				url: "/" + redirectUrl
-			})
-		},500)
+		uni.reLaunch({
+			url: "/" + redirectUrl
+		})
 	}
 }
 , actions = {
@@ -68,38 +66,28 @@ mutations = {
 			}).then(res=>{
 				console.log(res)
 				if(res.code == 200){
-					commit('SET_USER_INFO', data)
-					const redirect = searchParams.get('redirect');
-					
-					commit('REDIRECT', redirect)
-					window.location.href = url
+					commit('SET_USER_INFO', res.data)
+					let redirect = getUrlQuery('redirect');
+					if(redirect){
+						redirect = decodeURIComponent(Base64.decode(redirect))
+					}
+					window.location.href = `${env.redirectUrl}/#/${redirect}`
 				}else{
 					this._vm.$u.toast(res.msg)
 					uni.showModal({
 						title: '授权失败',
-						content: '请重新进行授权',
+						content: '请重新微信授权',
 						success: function(res) {
 							if (res.confirm) {
-								uni.reLaunch({
-									url: "/pages/auth/login"
-								})
+								getWxCode()
 							} 
 						}
 					})
 				}
 			})
 		}else{
-			setTimeout(function(){
-				
-				let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +
-						'&redirect_uri=' + env.redirectUrl +
-						'&response_type=code&scope=snsapi_userinfo'+
-						"&state=" + getRedirectUrl()
-						'#wechat_redirect';
-				window.location.href = url
-			}, 100)
+			getWxCode()
 		}
-	   
 	},
 	//#endif
 	//#ifdef MP-WEIXIN

@@ -105,6 +105,9 @@ export default {
 				color: "#fff",
 				backgroundColor: this.$u.color['warning'],
 			};
+			if(!this.$u.test.mobile(this.mobile)){
+				return {};
+			}
 			if(this.way == 1){
 				if(this.mobile) {
 					return style;

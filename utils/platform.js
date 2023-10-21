@@ -1,7 +1,6 @@
-import { removeToken } from '../utils/auth';
-import Vue from 'vue';
 import store from '@/store'
 import { Base64 } from 'js-base64'
+import env from '@/env';
 
 export function isWechat() {
 	return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
@@ -22,10 +21,14 @@ export function getPlatform() {
 	}
 	return "h5"
 	// #endif
-	console.log()
+	
 	// #ifdef APP
 	return 'app'
 	// #endif
+}
+
+export function getUrlQuery(name) {
+	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||[, ''])[1].replace(/\+/g, '%20')) || null
 }
 
 export function getRedirectUrl() {
@@ -39,4 +42,14 @@ export function getRedirectUrl() {
 		return "redirect=" + encodeURIComponent(Base64.encodeURL(redirect))
 	}
 	return ""
+}
+
+export function getWxCode() {
+	let urlRedirect = `${env.redirectUrl}?${getRedirectUrl()}`
+	let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +
+			'&redirect_uri=' + urlRedirect +
+			'&response_type=code&scope=snsapi_userinfo'+
+			"&state=1" +
+			'#wechat_redirect';
+	window.location.href = url
 }

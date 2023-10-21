@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-navbar
-			title="更换手机号"
+			title="绑定手机号"
 			@rightClick="rightClick"
 			leftIcon=""
 			:autoBack="true"
@@ -15,7 +15,7 @@
 		<view class="form">
 			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
 				<view class="p20 pb0" >
-					<u-form-item label="旧手机号" borderBottom>
+					<u-form-item v-if="form.mobile" label="旧手机号" borderBottom>
 						{{form.mobile}}
 					</u-form-item>
 					<u-form-item label="新手机号" prop="newMobile" borderBottom>

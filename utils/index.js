@@ -86,10 +86,6 @@ export function hideKeyboard(){
 	uni.hideKeyboard()
 }
 
-export function getUrlQuery(name) {
-	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||[, ''])[1].replace(/\+/g, '%20')) || null
-}
-
 export function pickerFormart(value, format = "yyyy-mm-dd") {
 	const timeFormat = uni.$u.timeFormat;
 	console.log(timeFormat(value, 'yyyy-mm-dd'));

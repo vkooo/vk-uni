@@ -14,12 +14,12 @@
 						</u-form-item>
 						
 						<u-form-item label="手机号码" borderBottom @click="$utils.navigate('modify/mobile')">
-							<u-text :color="color(info.mobile)" :text="info.mobile || '立即绑定手机号'" />
+							<u-text :color="color(info.mobile)" :text="info.mobile || '立即绑定手机'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
 						
-						<u-form-item label="登录密码" borderBottom @click="$utils.navigate('modify/password')">
-							<u-text :color="color()" text="修改登录密码" />
+						<u-form-item label="登录密码" borderBottom @click="modifyPassword">
+							<u-text :color="color()" :text="info.mobile? '修改登录密码': '请先绑定手机'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
 						
@@ -63,6 +63,13 @@
 			this.$store.dispatch("member/getInfo")
 		},
 		methods: {
+			modifyPassword(){
+				if(this.info.mobile){
+					this.$utils.navigate('modify/password')
+				}else{
+					this.$utils.navigate('modify/mobile')
+				}
+			},
 			color(value){
 				return !value? '#9b9b9b': ''
 			},

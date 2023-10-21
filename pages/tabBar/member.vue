@@ -7,7 +7,7 @@
 			<view class="user">
 				<u-avatar :src="info.avatar" shape="circle" size="65"></u-avatar>
 				<view class="sitting" :style="{top: getCapsuleHeight()}" v-if="hasLogin">
-					<u-icon name="setting" color="#808080" size="25" @click="$utils.navigate('/pages/member/setting')" />
+					<u-icon name="setting" color="#808080" size="25" @click="$utils.navigate('/member/setting')" />
 				</view>
 			</view>
 		</view>
