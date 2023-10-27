@@ -18,11 +18,10 @@
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
 						
-						<u-form-item label="登录密码" borderBottom @click="modifyPassword">
+						<u-form-item label="登录密码" @click="modifyPassword">
 							<u-text :color="color()" :text="info.mobile? '修改登录密码': '请先绑定手机'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
-						
 					</view>
 					
 					<u-gap height="10" bgColor="#fafafa"></u-gap>

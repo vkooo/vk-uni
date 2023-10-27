@@ -73,7 +73,9 @@
 	.mt10{
 		margin-top: 20rpx !important;
 	}
-	
+	.ml20{
+		margin-left: 40rpx !important;
+	}
 	.mr10{
 		margin-right: 20rpx !important;
 	}
