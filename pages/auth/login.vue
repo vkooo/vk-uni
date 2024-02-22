@@ -29,7 +29,7 @@
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
 							placeholder="请输入手机号" maxlength="11" clearable prefixIcon="phone"
 							:prefixIconStyle="{fontSize: '20px'}" />
-						<u-gap height="5"></u-gap>
+						<u-gap height="10"></u-gap>
 						<u-input border="bottom" type="password" placeholderStyle="color: #909399" v-model="password"
 							placeholder="请输入密码" maxlength="11" clearable password prefixIcon="lock"
 							:prefixIconStyle="{fontSize: '20px'}" />

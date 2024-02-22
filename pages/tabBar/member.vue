@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="header"  :style="{height: hasLogin? '25vh': '15vh'}">
+		<view class="header"  :style="{height: hasLogin? '30vh': '20vh'}">
 			<!-- #ifdef MP -->
 			<u-gap height="44" />
 			<!-- #endif -->
@@ -36,7 +36,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="userinfo-order" style="margin: -40px 11px 11px;">
+		<view class="userinfo-order" style="margin: -30px 11px 11px;">
 			<view class="head vk-flex">
 				<text class="f1">
 					我的订单
@@ -90,12 +90,12 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 	page{
 		background-color: #f5f5f5;
 	}
 	.header {
-		padding: 60rpx 0;
+		padding-top: 60rpx;
 		color: #ffffff;
 		background: linear-gradient(45deg, rgb(253, 74, 70) 0%, rgba(253, 74, 70, 0.8) 100%);
 		position: relative;
@@ -136,7 +136,6 @@
 			}
 		}
 		.custom_field{
-			width: 100%;
 			align-items: center;
 			padding: 8px 4px;
 			.item{

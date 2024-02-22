@@ -3,7 +3,7 @@
 		<u-cell-group :customStyle="{background: '#ffffff'}">
 			<u-cell title="个人资料" isLink url="info/index"></u-cell>
 		</u-cell-group>
-		<u-gap height="8" bgColor="#f5f5f5"/>
+		<u-gap height="8"/>
 		<u-cell-group :customStyle="{background: '#ffffff'}">
 			<u-cell title="关于我们" isLink url="/pages/help/about"></u-cell>
 			<u-cell title="用户协议" isLink url="/pages/help/userAgreement"></u-cell>
@@ -29,9 +29,9 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	page{
-		background: #f5f5f5;
+		background-color: #f5f5f5;
 	}
 	.logout{
 		position: fixed;

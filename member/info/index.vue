@@ -88,7 +88,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	
 	page{
 		background-color: #fafafa;

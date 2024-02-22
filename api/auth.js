@@ -39,7 +39,7 @@ export function getSmsCode(template, data) {
 	})
 }
 
-export function getLoginSmsCode(template, data) {
+export function getLoginSmsCode(data) {
 	return request({
 		url: '/get_login_sms_code',
 		method: 'POST',

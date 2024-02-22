@@ -38,12 +38,12 @@ export function copy(data) {
 }
 
 
-export function navigateTo(url) {
+export function navigateTo(url, timeout = 1000) {
 	setTimeout(function() {
 		uni.navigateTo({
 			url: url
 		})
-	}, 1000)
+	}, timeout)
 }
 
 export function reLaunch(url) {
