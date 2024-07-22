@@ -1,11 +1,9 @@
 "use strict";
 
 export default { //存放变量的容器
-	//#ifdef H5
-	baseUrl: '/api',
-	//#endif
+	baseApi: '/api',
 	//#ifdef APP || MP
-	baseUrl: 'http://vk.ak7.cc/api',
+	baseUrl: 'http://vk.ak7.cc',
 	//#endif
 	
 	wxappid: "wx67ce8b381ff6f3c7",

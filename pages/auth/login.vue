@@ -21,45 +21,51 @@
 					<block v-if="way == 1">
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
 							placeholder="请输入手机号" maxlength="11" clearable prefixIcon="phone"
-							:prefixIconStyle="{fontSize: '20px'}" />
+							:prefixIconStyle="{fontSize: '22px'}" />
 						<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
-						<button @tap="submit" :style="[inputStyle]" class="getCaptcha">获取短信验证码</button>
+						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha">获取短信验证码</u-button>
 					</block>
 					<block v-if="way == 2">
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
 							placeholder="请输入手机号" maxlength="11" clearable prefixIcon="phone"
-							:prefixIconStyle="{fontSize: '20px'}" />
-						<u-gap height="10"></u-gap>
+							:prefixIconStyle="{fontSize: '22px'}" />
+						<u-gap height="10" />
 						<u-input border="bottom" type="password" placeholderStyle="color: #909399" v-model="password"
 							placeholder="请输入密码" maxlength="11" clearable password prefixIcon="lock"
-							:prefixIconStyle="{fontSize: '20px'}" />
-						<u-gap height="15"></u-gap>
-						<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
+							:prefixIconStyle="{fontSize: '22px'}" />
+						<u-gap height="15" />
+						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha">登录</u-button>
 					</block>
 					<view class="alternative">
 						<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
-						<!-- <view class="issue">遇到问题</view> -->
+						<view class="issue">遇到问题</view>
 					</view>
 				</block>
-
 			</view>
 			<view class="buttom">
-				<view class="loginType" v-if="getPlatform == 'app'">
-					<view class="wechat item">
-						<view class="icon"><u-icon size="38" name="weixin-fill" color="rgb(83,194,64)"></u-icon></view>
-						微信
+				<view class="other-login" v-if="getPlatform == 'app'">
+					<view class="other-login-p">
+						<span>使用第三方帐号登陆</span>
 					</view>
-					<view class="QQ item">
-						<view class="icon"><u-icon size="38" name="qq-fill" color="rgb(17,183,233)"></u-icon></view>
-						QQ
+					<view class="loginType">
+						<view class="item" v-for="item in loginType">
+							<view class="icon">
+								<u-icon size="40" :name="item.icon" :color="item.color" />
+							</view>
+						</view>
 					</view>
 				</view>
-				<u-gap height="150" v-if="getPlatform !== 'app'"></u-gap>
+				<u-gap height="200" v-if="getPlatform !== 'app'" />
 				<view class="hint">
-					登录代表同意{{website.name}}
-					<text class="link" @click="$utils.navigate('/pages/help/userAgreement')">《用户协议》</text>、
-					<text class="link" @click="$utils.navigate('/pages/help/privacyPolicy')">《隐私政策》</text>，
-					并授权{{website.name}}使用您的账号信息（如昵称、头像、收获地址）以便您统一管理
+					<u-checkbox-group :value="checked" @change="(e) => {checked = e}">
+						<u-checkbox shape="circle" name="1" size="18"/>
+					</u-checkbox-group>
+					<view>
+						我已阅读并同意
+						<text class="link" @click="$utils.navigate('/pages/help/userAgreement')">《用户协议》</text>、
+						<text class="link" @click="$utils.navigate('/pages/help/privacyPolicy')">《隐私政策》</text>，
+						并授权{{website.name}}使用您的账号信息（如昵称、头像、收获地址）以便您统一管理
+					</view>
 				</view>
 			</view>
 		</view>
@@ -73,6 +79,17 @@
 	export default {
 		data() {
 			return {
+				checked: [],
+				loginType: [
+					{
+						icon: "weixin-circle-fill",
+						color: "#69c19c",
+					},
+					{
+						icon: "qq-circle-fill",
+						color: "#5ba8d6",
+					},
+				],
 				way: 1,
 				mobile: "",
 				password: "",
@@ -92,7 +109,8 @@
 					color: "#fff",
 					backgroundColor: this.$u.color['warning'],
 				};
-				if (!this.$u.test.mobile(this.mobile)) {
+				return style;
+				if (!this.$u.test.mobile(this.mobile) && !this.checked) {
 					return {};
 				}
 				if (this.way == 1) {
@@ -105,6 +123,15 @@
 					}
 				}
 				return {};
+			},
+			disabled() {
+				if (!this.$u.test.mobile(this.mobile) || this.checked.indexOf('1') == -1) {
+					return true
+				}
+				if (this.way == 2 && !this.password) {
+					return true
+				}
+				return false
 			},
 			getPlatform() {
 				return getApp().globalData.platform
@@ -187,24 +214,60 @@
 		}
 
 		.buttom {
-			.loginType {
-				display: flex;
-				padding: 140rpx;
-				justify-content: space-between;
-
-				.item {
+			.other-login{
+				margin: 150rpx 0 100rpx;
+				.other-login-p{
+					text-align: center;
+					position: relative;
 					display: flex;
-					flex-direction: column;
 					align-items: center;
-					color: #606266;
-					font-size: 28rpx;
+					justify-content: center;
+					width: 60%;
+					margin: 0 auto;
+					font-size: 26rpx;
+					span{
+						display: inline-block;
+						padding: 10rpx 20rpx;
+						background: #FFFFFF;
+						color: #808080;
+						z-index: 2;
+					}
+					&:after{
+						content: "";
+						height: 1rpx;
+						width: 100%;
+						background: #808080;
+						top: 50%;
+						transform: translateY(-50%);
+						position: absolute;
+					}
+				}
+				
+				.loginType {
+					display: flex;
+					padding: 0 140rpx;
+					justify-content: center;
+				
+					.item {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						color: #606266;
+						font-size: 28rpx;
+						margin: 0 20rpx;
+					}
 				}
 			}
+			
 
 			.hint {
 				padding: 20rpx 40rpx;
-				font-size: 20rpx;
+				font-size: 25rpx;
 				color: #909399;
+				display: flex;
+				/deep/ .u-checkbox-label--left{
+					flex-direction: column;
+				}
 
 				.link {
 					color: #ff9900;

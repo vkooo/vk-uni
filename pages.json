@@ -109,6 +109,32 @@
 						"navigationBarTitleText": "编辑收货地址",
 						"navigationStyle": "custom"
 					}
+				},
+				{
+					"path": "finance/scoreLog",
+					"style": {
+						"navigationBarTitleText": "积分记录"
+					}
+				},
+				
+				{
+					"path": "finance/balance",
+					"style": {
+						"navigationBarTitleText": "余额",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "finance/balanceLog",
+					"style": {
+						"navigationBarTitleText": "余额明细"
+					}
+				},
+				{
+					"path": "finance/charge/log",
+					"style": {
+						"navigationBarTitleText": "充值记录"
+					}
 				}
 			]
 		}

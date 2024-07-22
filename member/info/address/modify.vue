@@ -26,8 +26,8 @@
 						<u-input placeholder="请选择你的所在地区" border="none" v-model="form.region_text" />
 						<u-icon slot="right" name="arrow-right" />
 					</u-form-item>
-					<u-form-item borderBottom label="详细地址" prop="address_info">
-						<u-input placeholder="请输入你的详细地址" border="none" v-model="form.address_info" />
+					<u-form-item borderBottom label="详细地址" labelPosition="top" prop="address_info">
+						<u-textarea placeholder="请输入你的详细地址" border="none" v-model="form.address_info" />
 					</u-form-item>
 					<u-form-item borderBottom label="默认地址" prop="default">
 						<u-switch v-model="form.default" 
@@ -134,11 +134,8 @@
 			rightClick(){
 				let that = this
 				this.$refs.uForm.validate().then(res => {
-					uni.showLoading({
-						title: '加载中',
-					});
-					(that.form.id)? update(that.form): create(that.form).then(res=>{
-						console.log(res)
+					
+					(that.form.id? update(that.form): create(that.form)).then(res=>{
 						if(res.code == 200){
 							that.$u.toast("操作成功")
 							setTimeout(function(){

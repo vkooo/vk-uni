@@ -32,36 +32,54 @@ export function uploadFile(opt, successCallback, errorCallback) {
 		count: count, //最多可以选择的图片总数  
 		type: type, // 所选的文件的类型 默认all  
 		sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有  
-		success: function(res) {
+		success: async function(res) {
 			//启动上传等待中...  
 			uni.showLoading({
 				title: '文件上传中',
 			});
-			uni.uploadFile({
-				url: env.baseUrl + '/upload',
-				filePath: res.tempFilePaths[0],
-				name: "file",
-				header: {
-					// #ifdef MP
-					"Content-Type": "multipart/form-data",
-					// #endif
-					"Authtoken": `${getToken()}`
-				},
-				success: function(res) {
-					uni.hideLoading();
-					let data = res.data ? JSON.parse(res.data) : {};
-					if (data.code == 200) {
-						successCallback && successCallback(data.data)
-					} else {
-						errorCallback && errorCallback(data);
-						that.$u.toast(res.msg)
+			
+			let arr = []
+			for(let i in res.tempFilePaths){
+				let uploadApiRes = await uploadApi(res.tempFilePaths[i])
+				
+				if(uploadApiRes.statusCode == 200){
+					let data = uploadApiRes.data ? JSON.parse(uploadApiRes.data) : {};
+					if(data.code == 200){
+						arr.push(data.data)
 					}
-				},
-				fail: function(res) {
-					uni.hideLoading();
-					that.$u.toast("上传图片失败")
 				}
-			})
+			}
+			
+			uni.hideLoading();
+			if(count == 1){
+				return successCallback(arr[0])
+			}
+			successCallback(arr);
+			// uni.uploadFile({
+			// 	url: env.baseUrl + '/upload',
+			// 	filePath: res.tempFilePaths[0],
+			// 	name: "file",
+			// 	header: {
+			// 		// #ifdef MP
+			// 		"Content-Type": "multipart/form-data",
+			// 		// #endif
+			// 		"Token": `${getToken()}`
+			// 	},
+			// 	success: function(res) {
+			// 		uni.hideLoading();
+			// 		let data = res.data ? JSON.parse(res.data) : {};
+			// 		if (data.code == 200) {
+			// 			successCallback && successCallback(data.data)
+			// 		} else {
+			// 			errorCallback && errorCallback(data);
+			// 			that.$u.toast(res.msg)
+			// 		}
+			// 	},
+			// 	fail: function(res) {
+			// 		uni.hideLoading();
+			// 		that.$u.toast("上传图片失败")
+			// 	}
+			// })
 		},
 		fail: function(res) {
 			uni.hideLoading();
@@ -86,36 +104,73 @@ export function uploadImage(opt, successCallback, errorCallback) {
 		count: count, //最多可以选择的图片总数  
 		sizeType: sizeType, // 可以指定是原图还是压缩图，默认二者都有  
 		sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有  
-		success: function(res) {
+		success: async function(res) {
 			//启动上传等待中...  
 			uni.showLoading({
 				title: '图片上传中',
 			});
-			uni.uploadFile({
-				url: env.baseUrl + '/upload',
-				filePath: res.tempFilePaths[0],
-				name: "file",
-				header: {
-					// #ifdef MP
-					"Content-Type": "multipart/form-data",
-					// #endif
-					"Authtoken": `${getToken()}`
-				},
-				success: function(res) {
-					uni.hideLoading();
-					let data = res.data ? JSON.parse(res.data) : {};
-					if (data.code == 200) {
-						successCallback && successCallback(data.data)
-					} else {
-						errorCallback && errorCallback(data);
-						that.$u.toast(res.msg)
+			
+			let arr = []
+			for(let i in res.tempFilePaths){
+				let uploadApiRes = await uploadApi(res.tempFilePaths[i])
+				
+				if(uploadApiRes.statusCode == 200){
+					let data = uploadApiRes.data ? JSON.parse(uploadApiRes.data) : {};
+					if(data.code == 200){
+						arr.push(data.data)
 					}
-				},
-				fail: function(res) {
-					uni.hideLoading();
-					that.$u.toast("上传图片失败")
 				}
-			})
+				// return
+				// uni.uploadFile({
+				// 	url: url,
+				// 	filePath: res.tempFilePaths[i],
+				// 	name: "file",
+				// 	header: {
+				// 		// #ifdef MP
+				// 		"Content-Type": "multipart/form-data",
+				// 		// #endif
+				// 		"Token": `${getToken()}`
+				// 	},
+				// 	success: function(res) {
+				// 		uni.hideLoading();
+				// 		let data = res.data ? JSON.parse(res.data) : {};
+				// 		if (data.code == 200) {
+				// 			successCallback && successCallback(data.data)
+				// 		} else {
+				// 			errorCallback && errorCallback(data);
+				// 			that.$u.toast(res.msg)
+				// 		}
+				// 	},
+				// 	fail: function(res) {
+				// 		uni.hideLoading();
+				// 		that.$u.toast("上传图片失败")
+				// 	}
+				// })
+			}
+			uni.hideLoading();
+			if(count == 1){
+				return successCallback(arr[0])
+			}
+			successCallback(arr);
+		}
+	})
+}
+
+async function uploadApi(filePath){
+	let baseUrl = ""
+	if(env.baseUrl){
+		baseUrl = env.baseUrl
+	}
+	let url = baseUrl + env.baseApi + '/upload'
+	return uni.uploadFile({
+		url: url,
+		filePath: filePath,
+		name: "file",
+		header: {
+			// #ifdef MP
+			"Content-Type": "multipart/form-data",
+			// #endif
+			"Authtoken": `${getToken()}`
 		}
 	})
 }

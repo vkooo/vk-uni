@@ -1,0 +1,58 @@
+.mt5{
+	margin-top: 10rpx !important;
+}
+.mt10{
+	margin-top: 20rpx !important;
+}
+.ml20{
+	margin-left: 40rpx !important;
+}
+.mr10{
+	margin-right: 20rpx !important;
+}
+
+
+
+.p15{
+	padding: 15rpx !important;
+}
+.p20{
+	padding: 20rpx !important;
+}
+.pt10{
+	padding-top: 20rpx !important;
+}
+.pt0{
+	padding-top: 0 !important;
+}
+
+.pb10{
+	padding-bottom: 20rpx !important;
+}
+.pb5{
+	padding-bottom: 10rpx !important;
+}
+.pb0{
+	padding-bottom: 0 !important;
+}
+
+
+.pl10{
+	padding-left: 10rpx !important;
+}
+.pr10{
+	padding-right: 10rpx !important;
+}
+
+.pd0{
+	padding: 0 !important;
+}
+button::after {
+  border: none;
+}
+button {
+  border-radius:0;
+}
+.bb-1{
+	border-bottom: 1rpx solid rgb(214, 215, 217);
+}

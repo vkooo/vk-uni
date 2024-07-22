@@ -4,7 +4,11 @@ import { getRedirectUrl } from '@/utils/platform.js';
 import store from 'store/index.js'
 
 function service(options = {}) {
-	options.url = `${env.baseUrl}${options.url}`;
+	let baseUrl = ""
+	if(env.baseUrl){
+		baseUrl = env.baseUrl
+	}
+	options.url = `${baseUrl}${env.baseApi}${options.url}`;
 	// 判断本地是否存在token，如果存在则带上请求头
 	if (getToken()) {
 		options.header = {
@@ -12,7 +16,8 @@ function service(options = {}) {
 			'Authtoken': `${getToken()}`	// 这里是token(可自行修改)
 		};
 	}
-	options.data = options.data? options.data: {}
+	options.data = options.data? options.data: {},
+	options.data.timestamp = Date.now();
 // return new Promise((r, e) => {})
 	return new Promise((resolved, rejected) => {
 		options.success = (res) => {

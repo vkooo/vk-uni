@@ -9,7 +9,7 @@ getters = {
 	}
 },
 mutations = {
-	SET_DATA(statem, data){
+	SET_DATA(state, data){
 		state.website = data;
 	}
 }

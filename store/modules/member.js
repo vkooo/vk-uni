@@ -1,6 +1,6 @@
 import { wechat, wechatMini, login, loginBySms } from '@/api/auth.js';
 import { info } from '@/api/member.js';
-import { getWxCode, getUrlQuery } from '@/utils/platform';
+import * as platformUtils from '@/utils/platform';
 import { setToken, removeToken } from '@/utils/auth.js';
 import env from '@/env';
 import { Base64 } from 'js-base64';
@@ -57,8 +57,8 @@ mutations = {
 , actions = {
 	//#ifdef H5
 	wxOauth({ commit }) {
-		let code = getUrlQuery("code")
-		const searchParams = new URLSearchParams(getUrlQuery("state"));
+		let code = platformUtils.getUrlQuery("code")
+		const searchParams = new URLSearchParams(platformUtils.getUrlQuery("state"));
 		if(code){
 			wechat({
 				code: code,
@@ -66,7 +66,7 @@ mutations = {
 			}).then(res=>{
 				if(res.code == 200){
 					commit('SET_USER_INFO', res.data)
-					let redirect = getUrlQuery('redirect');
+					let redirect = platformUtils.getUrlQuery('redirect');
 					if(redirect){
 						redirect = decodeURIComponent(Base64.decode(redirect))
 					}
@@ -82,14 +82,14 @@ mutations = {
 						content: '请重新微信授权',
 						success: function(res) {
 							if (res.confirm) {
-								getWxCode()
+								platformUtils.getWxCode()
 							} 
 						}
 					})
 				}
 			})
 		}else{
-			getWxCode()
+			platformUtils.getWxCode()
 		}
 	},
 	//#endif

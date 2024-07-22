@@ -38,7 +38,7 @@ export function copy(data) {
 }
 
 
-export function navigateTo(url, timeout = 1000) {
+export function navigateTime(url, timeout = 1000) {
 	setTimeout(function() {
 		uni.navigateTo({
 			url: url
@@ -108,4 +108,17 @@ export function minYear(min = 100){
 	currentDate.setFullYear(newYear);
 	let timestamp = currentDate.getTime();
 	return timestamp
+}
+
+export function objectToUrl(obj){
+	return Object.keys(obj)
+    .map(key => {
+        if (obj[key]) {
+            return `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`;
+        } else {
+            return '';
+        }
+    })
+    .filter(param => param !== '') // 过滤掉空参数
+    .join('&');
 }

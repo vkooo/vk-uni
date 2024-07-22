@@ -23,7 +23,8 @@ export function getPlatform() {
 	// #endif
 	
 	// #ifdef APP
-	return 'app'
+	const systemInfo = uni.getSystemInfoSync();
+	return systemInfo.platform
 	// #endif
 }
 
@@ -31,6 +32,7 @@ export function getUrlQuery(name) {
 	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||[, ''])[1].replace(/\+/g, '%20')) || null
 }
 
+// #ifdef H5
 export function getRedirectUrl() {
 	let pathOptions = uni.getLaunchOptionsSync()
 	const queryString = Object.keys(pathOptions.query)
@@ -53,3 +55,4 @@ export function getWxCode() {
 			'#wechat_redirect';
 	window.location.href = url
 }
+// #endif

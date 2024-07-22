@@ -1,6 +1,7 @@
 <script>
 	import { website as websiteApi } from "@/api/website.js"
 	import { getPlatform, getUrlQuery } from '@/utils/platform';
+	import store from '@/store'
 	export default {
 		globalData: {
 			capsuleHeight: 0,
@@ -15,8 +16,9 @@
 			}
 			
 			// #ifdef H5
-			if(platform == "wx_official" && getUrlQuery("code")){
-				this.$store.dispatch("member/wxOauth")
+			if(platform == "wx_official" && !store.state.user.hasLogin){
+				store.dispatch("user/wxOfficialOauth")
+				return
 			}
 			// #endif
 			
@@ -47,6 +49,7 @@
 
 <style lang="scss">
 	@import "uview-ui/index.scss";
+	@import "@/static/css/common.scss";
 
 	@import url("static/iconfont/iconfont.css");
 	/*每个页面公共css */
@@ -67,43 +70,16 @@
 		height: var(--status-bar-height);// --status-bar-height系统状态栏高度
 	}
 	
-	.mt5{
-		margin-top: 10rpx !important;
-	}
-	.mt10{
-		margin-top: 20rpx !important;
-	}
-	.ml20{
-		margin-left: 40rpx !important;
-	}
-	.mr10{
-		margin-right: 20rpx !important;
-	}
-	.p15{
-		padding: 15rpx !important;
-	}
-	.p20{
-		padding: 20rpx !important;
-	}
-	.pt10{
-		padding-top: 20rpx !important;
-	}
-	.pb10{
-		padding-bottom: 20rpx !important;
-	}
-	.pb5{
-		padding-bottom: 10rpx !important;
-	}
-	.pt0{
-		padding-top: 0 !important;
-	}
-	.pb0{
-		padding-bottom: 0 !important;
-	}
-	button::after {
-	  border: none;
-	}
-	button {
-	  border-radius:0;
+	
+	.vk-group-info{
+		display: flex;
+		align-items: center;
+		padding: 20rpx 30rpx;
+		.f1{
+			flex: auto;
+			font-size: 15px;
+			font-weight: 700;
+			color: #333;
+		}
 	}
 </style>

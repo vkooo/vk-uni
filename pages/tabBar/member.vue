@@ -21,27 +21,27 @@
 					</view>
 				</view>
 			</view>
-			<view class="custom_field vk-flex"  v-if="hasLogin">
-				<view class="item vk-flex">
+			<view class="custom_field vk-flex" v-if="hasLogin">
+				<navigator url="/member/finance/balance" hover-class="none" class="item vk-flex">
 					<text class="t2">{{info.money}}</text>
 					<text class="t1">余额</text>
-				</view>
-				<view class="item vk-flex">
+				</navigator>
+				<navigator url="/member/finance/scoreLog" hover-class="none" class="item vk-flex">
 					<text class="t2">{{info.score}}</text>
 					<text class="t1">积分</text>
-				</view>
+				</navigator>
 				<view class="item vk-flex">
 					<text class="t2">0.00</text>
 					<text class="t1">优惠券</text>
 				</view>
 			</view>
 		</view>
-		<view class="userinfo-order" style="margin: -30px 11px 11px;">
-			<view class="head vk-flex">
+		<view class="userinfo-order" style="margin: -40px 11px 11px;">
+			<view class="vk-group-info pl10 pr10">
 				<text class="f1">
 					我的订单
 				</text>
-				<u-text suffixIcon="arrow-right" align="right" color="#999" iconStyle="font-size: 18px;color: #999;" text="查看全部订单" />
+				<u-text suffixIcon="arrow-right" align="right" color="#999" iconStyle="font-size: 14px;color: #999;" text="查看全部订单" />
 			</view>
 			<view class="content vk-flex">
 				<view class="item vk-flex">
@@ -50,8 +50,36 @@
 				</view>
 			</view>
 		</view>
-		<view class="menu">
-			
+		<view :style="{
+			color: '#000000',
+			fontSize: '32rpx',
+			fontWeight: 'bold',
+			padding: '15rpx 15px 5rpx'
+		}">
+			其他功能
+		</view>
+		<view class="menu-list">
+			<u-cell-group 
+				:border="false"
+			>
+				<u-cell 
+					:border="false"
+					:titleStyle="{
+						color: '#000000',
+						fontSize: '28rpx',
+						fontWeight: 'normal',
+					}"
+					:icon="item.icon"
+					:iconStyle="{
+						fontSize: '44rpx',
+						marginRight: '5rpx'
+					}"
+					:isLink="true"
+					:title="item.name" 
+					@click="itemClick(item)" 
+					v-for="(item,index) in moreMenu" :key="index" 
+				/>
+			</u-cell-group>
 		</view>
 	</view>
 </template>
@@ -66,6 +94,43 @@
 		},
 		data() {
 			return {
+				moreMenu: [
+					{
+						name: "余额记录",
+						icon: 'list',
+						fun(that) {
+							that.$utils.navigate('/member/finance/moneyLog')
+						}
+					},
+					{
+						name: "联系客服",
+						icon: 'kefu-ermai',
+						fun(that) {
+							that.$utils.handleNavigate('/pages/common/service')
+						}
+					},
+					{
+						name: "隐私政策",
+						icon: 'order',
+						fun(that) {
+							that.$utils.navigate('/pages/help/privacyPolicy')
+						}
+					},
+					{
+						name: "用户协议",
+						icon: 'attach',
+						fun(that) {
+							that.$utils.navigate('/pages/help/userAgreement')
+						}
+					},
+					{
+						name: "退出登录",
+						icon: 'man-delete',
+						fun(that) {
+							that.$store.dispatch("member/logout")
+						}
+					},
+				]
 			}
 		},
 		onShow() {
@@ -85,14 +150,17 @@
 				top = getApp().globalData.capsuleHeight
 				// #endif
 				return top
+			},
+			itemClick(item){
+				item.fun(this)
 			}
 		}
 	}
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 	page{
-		background-color: #f5f5f5;
+		background-color: #f6f7f8;
 	}
 	.header {
 		padding-top: 60rpx;
@@ -163,7 +231,7 @@
 	}
 	.userinfo-order{
 		background: #fff;
-		padding: 0 10px;
+		padding: 10rpx 20rpx;
 		border-radius: 8px;
 		position: relative;
 		.head{

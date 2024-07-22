@@ -56,10 +56,11 @@
 			}
 		},
 		onLoad() {
-			this.avatar = this.info.avatar
 		},
 		onShow() {
-			this.$store.dispatch("member/getInfo")
+			this.$store.dispatch("member/getInfo").then(res=>{
+				this.avatar = this.info.avatar
+			})
 		},
 		methods: {
 			modifyPassword(){
