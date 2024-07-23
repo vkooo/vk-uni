@@ -96,6 +96,20 @@
 						"navigationStyle": "custom"
 					}
 				},
+				
+				{
+					"path": "info/bankcard/index",
+					"style": {
+						"navigationBarTitleText": "绑定银行卡",
+						"enablePullDownRefresh": false,
+						"navigationBarBackgroundColor": "#23224b",
+						"navigationBarTextStyle": "white"
+						// #ifdef H5
+						,"navigationStyle": "custom"
+						// #endif
+					}
+				},
+				
 				{
 					"path": "info/address/index",
 					"style": {

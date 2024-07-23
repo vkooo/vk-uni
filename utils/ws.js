@@ -1,4 +1,5 @@
-import env from "./env.js"
+import env from "../env.js"
+import store from "@/store"
 //是否已经连接上ws
 let isOpenSocket = false
 //心跳间隔，单位毫秒
@@ -72,6 +73,8 @@ function heartBeat() {
 }
 
 function send(value) {
+	let user_id = store.state.member.info.id
+	value.req_user_id = user_id
 	ws.socketTask.send({
 		data: value,
 		async success() {
@@ -104,7 +107,9 @@ function completeClose() {
 	clearInterval(heartBeatInterval)
 	clearInterval(reconnectInterval)
 	canReconnect = false
-	ws.socketTask.close()
+	if (ws.socketTask) {
+		ws.socketTask.close()
+	}
 }
 
 module.exports = ws

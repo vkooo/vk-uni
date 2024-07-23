@@ -3,6 +3,7 @@ import App from './App'
 import uView from "uview-ui";
 import store from 'store/index.js'
 import { isMiniProgram, isWechat } from '@/utils/platform'
+import ws from '@/utils/ws.js'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
 import vkEmpty from "@/components/vkEmpty";
@@ -18,6 +19,8 @@ Vue.prototype.$throw = function (message) {
 	this.$u.toast(message)
 	throw new GlobalException(message);
 };
+
+Vue.prototype.$ws = ws
 // if (!store.state.member.hasLogin) {
 // 	// #ifdef H5
 // 	// 公众号

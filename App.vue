@@ -10,14 +10,17 @@
 		onLaunch: function(options) {
 			let platform = getPlatform();
 			this.globalData.platform = platform
+			
+			this.$store.dispatch("website/init")
+			
 			// 邀请码
 			if(options.query.ii){
 				uni.setStorageSync('ii', options.query.ii)
 			}
 			
 			// #ifdef H5
-			if(platform == "wx_official" && !store.state.user.hasLogin){
-				store.dispatch("user/wxOfficialOauth")
+			if(platform == "wx_official" && !store.state.member.hasLogin){
+				store.dispatch("member/wxOauth")
 				return
 			}
 			// #endif
@@ -26,8 +29,6 @@
 			if(options.query.redirect){
 				this.$store.dispatch("member/setRedirect", options.query.redirect)
 			}
-			
-			this.$store.dispatch("website/init")
 			
 			// #ifdef MP-WEIXIN
 			let menu = uni.getMenuButtonBoundingClientRect()
@@ -39,6 +40,10 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
+			if (store.state.member.hasLogin) {
+				this.$ws.init()
+				store.dispatch("member/getInfo")
+			}
 			console.log('App Show')
 		},
 		onHide: function() {

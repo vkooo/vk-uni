@@ -26,7 +26,9 @@
 				<u-cell isLink title="实名信息" :titleStyle="{
 					padding: '5rpx 0'
 				}" />
-				<u-cell :border="false" isLink title="银行卡" :titleStyle="{
+				<u-cell :border="false" isLink title="银行卡"
+				@click="$utils.navigate('/member/info/bankcard/index')"
+				:titleStyle="{
 					padding: '5rpx 0'
 				}" value="新版本" />
 			</u-cell-group>
