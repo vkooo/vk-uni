@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="nav"></view>
+		<view class="vk-nav" />
 		<view class="container">
 			12313
 		</view>

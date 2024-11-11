@@ -1,15 +1,18 @@
 <script>
 	import { website as websiteApi } from "@/api/website.js"
-	import { getPlatform, getUrlQuery } from '@/utils/platform';
+	import { getPlatform, getBrand, getUrlQuery } from '@/utils/platform'
 	import store from '@/store'
 	export default {
 		globalData: {
 			capsuleHeight: 0,
-			platform: ""
+			platform: null,
+			brand: null
 		},
 		onLaunch: function(options) {
-			let platform = getPlatform();
+			let platform = getPlatform()
+				, brand = getBrand();
 			this.globalData.platform = platform
+			this.globalData.brand = brand
 			
 			this.$store.dispatch("website/init")
 			
@@ -55,6 +58,7 @@
 <style lang="scss">
 	@import "uview-ui/index.scss";
 	@import "@/static/css/common.scss";
+	@import "@/static/css/m-p.scss";
 
 	@import url("static/iconfont/iconfont.css");
 	/*每个页面公共css */
@@ -69,12 +73,6 @@
 	.container{
 		font-size: $vk-font-size;
 	}
-	
-	// 顶部
-	.nav{
-		height: var(--status-bar-height);// --status-bar-height系统状态栏高度
-	}
-	
 	
 	.vk-group-info{
 		display: flex;

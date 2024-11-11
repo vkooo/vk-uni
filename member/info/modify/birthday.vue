@@ -14,7 +14,7 @@
 		</u-navbar>
 		<view class="form">
 			<u-form ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
-				<view class="p20 pb0" >
+				<view class="p-20 p-b-0" >
 					<u-form-item label="出生日期" borderBottom @click="birthdayShow = true">
 						<u-text mode="date" :text="data"></u-text>
 					</u-form-item>

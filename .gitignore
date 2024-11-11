@@ -23,3 +23,4 @@ yarn-error.log*
 build.sh
 unpackage
 private.wxeba49675d74bd647.key
+/package-lock.json

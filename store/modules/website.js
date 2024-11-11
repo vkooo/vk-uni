@@ -6,7 +6,7 @@ const state = {
 getters = {
 	website(state) {
 		return state.website;
-	}
+	},
 },
 mutations = {
 	SET_DATA(state, data){

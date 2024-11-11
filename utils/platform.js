@@ -56,3 +56,16 @@ export function getWxCode() {
 	window.location.href = url
 }
 // #endif
+
+/**
+ * 获取手机型号
+ */
+export function getBrand(){
+	let brand = null
+	// #ifdef APP
+	if(uni.getSystemInfoSync().platform === 'android'){
+		brand = uni.getSystemInfoSync().brand.toLowerCase();
+	}
+	// #endif
+	return brand
+}

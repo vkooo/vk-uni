@@ -122,3 +122,17 @@ export function objectToUrl(obj){
     .filter(param => param !== '') // 过滤掉空参数
     .join('&');
 }
+
+/**
+ * 获取元素信息
+ * let rectOther = await this.getRect(".other")
+ * @param {Object} selector
+ */
+export function getRect(selector){
+	return new Promise((resolve,reject)=>{
+		let view =  uni.createSelectorQuery().in(this)
+		view.select(selector).boundingClientRect(rect=>{
+			resolve(rect)
+		}).exec();
+	})
+}

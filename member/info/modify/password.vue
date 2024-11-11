@@ -14,7 +14,7 @@
 		</u-navbar>
 		<view class="form">
 			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
-				<view class="p20 pb0" >
+				<view class="p-20 p-b-0" >
 					<u-form-item label="手机号" borderBottom>
 						{{form.mobile}}
 					</u-form-item>
@@ -27,7 +27,7 @@
 					</u-form-item>
 				</view>
 				<u-gap height="8" bgColor="#f5f5f5"/>
-				<view class="p20 pb0 pt0" >
+				<view class="p-20 p-b-0 pt0" >
 					<u-form-item label="新密码" borderBottom prop="password">
 						<u-input placeholder="请输入新密码" type="number" border="none" v-model="form.password" />
 					</u-form-item>
