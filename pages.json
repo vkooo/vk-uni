@@ -98,7 +98,7 @@
 				},
 				
 				{
-					"path": "info/bankcard/index",
+					"path": "bankcard/index",
 					"style": {
 						"navigationBarTitleText": "绑定银行卡",
 						"enablePullDownRefresh": false,
@@ -111,14 +111,14 @@
 				},
 				
 				{
-					"path": "info/address/index",
+					"path": "address/index",
 					"style": {
 						"navigationBarTitleText": "收货地址",
 						"navigationStyle": "custom"
 					}
 				},
 				{
-					"path": "info/address/modify",
+					"path": "address/modify",
 					"style": {
 						"navigationBarTitleText": "编辑收货地址",
 						"navigationStyle": "custom"

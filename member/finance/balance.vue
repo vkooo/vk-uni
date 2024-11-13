@@ -60,7 +60,7 @@
 					</text>
 				</u-cell>
 			</u-cell-group>
-			<vkEmpty v-else />
+			<vk-empty v-else />
 		</view>
 		<u-gap height="10" />
 	</view>

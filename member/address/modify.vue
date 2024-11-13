@@ -53,7 +53,6 @@
 </template>
 
 <script>
-	import vkAddressPicker from '@/components/vkAddressPicker';
 	import { findById, create, update } from '@/api/address';
 	
 	import {
@@ -66,9 +65,6 @@
 		},
 		computed: {
 			...mapState('member', ["hasLogin", "info"]),
-		},
-		components:{
-			vkAddressPicker,
 		},
 		data() {
 			return {

@@ -23,7 +23,7 @@
 			</u-cell-group>
 			<u-loadmore :status="status" @loadmore="loadList()" />
 		</block>
-		<vkEmpty v-else />
+		<vk-empty v-else />
 	</view>
 </template>
 

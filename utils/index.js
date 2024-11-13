@@ -37,6 +37,16 @@ export function copy(data) {
 	})
 }
 
+export function back() {
+	if (getCurrentPages().length > 1) {
+		uni.navigateBack()
+	} else {
+		const homePath = __uniConfig.tabBar.list[0].pagePath;
+		uni.switchTab({
+			url: "/" + homePath
+		});
+	}
+}
 
 export function navigateTime(url, timeout = 1000) {
 	setTimeout(function() {

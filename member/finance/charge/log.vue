@@ -16,7 +16,7 @@
 				/>
 			</u-cell-group>
 		</block>
-		<vkEmpty v-else />
+		<vk-empty v-else />
 	</view>
 </template>
 

@@ -36,7 +36,6 @@
 </template>
 
 <script>
-	import vkAddressPicker from '@/components/vkAddressPicker';
 	import { setProfile } from '@/api/member.js';
 	
 	import {
@@ -49,9 +48,6 @@
 		},
 		computed: {
 			...mapState('member', ["hasLogin", "info"]),
-		},
-		components:{
-			vkAddressPicker,
 		},
 		data() {
 			return {

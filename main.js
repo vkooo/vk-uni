@@ -6,13 +6,11 @@ import { isMiniProgram, isWechat } from '@/utils/platform'
 import ws from '@/utils/ws.js'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
-import vkEmpty from "@/components/vkEmpty";
 
 import GlobalException from '@/exception/GlobalException.js';
 Vue.prototype.$utils = utils
 Vue.prototype.$upload = upload
 
-Vue.component('vkEmpty', vkEmpty)
 
 Vue.use(uView);
 Vue.prototype.$throw = function (message) {

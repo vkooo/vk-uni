@@ -65,6 +65,18 @@
 	
 	.vk-flex {
 		display: flex;
+		&.align_items{
+			align-items: center;
+		}
+		&.align_items_end{
+			align-items: flex-end;
+		}
+		&.justify_center{
+			justify-content: center;
+		}
+		&.justify_between{
+			justify-content: space-between;
+		}
 	}
 	
 	.vk--flex__item{
