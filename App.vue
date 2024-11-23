@@ -58,7 +58,7 @@
 <style lang="scss">
 	@import "uview-ui/index.scss";
 	@import "@/static/css/common.scss";
-	@import "@/static/css/m-p.scss";
+	@import "@/static/css/generate.scss";
 
 	@import url("static/iconfont/iconfont.css");
 	/*每个页面公共css */

@@ -12,4 +12,7 @@ export default { //存放变量的容器
 	//#endif
 	
 	wsUrl: 'wss://pw.vk4.cn:8283',
+	
+	// 加密参数
+	cryptoSecret: "MaYoaMQ3zpWJFWtN9mqJqKpHrkdFwLd9DDlFWk2NnVR1mChVRI6THVe6KsCnhpoR"
 }

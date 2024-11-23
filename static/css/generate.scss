@@ -1,0 +1,63 @@
+@mixin generate-margin() {
+	$directions: (
+		"": "", 
+		b: bottom,
+		t: top,
+		l: left,
+		r: right
+	);
+
+	@each $short, $full in $directions {
+		@for $i from 0 through 200 {
+			@if $short == "" {
+				.m-#{$i} {
+					margin: #{$i}px !important;
+				}
+			}
+			@else {
+				.m-#{$short}-#{$i} {
+					margin-#{$full}: #{$i}px !important;
+				}
+			}
+		}
+	}
+}
+@include generate-margin();
+
+@mixin generate-padding() {
+	$directions: (
+		"": "", 
+		b: bottom,
+		t: top,
+		l: left,
+		r: right
+	);
+
+	@each $short, $full in $directions {
+		@for $i from 0 through 200 {
+			@if $short == "" {
+				.p-#{$i} {
+					padding: #{$i}px !important;
+				}
+			}
+			@else {
+				.p-#{$short}-#{$i} {
+					padding-#{$full}: #{$i}px !important;
+				}
+			}
+		  
+		}
+	}
+}
+@include generate-padding();
+
+
+
+@mixin generate-border-radius() {
+	@for $i from 0 through 120 {
+		.b-r-#{$i} {
+			border-radius: #{$i}px !important;
+		}
+	}
+}
+@include generate-border-radius();

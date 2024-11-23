@@ -12,14 +12,14 @@
 				<view class="chat-ls" v-for="(item,index) in msg" :key="index" :id="'msg'+ index">
 					<view class="chat-time" v-if="item.createTime != ''"></view>
 					<view class="msg-m msg-left" v-if="item.sendName ==  friendName">
-						<image class="user-img" src="/static/logo.png"></image>
+						<image class="user-img b-r-10" src="/static/logo.png"></image>
 						<view class="message" v-if="item.type == 1">
 							<!-- 文字 -->
 							<view class="msg-text">{{item.sendText}}</view>
 						</view>
 						<view class="message" v-if="item.type == 2" >
 							<!-- 图像 -->
-							<image :src="item.sendText" class="msg-img" mode="widthFix"></image>
+							<image :src="item.sendText" class="msg-img b-r-10" mode="widthFix"></image>
 						</view>
 
 					</view>
@@ -29,7 +29,7 @@
 							<view class="msg-text">{{item.sendText}}</view>
 						</view>
 						<view class="message" v-if="item.type == 2" >
-							<image :src="item.sendText" class="msg-img" mode="widthFix"></image>
+							<image :src="item.sendText" class="msg-img b-r-10" mode="widthFix"></image>
 						</view>
 
 					</view>
@@ -43,7 +43,7 @@
 					<image src="/static/imgs/chat/image.png"></image>
 				</view>
 				<!-- 文本框 -->
-				<textarea auto-height="true" class="chat-send btn" v-model="value"></textarea>
+				<textarea auto-height="true" class="chat-send btn b-r-5" v-model="value"></textarea>
 				<view class="bt-img" @tap="emoji">
 					<image src="/static/imgs/chat/emoji.png"></image>
 				</view>
@@ -209,7 +209,6 @@
 					flex: none;
 					width: 80rpx;
 					height: 80rpx;
-					border-radius: 20rpx;
 				}
 
 				.message {
@@ -226,7 +225,6 @@
 
 				.msg-img {
 					max-width: 400rpx;
-					border-radius: 20rpx;
 					margin-right: 8px;
 				}
 
@@ -288,7 +286,6 @@
 		.btn {
 			flex: auto;
 			background-color: #fff;
-			border-radius: 10rpx;
 			padding: 20rpx;
 			margin: 0 10rpx;
 		}

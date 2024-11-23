@@ -146,3 +146,21 @@ export function getRect(selector){
 		}).exec();
 	})
 }
+
+export function previewImg(imgsArray, index = 0){
+	uni.previewImage({
+	    current: imgsArray[index],
+	    urls: imgsArray
+	});
+}
+
+export function isEmpty(value, checkArr) {
+	if (checkArr) {
+		if (Array.isArray(value)) {
+			if (!value.length) {
+				return true;
+			}
+		}
+	}
+	return value === '' || value === ' ' || value === undefined || value === null || value === 'null'
+}

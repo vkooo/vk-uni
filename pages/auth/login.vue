@@ -23,7 +23,7 @@
 							placeholder="请输入手机号" maxlength="11" clearable prefixIcon="phone"
 							:prefixIconStyle="{fontSize: '22px'}" />
 						<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
-						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha">获取短信验证码</u-button>
+						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha b-r-5">获取短信验证码</u-button>
 					</block>
 					<block v-if="way == 2">
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
@@ -34,7 +34,7 @@
 							placeholder="请输入密码" maxlength="11" clearable password prefixIcon="lock"
 							:prefixIconStyle="{fontSize: '22px'}" />
 						<u-gap height="15" />
-						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha">登录</u-button>
+						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha b-r-5">登录</u-button>
 					</block>
 					<view class="alternative">
 						<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
@@ -198,7 +198,6 @@
 				border: none;
 				font-size: 30rpx;
 				padding: 5rpx 0;
-				border-radius: 10rpx;
 
 				&::after {
 					border: none;

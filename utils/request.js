@@ -1,5 +1,6 @@
 import {getToken, removeToken} from '../utils/auth';
 import env from '@/env';
+import crypto from '@/utils/crypto.js';
 import { getRedirectUrl } from '@/utils/platform.js';
 import store from 'store/index.js'
 
@@ -10,14 +11,20 @@ function service(options = {}) {
 	}
 	options.url = `${baseUrl}${env.baseApi}${options.url}`;
 	// 判断本地是否存在token，如果存在则带上请求头
-	if (getToken()) {
+	const token = getToken();
+	if (token) {
 		options.header = {
+			...options.header,
 			'content-type': 'application/json',
-			'Authtoken': `${getToken()}`	// 这里是token(可自行修改)
+			'Authtoken': token
 		};
 	}
-	options.data = options.data? options.data: {},
-	options.data.timestamp = Date.now();
+	options.data = options.data || {};
+	options.data.timestamp = Date.now().toString();
+	
+	options.header = options.header || {};
+	options.header["VK-SK"] = crypto(options.data);
+	
 // return new Promise((r, e) => {})
 	return new Promise((resolved, rejected) => {
 		options.success = (res) => {
