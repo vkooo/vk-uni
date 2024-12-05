@@ -79,6 +79,10 @@
 		}
 	}
 	
+	.vk-flex-column{
+		flex-flow: column;
+	}
+	
 	.vk--flex__item{
 		flex: 1;
 	}

@@ -75,7 +75,7 @@
 			},
 			upload(){
 				let that = this
-				this.$upload.uploadImage('upload/image', function(res) {
+				this.$upload.uploadImage({}, function(res) {
 					let url = res.full_url
 					setProfile({
 						avatar: url
