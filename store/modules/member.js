@@ -1,4 +1,4 @@
-import { wechat, wechatMini, login, loginBySms } from '@/api/auth.js';
+import { wechatOfficial, wechatMini, wechatApp, login, loginBySms } from '@/api/auth.js';
 import { info } from '@/api/member.js';
 import * as platformUtils from '@/utils/platform';
 import { setToken, removeToken } from '@/utils/auth.js';
@@ -60,7 +60,7 @@ mutations = {
 		let code = platformUtils.getUrlQuery("code")
 		const searchParams = new URLSearchParams(platformUtils.getUrlQuery("state"));
 		if(code){
-			wechat({
+			wechatOfficial({
 				code: code,
 				ii: uni.getStorageSync('ii'),
 			}).then(res=>{
@@ -93,15 +93,27 @@ mutations = {
 		}
 	},
 	//#endif
-	//#ifdef MP-WEIXIN
+	//#ifdef MP-WEIXIN || APP-PLUS
 	wxOauth({ commit }) {
 		uni.login({
 		    provider: 'weixin',
+			//#ifdef APP-PLUS
+			onlyAuthorize: true,
+			//#endif
 		    success(res) {
-				wechatMini({
+				let api
+					, params = {
 					code: res.code,
 					ii: uni.getStorageSync('ii'),
-				}).then(res=>{
+				}
+				//#ifdef MP-WEIXIN
+				api = wechatMini(params)
+				//#endif
+				
+				//#ifdef APP-PLUS
+				api = wechatApp(params)
+				//#endif
+				api.then(res=>{
 					if(res.code == 200){
 						commit('SET_USER_INFO', res.data)
 						commit('REDIRECT')

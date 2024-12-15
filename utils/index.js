@@ -50,10 +50,20 @@ export function back() {
 
 export function navigateTime(url, timeout = 1000) {
 	setTimeout(function() {
-		uni.navigateTo({
-			url: url
-		})
+		navigate(url)
 	}, timeout)
+}
+
+export function navigate(url) {
+	uni.navigateTo({
+		url: url,
+		success(e) {
+			console.log(e)
+		},
+		fail(err) {
+			console.log(err)
+		}
+	})
 }
 
 export function reLaunch(url) {
@@ -62,11 +72,6 @@ export function reLaunch(url) {
 	})
 }
 
-export function navigate(url) {
-	uni.navigateTo({
-		url: url
-	})
-}
 
 export function redirectTo(url) {
 	uni.redirectTo({
@@ -96,12 +101,12 @@ export function hideKeyboard(){
 	uni.hideKeyboard()
 }
 
-export function pickerFormart(value, format = "yyyy-mm-dd") {
-	const timeFormat = uni.$u.timeFormat;
+export function timeFormart(value, format = "yyyy-mm-dd") {
+	const fun = uni.$u.timeFormat;
 	console.log(timeFormat(value, 'yyyy-mm-dd'));
 	console.log(timeFormat(value, 'yyyy-mm-dd hh:MM'));
 	console.log(timeFormat(value, 'yyyy-mm'));
-	return timeFormat(value, 'yyyy-mm-dd');
+	return fun(value, format);
 }
 
 export function setAvatar(avatar){
@@ -164,3 +169,7 @@ export function isEmpty(value, checkArr) {
 	}
 	return value === '' || value === ' ' || value === undefined || value === null || value === 'null'
 }
+
+
+export const mainBgColor = "#f9ae3d";
+export const mainFontColor = "#ffffff";

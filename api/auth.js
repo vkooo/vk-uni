@@ -8,10 +8,10 @@ export function login(data) {
 	})
 }
 
-export function wechat(data) {
+export function wechatOfficial(data) {
 	return request({
-		url: '/authorize/wechat',
-		method: 'GET',
+		url: '/authorize/wechat/official',
+		method: 'POST',
 		data
 	})
 }
@@ -19,7 +19,15 @@ export function wechat(data) {
 export function wechatMini(data) {
 	return request({
 		url: '/authorize/wechat/mini',
-		method: 'GET',
+		method: 'POST',
+		data
+	})
+}
+
+export function wechatApp(data) {
+	return request({
+		url: '/authorize/wechat/app',
+		method: 'POST',
 		data
 	})
 }

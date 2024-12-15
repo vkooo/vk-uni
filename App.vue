@@ -40,6 +40,15 @@
 			this.globalData.capsuleHeight = navigationBarHeight
 			// #endif
 			
+			uni.onNetworkStatusChange(function(res) {
+				console.log('onNetworkStatusChange', res);
+				if (res.isConnected) {
+					uni.reLaunch({
+						url: '/pages/tabBar/index'
+					})
+				}
+			})
+			
 			console.log('App Launch')
 		},
 		onShow: function() {

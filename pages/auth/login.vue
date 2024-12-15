@@ -17,29 +17,35 @@
 				</block>
 
 				<block v-else>
-					<u-gap height="40"></u-gap>
+					<u-gap height="40" />
 					<block v-if="way == 1">
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
-							placeholder="请输入手机号" maxlength="11" clearable prefixIcon="phone"
-							:prefixIconStyle="{fontSize: '22px'}" />
-						<view class="tips">未注册的手机号验证后自动创建{{website.name}}账号</view>
-						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha b-r-5">获取短信验证码</u-button>
+							placeholder="请输入11位手机号码" maxlength="11" clearable
+							:prefixIconStyle="{fontSize: '22px'}">
+							<view slot="prefix" class="p-r-15 m-r-10" style=" color: #0B0D0F; border-right: 1rpx solid #E2E4EA; ">
+								+86
+							</view>
+						</u-input>
 					</block>
 					<block v-if="way == 2">
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
-							placeholder="请输入手机号" maxlength="11" clearable prefixIcon="phone"
-							:prefixIconStyle="{fontSize: '22px'}" />
+							placeholder="手机号/邮件地址/账号名 " maxlength="11" clearable
+							:prefixIconStyle="{fontSize: '22px'}">
+						</u-input>
 						<u-gap height="10" />
 						<u-input border="bottom" type="password" placeholderStyle="color: #909399" v-model="password"
-							placeholder="请输入密码" maxlength="11" clearable password prefixIcon="lock"
-							:prefixIconStyle="{fontSize: '22px'}" />
-						<u-gap height="15" />
-						<u-button @tap="submit" :style="[inputStyle]" :disabled="disabled" class="getCaptcha b-r-5">登录</u-button>
+							placeholder="密码" maxlength="11" clearable password  />
 					</block>
+					<u-gap height="10" />
 					<view class="alternative">
 						<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
 						<view class="issue">遇到问题</view>
 					</view>
+					<u-gap height="30" />
+					<u-button @tap="submit" :style="[inputStyle]"
+						 shape="circle"
+						:disabled="disabled">{{way == 1? "获取短信验证码": "登录"}}</u-button>
+					
 				</block>
 			</view>
 			<view class="buttom">
@@ -106,23 +112,13 @@
 		computed: {
 			inputStyle() {
 				let style = {
-					color: "#fff",
-					backgroundColor: this.$u.color['warning'],
+					color: this.$utils.mainFontColor,
+					backgroundColor: this.$utils.mainBgColor,
+					height: "85rpx",
+					border: 0,
+					fontSize: '30rpx',
 				};
-				return style;
-				if (!this.$u.test.mobile(this.mobile) && !this.checked) {
-					return {};
-				}
-				if (this.way == 1) {
-					if (this.mobile) {
-						return style;
-					}
-				} else if (this.way == 2) {
-					if (this.mobile && this.password) {
-						return style;
-					}
-				}
-				return {};
+				return style
 			},
 			disabled() {
 				if (!this.$u.test.mobile(this.mobile) || this.checked.indexOf('1') == -1) {
@@ -188,27 +184,15 @@
 
 			.tips {
 				color: #909399;
-				margin-bottom: 60rpx;
-				margin-top: 8rpx;
+				margin-top: 18rpx;
+				font-size: 26rpx;
 			}
 
-			.getCaptcha {
-				background-color: rgb(253, 243, 208);
-				color: #909399;
-				border: none;
-				font-size: 30rpx;
-				padding: 5rpx 0;
-
-				&::after {
-					border: none;
-				}
-			}
 
 			.alternative {
 				color: #909399;
 				display: flex;
 				justify-content: space-between;
-				margin-top: 30rpx;
 			}
 		}
 
@@ -274,7 +258,16 @@
 			}
 		}
 		/deep/ .u-input{
+			background: #ffffff;
+			padding-top: 20rpx !important;
+			padding-bottom: 20rpx !important;
 			padding-left: 0 !important;
+			.uni-input-placeholder{
+				color: rgb(192, 196, 204) !important;
+			}
+			&.u-border-bottom{
+				border-color: #E2E4EA !important;
+			}
 		}
 	}
 </style>

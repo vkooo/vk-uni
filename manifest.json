@@ -17,7 +17,12 @@
             "delay" : 0
         },
         /* 模块配置 */
-        "modules" : {},
+        "modules" : {
+            "Maps" : {},
+            "VideoPlayer" : {},
+            "Record" : {},
+            "Payment" : {}
+        },
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
@@ -41,9 +46,24 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "idfa" : false
+            },
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "maps" : {},
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "",
+                        "UniversalLinks" : ""
+                    }
+                },
+                "payment" : {
+                    "alipay" : {
+                        "__platform__" : [ "ios", "android" ]
+                    }
+                }
+            }
         }
     },
     /* 快应用特有相关 */
@@ -53,8 +73,8 @@
         "appid" : "wxeba49675d74bd647",
         "setting" : {
             "urlCheck" : false,
-			"ignoreUploadUnusedFiles": false,
-			"ignoreDevUnusedFiles": false
+            "ignoreUploadUnusedFiles" : false,
+            "ignoreDevUnusedFiles" : false
         },
         "usingComponents" : true
     },

@@ -60,7 +60,7 @@
 					title: '加载中',
 				});
 				setProfile({
-					birthday: that.$utils.pickerFormart(this.data, 'yyyy-mm-dd')
+					birthday: that.$utils.timeFormart(this.data)
 				}).then(res=>{
 					if(res.code == 200){
 						that.$u.toast("操作成功")

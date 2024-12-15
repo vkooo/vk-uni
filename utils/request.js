@@ -60,11 +60,21 @@ function service(options = {}) {
 		};
 		options.fail = (err) => {
 			uni.hideLoading()
-			uni.showToast({
-				icon: 'none',
-				duration: 3000,
-				title: '服务器错误,请稍后再试'
-			});
+			uni.getNetworkType({
+				success: res=> {
+					if(res.networkType === "none"){
+						//网络类型 wifi、2g、3g、4g、ethernet、unknown、none
+						console.log("当前无网络");
+						rejected(err);
+						return
+					}
+					uni.showToast({
+						icon: 'none',
+						duration: 3000,
+						title: '服务器错误,请稍后再试'
+					});
+				}
+			})
 			rejected(err);
 		};
 		uni.request(options);

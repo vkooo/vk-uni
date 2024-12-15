@@ -94,7 +94,7 @@
 						title: '加载中',
 					});
 					let form = that.form
-					form.birthday = that.$utils.pickerFormart(form.birthday, 'yyyy-mm-dd')
+					form.birthday = that.$utils.timeFormart(form.birthday)
 					setProfile(form).then(res=>{
 						if(res.code == 200){
 							setTimeout(function(){
