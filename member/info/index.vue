@@ -8,12 +8,12 @@
 						<image :src="avatar? avatar: '/static/image/avatar.png'" @click="upload" />
 					</view>
 					<view class="p-20 p-b-0">
-						<u-form-item label="昵称" borderBottom @click="$utils.navigate('modify/nickname')">
+						<u-form-item label="昵称" borderBottom @click="$utils.navigate('/member/info/modify/nickname')">
 							<u-text :color="color(info.nickname)" :text="info.nickname || '立即修改昵称'" />
 							<u-icon slot="right" name="arrow-right"/>
 						</u-form-item>
 						
-						<u-form-item label="电话" borderBottom @click="$utils.navigate('modify/mobile')">
+						<u-form-item label="电话" borderBottom @click="$utils.navigate('/member/info/modify/mobile')">
 							<u-text :color="color(info.mobile)" :text="info.mobile || '立即绑定手机'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
@@ -26,11 +26,11 @@
 					
 					<u-gap height="10" bgColor="#fafafa"></u-gap>
 					<view class="p-15 p-b-0 p-t-0">
-						<u-form-item label="出生日期" borderBottom @click="$utils.navigate('modify/birthday')">
+						<u-form-item label="出生日期" borderBottom @click="$utils.navigate('/member/info/modify/birthday')">
 							<u-text :color="color()" mode="date" :text="info.birthday" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
-						<u-form-item label="收货地址"  @click="$utils.navigate('address/index')">
+						<u-form-item label="收货地址"  @click="$utils.navigate('/member/address/index')">
 							<u-text :color="color()" text="立即前往" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
@@ -65,9 +65,9 @@
 		methods: {
 			modifyPassword(){
 				if(this.info.mobile){
-					this.$utils.navigate('modify/password')
+					this.$utils.navigate('/member/info/modify/password')
 				}else{
-					this.$utils.navigate('modify/mobile')
+					this.$utils.navigate('/member/info/modify/mobile')
 				}
 			},
 			color(value){

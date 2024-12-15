@@ -3,6 +3,7 @@ import App from './App'
 import uView from "uview-ui";
 import store from 'store/index.js'
 import { isMiniProgram, isWechat } from '@/utils/platform'
+import styleMixin from '@/mixin/style.js'
 import ws from '@/utils/ws.js'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
@@ -13,6 +14,8 @@ Vue.prototype.$upload = upload
 
 
 Vue.use(uView);
+Vue.mixin(styleMixin)
+
 Vue.prototype.$throw = function (message) {
 	this.$u.toast(message)
 	throw new GlobalException(message);

@@ -23,14 +23,16 @@
 			</view>
 			<u-gap height="10" />
 			<u-cell-group :border="false">
-				<u-cell isLink title="实名信息" :titleStyle="{
-					padding: '5rpx 0'
-				}" :value="info.is_realname_text"/>
+				<u-cell isLink title="实名信息" 
+					@click="$utils.navigate('/member/info/realname')"
+					:titleStyle="{
+						padding: '5rpx 0'
+					}" :value="info.is_realname_text"/>
 				<u-cell :border="false" isLink title="银行卡"
-				@click="$utils.navigate('/member/info/bankcard/index')"
-				:titleStyle="{
-					padding: '5rpx 0'
-				}" :value="'已绑定' + info.bankcard_count + '张'" />
+					@click="$utils.navigate('/member/bankcard/index')"
+					:titleStyle="{
+						padding: '5rpx 0'
+					}" :value="'已绑定' + info.bankcard_count + '张'" />
 			</u-cell-group>
 		</view>
 		<u-gap height="10" />

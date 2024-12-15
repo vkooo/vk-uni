@@ -34,6 +34,7 @@
 			}
 			
 			// #ifdef MP-WEIXIN
+			// 胶囊高度
 			let menu = uni.getMenuButtonBoundingClientRect()
 			let navigationBarHeight = menu.bottom + menu.top - uni.getSystemInfoSync().statusBarHeight + "px"
 			uni.setStorageSync('capsuleHeight', navigationBarHeight)
@@ -102,7 +103,7 @@
 	.vk-group-info{
 		display: flex;
 		align-items: center;
-		padding: 20rpx 30rpx;
+		padding: 20rpx 0;
 		.f1{
 			flex: auto;
 			font-size: 15px;

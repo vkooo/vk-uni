@@ -31,3 +31,11 @@ export function setPassword(data) {
 		data
 	})
 }
+
+export function setRealname(data) {
+	return request({
+		url: '/set_realname',
+		method: 'POST',
+		data
+	})
+}

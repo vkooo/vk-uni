@@ -19,10 +19,11 @@ function service(options = {}) {
 			'Authtoken': token
 		};
 	}
-	options.data = options.data || {};
+	options.data = options.data || {}
 	options.data.timestamp = Date.now().toString();
 	
 	options.header = options.header || {};
+	
 	options.header["VK-SK"] = crypto(options.data);
 	
 // return new Promise((r, e) => {})

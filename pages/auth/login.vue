@@ -17,7 +17,7 @@
 				</block>
 
 				<block v-else>
-					<u-gap height="40" />
+					<u-gap height="50" />
 					<block v-if="way == 1">
 						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
 							placeholder="请输入11位手机号码" maxlength="11" clearable
@@ -28,7 +28,7 @@
 						</u-input>
 					</block>
 					<block v-if="way == 2">
-						<u-input border="bottom" type="number" placeholderStyle="color: #909399" v-model="mobile"
+						<u-input border="bottom" type="text" placeholderStyle="color: #909399" v-model="account"
 							placeholder="手机号/邮件地址/账号名 " maxlength="11" clearable
 							:prefixIconStyle="{fontSize: '22px'}">
 						</u-input>
@@ -41,9 +41,10 @@
 						<view class="password" @click="way = way == 1? 2: 1">{{way == 2? '验证码登录': '密码登录'}}</view>
 						<view class="issue">遇到问题</view>
 					</view>
-					<u-gap height="30" />
-					<u-button @tap="submit" :style="[inputStyle]"
-						 shape="circle"
+					<u-gap height="25" />
+					<u-button @tap="submit" 
+						:style="[btnStyle]"
+						shape="circle"
 						:disabled="disabled">{{way == 1? "获取短信验证码": "登录"}}</u-button>
 					
 				</block>
@@ -61,7 +62,7 @@
 						</view>
 					</view>
 				</view>
-				<u-gap height="200" v-if="getPlatform !== 'app'" />
+				<u-gap height="180" v-if="getPlatform !== 'app'" />
 				<view class="hint">
 					<u-checkbox-group :value="checked" @change="(e) => {checked = e}">
 						<u-checkbox shape="circle" name="1" size="18"/>
@@ -98,6 +99,7 @@
 				],
 				way: 1,
 				mobile: "",
+				account: "",
 				password: "",
 			}
 		},
@@ -110,22 +112,12 @@
 			}
 		},
 		computed: {
-			inputStyle() {
-				let style = {
-					color: this.$utils.mainFontColor,
-					backgroundColor: this.$utils.mainBgColor,
-					height: "85rpx",
-					border: 0,
-					fontSize: '30rpx',
-				};
-				return style
-			},
 			disabled() {
-				if (!this.$u.test.mobile(this.mobile) || this.checked.indexOf('1') == -1) {
-					return true
-				}
-				if (this.way == 2 && !this.password) {
-					return true
+				if( this.checked.indexOf('1') == -1) return true
+				if(this.way == 1 && !this.$u.test.mobile(this.mobile)) return true
+				if (this.way == 2){
+					if(this.$utils.isEmpty(this.account)) return true
+					if(this.$utils.isEmpty(this.password)) return true
 				}
 				return false
 			},
@@ -138,16 +130,15 @@
 		methods: {
 			submit() {
 				let way = this.way
-				if (this.$u.test.mobile(this.mobile)) {
-					if (way == 1) {
-						this.$utils.navigate('/pages/auth/code?mobile=' + this.mobile)
-					} else if (way == 2) {
-						this.$store.dispatch("member/login", {
-							mobile: this.mobile,
-							password: this.password,
-						})
-					}
+				if (way == 1) {
+					this.$utils.navigate('/pages/auth/code?mobile=' + this.mobile)
+				} else if (way == 2) {
+					this.$store.dispatch("member/login", {
+						account: this.account,
+						password: this.password,
+					})
 				}
+				
 			},
 			leftClick() {
 				this.$utils.reLaunch("/pages/tabBar/index")

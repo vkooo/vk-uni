@@ -169,7 +169,3 @@ export function isEmpty(value, checkArr) {
 	}
 	return value === '' || value === ' ' || value === undefined || value === null || value === 'null'
 }
-
-
-export const mainBgColor = "#f9ae3d";
-export const mainFontColor = "#ffffff";

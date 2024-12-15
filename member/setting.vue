@@ -14,7 +14,7 @@
 			<u-button :customStyle="{
 				width: '90%',
 				margin: '0 auto'
-			}" type="error" text="退出登录" @click='logout' />
+			}" :style="[btnStyle]" shape="circle" type="error" text="退出登录" @click='logout' />
 		</view>
 	</view>
 </template>

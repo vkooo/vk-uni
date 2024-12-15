@@ -1,22 +1,25 @@
 <template>
 	<view>
-		<view class="header"  :style="{height: hasLogin? '30vh': '20vh'}">
+		<view class="header"  :style="{height: hasLogin? '34vh': '20vh'}">
 			<!-- #ifdef MP -->
 			<u-gap height="44" />
 			<!-- #endif -->
-			<view class="user vk-flex ml20">
+			<view class="user  ml20">
 				<view class="sitting" :style="{top: getCapsuleHeight()}" v-if="hasLogin">
-					<u-icon name="setting" color="#ffffff" size="22" @click="$utils.navigate('/member/setting')" />
+					<u-icon name="/static/image/user/setup.png" color="#ffffff" size="24" @click="$utils.navigate('/member/setting')" />
 				</view>
-				<u-avatar :src="info.avatar" shape="circle" size="55" @click="getInfo" />
-				<view class="box vk-flex" @click="getInfo">
-					<view class="username">
-						{{hasLogin? info.nickname: "点击登录"}}
-					</view>
-					<view class="user-level" v-if="info.level_id > 0">
-						<image class="level-img" />
-						<view class="level-name">
-							sad a
+				<u-gap height="25" />
+				<view class="vk-flex">
+					<u-avatar :src="info.avatar" shape="circle" size="58" @click="getInfo" />
+					<view class="box vk-flex" @click="getInfo">
+						<view class="username">
+							{{hasLogin? info.nickname: "点击登录"}}
+						</view>
+						<view class="user-level" v-if="info.level_id > 0">
+							<image class="level-img" />
+							<view class="level-name">
+								sad a
+							</view>
 						</view>
 					</view>
 				</view>
@@ -41,20 +44,24 @@
 				<text class="f1">
 					我的订单
 				</text>
-				<u-text suffixIcon="arrow-right" align="right" color="#999" iconStyle="font-size: 14px;color: #999;" text="查看全部订单" />
+				<u-text suffixIcon="arrow-right" align="right" color="#999"
+					size="14"
+					iconStyle="font-size: 14px;color: #999;" text="查看全部订单" />
 			</view>
 			<view class="content vk-flex">
-				<view class="item vk-flex">
-					isadas
-					<text class="t3">待付款</text>
+				<view class="item vk-flex" v-for="(item, index) in orderBtn" >
+					<view class="icon">
+						<image :src="item.icon" mode="widthFix" />
+					</view>
+					<view class="text">{{item.name}}</view>
 				</view>
 			</view>
 		</view>
 		<view :style="{
 			color: '#000000',
-			fontSize: '32rpx',
+			fontSize: '30rpx',
 			fontWeight: 'bold',
-			padding: '15rpx 15px 5rpx'
+			padding: '15rpx 15px'
 		}">
 			其他功能
 		</view>
@@ -94,6 +101,33 @@
 		},
 		data() {
 			return {
+				orderBtn: [
+					{
+						state: 0,
+						icon: '/static/image/icon/21.png',
+						name: '待支付'
+					},
+					{
+						state: 1,
+						icon: '/static/image/icon/11.png',
+						name: '待发货'
+					},
+					{
+						state: 2,
+						icon: '/static/image/icon/10.png',
+						name: '待收货'
+					},
+					{
+						state: 3,
+						icon: '/static/image/icon/22.png',
+						name: '待评价'
+					},
+					{
+						state: 4,
+						icon: '/static/image/icon/9.png',
+						name: '退款/售后'
+					},
+				],
 				moreMenu: [
 					{
 						name: "余额记录",
@@ -164,8 +198,11 @@
 	}
 	.header {
 		padding-top: 60rpx;
-		color: #ffffff;
-		background: linear-gradient(45deg, rgb(253, 74, 70) 0%, rgba(253, 74, 70, 0.8) 100%);
+		color: #000000;
+		background-image: url('../../static/image/user/userBg.png');
+		background-repeat: no-repeat;
+		background-size: 100%;
+		padding: 40rpx 30rpx 0 30rpx;
 		position: relative;
 		text-align: center;
 		/deep/ .user {
@@ -178,16 +215,16 @@
 				flex-direction: column;
 				justify-content: center;
 				.username{
-					color: #fff;
-					font-weight: normal;
+					color: #333333;
+					font-weight: bold;
 				}
 				.user-level{
-					color: hsla(0,0%,100%,.6);
+					color: #333333;
 					margin-top: 2px;
 					width: auto;
 					height: 18px;
 					border-radius: 9px;
-					padding: 0 10px;
+					// padding: 0 10px;
 					display: flex;
 					align-items: center;
 					.level-img{
@@ -212,12 +249,12 @@
 				justify-content: center;
 				align-items: center;
 				.t2{
-					color: #fff;
-					font-weight: 700;
-					font-size: 16px;
+					color: #333333;
+					font-weight: bold;
+					font-size: 18px;
 				}
 				.t1{
-					color: hsla(0,0%,100%,.6);
+					color: #333333;
 					font-size: 12px;
 					margin-top: 5px;
 				}
@@ -231,7 +268,7 @@
 	}
 	.userinfo-order{
 		background: #fff;
-		padding: 10rpx 20rpx;
+		padding: 8rpx 20rpx;
 		border-radius: 8px;
 		position: relative;
 		.head{
@@ -252,13 +289,23 @@
 			align-items: center;
 			font-size: 12px;
 			.item{
-				padding: 5px 0;
 				flex: 1;
 				flex-direction: column;
 				align-items: center;
 				position: relative;
-				.t3{
-					padding-top: 3px;
+				.icon{
+					width: 55rpx;
+					height: 55rpx;
+					margin: 0 auto;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.text{
+					margin-top:10rpx ;
+					font-size: 26rpx;
+					color: #333333;
 				}
 			}
 		}

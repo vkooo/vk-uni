@@ -1,1 +1,62 @@
-(function(_0x3c0ace,_0x310184){const _0x12158f=_0x53e6,_0x2f5109=_0x3c0ace();while(!![]){try{const _0xa14872=-parseInt(_0x12158f(0x1e0))/0x1*(-parseInt(_0x12158f(0x1e1))/0x2)+parseInt(_0x12158f(0x1eb))/0x3+parseInt(_0x12158f(0x1e3))/0x4*(parseInt(_0x12158f(0x1ea))/0x5)+-parseInt(_0x12158f(0x1e6))/0x6+-parseInt(_0x12158f(0x1e7))/0x7+parseInt(_0x12158f(0x1de))/0x8*(parseInt(_0x12158f(0x1df))/0x9)+-parseInt(_0x12158f(0x1e5))/0xa;if(_0xa14872===_0x310184)break;else _0x2f5109['push'](_0x2f5109['shift']());}catch(_0x270a44){_0x2f5109['push'](_0x2f5109['shift']());}}}(_0x15da,0xae026));function _0x15da(){const _0x460920=['1znyKjI','832834ELGKJe','update','120taOFZc','createHmac','6931900WFAOLf','6228666HtOuoA','1931524kLdVDp','vk666!*@#?.#@','hex','111535OuFick','2195418vaXCZg','sha256','replace','stringify','digest','1328YlkpQV','48933QSMkdK'];_0x15da=function(){return _0x460920;};return _0x15da();}import _0x5b8a3c from'../env';import _0x4bcd13 from'crypto';function formatRequestBody(_0x219a91){const _0xd2979e=_0x53e6;return JSON[_0xd2979e(0x1dc)](_0x219a91)[_0xd2979e(0x1db)](/\s+/g,'');}function generateXSk(_0x41e018){const _0x166334=_0x53e6;return _0x41e018+=_0x166334(0x1e8),_0x4bcd13[_0x166334(0x1e4)](_0x166334(0x1da),_0x5b8a3c['cryptoSecret'])[_0x166334(0x1e2)](_0x41e018)[_0x166334(0x1dd)](_0x166334(0x1e9));}function getSignature(_0x53fbff){const _0x34bf3b=formatRequestBody(_0x53fbff);return generateXSk(_0x34bf3b);}function _0x53e6(_0x17773f,_0x4d3eab){const _0x15da89=_0x15da();return _0x53e6=function(_0x53e6d1,_0x1311b8){_0x53e6d1=_0x53e6d1-0x1da;let _0x532607=_0x15da89[_0x53e6d1];return _0x532607;},_0x53e6(_0x17773f,_0x4d3eab);}export default getSignature;
+import env from "../env";
+import { isEmpty } from "./index";
+import crypto from "crypto";
+function formatRequestBody(data) {
+	data = convertToNumericRecursive(data)
+	data = sortObjectKeys(data);
+    return JSON.stringify(data).replace(/\s+/g, "");
+}
+
+function generateXSk(data) {
+	data += "vk666!*@#?.#@"
+    return crypto
+        .createHmac("sha256", env.cryptoSecret)
+        .update(data)
+        .digest("hex");
+}
+
+function getSignature(dataDict) {
+    const formattedData = formatRequestBody(dataDict);
+    return generateXSk(formattedData);
+}
+
+function convertToNumericRecursive(obj) {
+    if(isEmpty(obj)) return ""
+    if (Array.isArray(obj)) {
+        return obj.map(value => convertToNumericRecursive(value));
+    } else if (typeof obj === 'object' && obj !== null) {
+        const newObj = {};
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                newObj[key] = convertToNumericRecursive(obj[key]);
+            }
+        }
+        return newObj;
+    } else if (!isNaN(obj) && obj !== '') {
+        // 转换为数字
+        return obj.toString().includes('.') ? parseFloat(obj) : parseInt(obj, 10);
+    } else {
+        return obj;
+    }
+}
+
+/**
+ * 对对象的键进行排序
+ */
+function sortObjectKeys(obj) {
+    if (typeof obj !== "object" || obj === null) return obj;
+
+    if (Array.isArray(obj)) {
+        return obj.map((item) => sortObjectKeys(item));
+    }
+
+    const sortedKeys = Object.keys(obj).sort();
+    const newObj = {};
+    for (const key of sortedKeys) {
+        newObj[key] = sortObjectKeys(obj[key]);
+    }
+    return newObj;
+}
+
+
+export default getSignature;
