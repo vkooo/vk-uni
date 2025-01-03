@@ -1,5 +1,4 @@
 <script>
-	import { website as websiteApi } from "@/api/website.js"
 	import { getPlatform, getBrand, getUrlQuery } from '@/utils/platform'
 	import store from '@/store'
 	export default {

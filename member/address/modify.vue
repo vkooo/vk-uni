@@ -15,16 +15,19 @@
 		<view class="form">
 			<u-form :model="form" ref="uForm" :rules="rules" labelWidth="80" 
 				:labelStyle="{color: '#808080'}">
-				<view class="p-20 p-b-0" >
+				<view class="p-20 p-b-0 p-t-0" >
 					<u-form-item borderBottom label="姓名" prop="realname">
 						<u-input placeholder="请输入你的姓名" border="none" v-model="form.realname" />
 					</u-form-item>
 					<u-form-item borderBottom label="联系电话" prop="mobile">
 						<u-input placeholder="请输入你的联系电话" border="none" type="number" maxlength="11" v-model="form.mobile" />
 					</u-form-item>
-					<u-form-item borderBottom label="所在地区" prop="region_text" @click="$refs.address.show = true; $utils.hideKeyboard()">
-						<u-input placeholder="请选择你的所在地区" border="none" v-model="form.region_text" />
-						<u-icon slot="right" name="arrow-right" />
+					<u-form-item borderBottom label="所在地区" prop="region_codes">
+						<view style="width: 100%;">
+							<vk-address-picker ref="address" @onchange="addrressConfirm" :codes="form.region_codes"/>
+							<!-- <u-input placeholder="请选择你的所在地区" border="none" v-model="form.region_text" /> -->
+							<u-icon slot="right" name="arrow-right" />
+						</view>
 					</u-form-item>
 					<u-form-item borderBottom label="详细地址" labelPosition="top" prop="address_info">
 						<u-textarea placeholder="请输入你的详细地址" border="none" v-model="form.address_info" />
@@ -48,21 +51,16 @@
 			@confirm="birthdayShow = false"
 			@cancel="birthdayShow = false"
 		/>
-		<vk-address-picker ref="address" @confirm="addrressConfirm" :indexs="form.region_code"/>
 	</view>
 </template>
 
 <script>
 	import { findById, create, update } from '@/api/address';
-	
+	import { address } from '@/api/common.js';
 	import {
 		mapState
 	} from "vuex"
 	export default {
-		onLoad(options) {
-			this.field = options.l
-			this.form.data = this.info[this.field]
-		},
 		computed: {
 			...mapState('member', ["hasLogin", "info"]),
 		},
@@ -91,8 +89,7 @@
 							return uni.$u.test.mobile(value)
 						},
 					},
-					region_text: {
-						type: "string",
+					region_codes: {
 						required: true,
 						message: '请选择你的所在地区',
 						trigger: ['change', 'blur'],
@@ -114,6 +111,8 @@
 				findById(options.id).then(res=>{
 					if(res.code == 200){
 						that.form = res.data
+						that.form.region_codes = res.data.street_code
+						
 					}
 				})
 			}
@@ -123,8 +122,8 @@
 		},
 		methods: {
 			addrressConfirm(e){
-				this.form.region_text = e.name;
-				this.form = Object.assign(this.form, e.codes)
+				this.form.region_codes = e.codes
+				this.form = Object.assign(this.form, e.data)
 				this.$forceUpdate()
 			},
 			rightClick(){

@@ -62,7 +62,8 @@
 			getList(){
 				let that = this
 				lists().then(res=>{
-					that.list = res.data
+					const { list } = res.data
+					that.list = list
 				})
 			},
 			rightClick() {

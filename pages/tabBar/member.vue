@@ -1,11 +1,11 @@
 <template>
 	<view>
-		<view class="header"  :style="{height: hasLogin? '34vh': '20vh'}">
+		<view class="header"  :style="{height: hasLogin? '33vh': '20vh'}">
 			<!-- #ifdef MP -->
 			<u-gap height="44" />
 			<!-- #endif -->
 			<view class="user  ml20">
-				<view class="sitting" :style="{top: getCapsuleHeight()}" v-if="hasLogin">
+				<view class="sitting" :style="{top: capsuleHeight}" v-if="hasLogin">
 					<u-icon name="/static/image/user/setup.png" color="#ffffff" size="24" @click="$utils.navigate('/member/setting')" />
 				</view>
 				<u-gap height="25" />
@@ -39,7 +39,9 @@
 				</view>
 			</view>
 		</view>
-		<view class="userinfo-order" style="margin: -40px 11px 11px;">
+		<view class="userinfo-order" :style="{
+			margin: hasLogin? '-40px 11px 11px': '-20px 11px 11px'
+		}">
 			<view class="vk-group-info pl10 pr10">
 				<text class="f1">
 					我的订单
@@ -98,6 +100,13 @@
 	export default {
 		computed: {
 			...mapState('member', ["info", "hasLogin"]),
+			capsuleHeight(){
+				let top = "15px";
+				// #ifdef MP
+				top = getApp().globalData.capsuleHeight
+				// #endif
+				return top
+			},
 		},
 		data() {
 			return {
@@ -177,13 +186,6 @@
 		methods: {
 			getInfo(){
 				this.$store.dispatch("member/getInfo")
-			},
-			getCapsuleHeight(){
-				let top = "15px";
-				// #ifdef MP
-				top = getApp().globalData.capsuleHeight
-				// #endif
-				return top
 			},
 			itemClick(item){
 				item.fun(this)

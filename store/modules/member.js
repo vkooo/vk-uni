@@ -23,7 +23,7 @@ mutations = {
 	SET_USER_INFO(state, data) { 
 		state.hasLogin = true;
 		state.info = data;
-		console.log(data)
+		// console.log(data)
 		if(data.token){
 			setToken(data.token)
 		}

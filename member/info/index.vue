@@ -4,10 +4,10 @@
 			<view class="form">
 				<u-form  ref="uForm" 
 				  labelWidth="80" :labelStyle="{color: '#282828', padding: '3px 0'}">
-					<view class="avatar p-20">
+					<view class="avatar p-15">
 						<image :src="avatar? avatar: '/static/image/avatar.png'" @click="upload" />
 					</view>
-					<view class="p-20 p-b-0">
+					<view class="p-15 p-b-0">
 						<u-form-item label="昵称" borderBottom @click="$utils.navigate('/member/info/modify/nickname')">
 							<u-text :color="color(info.nickname)" :text="info.nickname || '立即修改昵称'" />
 							<u-icon slot="right" name="arrow-right"/>
@@ -43,6 +43,7 @@
 
 <script>
 	import { setProfile } from '@/api/member.js';
+	
 	import {
 		mapState
 	} from "vuex"
@@ -56,6 +57,7 @@
 			}
 		},
 		onLoad() {
+			
 		},
 		onShow() {
 			this.$store.dispatch("member/getInfo").then(res=>{

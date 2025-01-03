@@ -1,4 +1,4 @@
-import { website as websiteApi } from "@/api/website.js"
+import { website as websiteApi } from "@/api/common.js"
 
 const state = {
 	website: {}
