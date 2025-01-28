@@ -7,6 +7,9 @@ getters = {
 	website(state) {
 		return state.website;
 	},
+	tabbar(state){
+		return state.website.tabbar || {};
+	},
 },
 mutations = {
 	SET_DATA(state, data){

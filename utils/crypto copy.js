@@ -3,6 +3,7 @@ import { isEmpty } from "./index";
 import crypto from "crypto";
 function formatRequestBody(data) {
 	data = convertToNumericRecursive(data)
+	console.log(data)
 	data = sortObjectKeys(data);
     return JSON.stringify(data).replace(/\s+/g, "");
 }

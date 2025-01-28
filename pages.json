@@ -4,17 +4,9 @@
 	},
 	"pages": [
 		{
-			"path": "pages/tabBar/index",
+			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"navigationBarTextStyle": "black",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/tabBar/member",
-			"style": {
-				"navigationBarTitleText": "我的",
 				"navigationBarTextStyle": "black",
 				"navigationStyle": "custom"
 			}
@@ -56,6 +48,14 @@
 		{
 			"root": "member",
 			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "我的",
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
+					}
+				},
 				{
 					"path": "setting",
 					"style": {
@@ -158,6 +158,19 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "diy",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "装修",
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
+					}
+				}
+			]
 		}
 	],
 	"tabBar": {
@@ -166,18 +179,18 @@
 		"borderStyle": "black",
 		"backgroundColor": "#fff",
 		"list": [
-			{
-				"pagePath": "pages/tabBar/index",
-				"text": "首页",
-				"iconPath": "/static/image/tabar/home.png",
-				"selectedIconPath": "/static/image/tabar/home1.png"
-			},
-			{
-				"pagePath": "pages/tabBar/member",
-				"text": "我的",
-				"iconPath": "/static/image/tabar/home.png",
-				"selectedIconPath": "/static/image/tabar/home1.png"
-			}
+			// {
+			// 	"pagePath": "pages/tabBar/index",
+			// 	"text": "首页",
+			// 	"iconPath": "/static/image/tabar/home.png",
+			// 	"selectedIconPath": "/static/image/tabar/home1.png"
+			// },
+			// {
+			// 	"pagePath": "pages/tabBar/member",
+			// 	"text": "我的",
+			// 	"iconPath": "/static/image/tabar/home.png",
+			// 	"selectedIconPath": "/static/image/tabar/home1.png"
+			// }
 		]
 	},
 	"globalStyle": {

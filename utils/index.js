@@ -48,6 +48,14 @@ export function back() {
 	}
 }
 
+export function getCurrentPage() {
+	const pages = getCurrentPages(); //获取加载的页面
+	const currentPage = pages[pages.length - 1]; //获取当前页面的对象
+	const currentUrl = '/' + (currentPage.route ? currentPage.route : currentPage.__route__); //当前页面url 
+	// opts = currentPage.$vm.opt;
+	return currentUrl;
+}
+
 export function navigateTime(url, timeout = 1000) {
 	setTimeout(function() {
 		navigate(url)

@@ -90,6 +90,7 @@
 				/>
 			</u-cell-group>
 		</view>
+		<vk-tabbar />
 	</view>
 </template>
 
@@ -201,7 +202,7 @@
 	.header {
 		padding-top: 60rpx;
 		color: #000000;
-		background-image: url('../../static/image/user/userBg.png');
+		background-image: url('../static/image/user/userBg.png');
 		background-repeat: no-repeat;
 		background-size: 100%;
 		padding: 40rpx 30rpx 0 30rpx;

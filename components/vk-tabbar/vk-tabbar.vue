@@ -1,13 +1,29 @@
 <template>
 	<view>
-		<view class="vk-tabbar-padd">
+		<view class="vk-tabbar-padd"
+			:style="{
+				background: tabbarData.bg_color
+			}"
+			v-if="tabbarList.length > 0">
 			<view class="vk-tabbar">
-				<view class="item" v-for="(item, index) in list" @click="tabBarChange(index)">
-					<view class="page_item" :class="index == 0 && tabbarIndex == index? item.class: ''">
-						<image class="icon" :src="tabbarIndex == index ? item.selectedIconPath : item.iconPath" />
+				<view class="item" 
+					:style="{
+						width: `calc(100% / ${tabbarData.total})`,
+						color: currentTabbar === item.pagePath ? tabbarData.font_selected_color : tabbarData.font_color
+					}"
+					v-for="(item, index) in tabbarList" @click="tabBarChange(index, item)">
+					<view class="page_item"
+						:style="{
+							width: currentTabbar === item.pagePath ? (item.icon_selected_size + 'px') : (item.icon_size + 'px'),
+							height: currentTabbar === item.pagePath ? (item.icon_selected_size + 'px') : (item.icon_size + 'px'),
+						}"
+					>
+						<image class="icon" :src="currentTabbar === item.pagePath ? item.icon_selected_path : item.icon_path"/>
 					</view>
-					<view class="page_bottom" v-if="index > 0 || index == 0 && tabbarIndex !== index">
-						{{item.text}}
+					<view class="page_bottom" :style="{
+						fontSize: currentTabbar === item.pagePath ? (item.font_selected_size + 'px') : (item.font_size + 'px')
+					}">
+						{{ currentTabbar == item.pagePath ? item.selected_text : item.text }}
 					</view>
 				</view>
 			</view>
@@ -17,54 +33,36 @@
 </template>
 
 <script>
+	import { mapGetters } from "vuex"
 	export default {
-		props: ['tabbarIndex'],
 		data() {
 			return {
-				list: [
-					{
-						"pagePath": "/pages/tabBar/index",
-						"text": "首页",
-						"iconPath": "/static/image/tabar/a.png",
-						"selectedIconPath": "/static/image/tabar/a1.png",
-						"class": "big",
-					},
-					{
-						"pagePath": "/pages/tabBar/category",
-						"text": "分类",
-						"iconPath": "/static/image/tabar/b.png",
-						"selectedIconPath": "/static/image/tabar/b1.png"
-					},
-					{
-						"pagePath": "/pages/tabBar/video",
-						"text": "藏升说",
-						"iconPath": "/static/image/tabar/c.png",
-						"selectedIconPath": "/static/image/tabar/c1.png"
-					},
-					{
-						"pagePath": "/pages/tabBar/message",
-						"text": "消息",
-						"iconPath": "/static/image/tabar/d.png",
-						"selectedIconPath": "/static/image/tabar/d1.png"
-					},
-					{
-						"pagePath": "/pages/tabBar/member",
-						"text": "我的",
-						"iconPath": "/static/image/tabar/e.png",
-						"selectedIconPath": "/static/image/tabar/e1.png"
-					}
-				]
+
 			}
 		},
+		computed: {
+			...mapGetters('website', ["tabbar"]),
+			tabbarList(){
+				return this.tabbar.btns || []
+			},
+			tabbarData(){
+				return this.tabbar.data || {}
+			},
+			currentTabbar(){
+				const page = this.$utils.getCurrentPage();
+				if(page){
+					return page;
+				}
+				return null;
+			},
+		},
+		mounted: function() {
+
+		},
 		methods: {
-			tabBarChange(e) {
-				// console.log(this.list[e].pagePath)
-				uni.switchTab({
-					url: this.list[e].pagePath,
-					success() {
-						uni.hideTabBar()
-					}
-				})
+			tabBarChange(index, item) {
+				console.log(item)
+				this.$utils.reLaunch(item.pagePath)
 			},
 		}
 	}
@@ -83,10 +81,9 @@
 		transform: translateX(-50%);
 
 		.vk-tabbar {
-			width: 90%;
-			margin: 0 auto;
+			margin: 0;
 			display: flex;
-			justify-content: space-between;
+			justify-content: space-around;
 			align-items: center;
 			height: 100rpx;
 			
@@ -94,21 +91,10 @@
 				display: flex;
 				align-items: center;
 				flex-direction: column;
-				color: #333333;
-				font-size: 26rpx;
-				width: 100rpx;
 				.page_item {
-					width: 60rpx;
-					height: 60rpx;
-				
 					.icon {
 						width: 100%;
 						height: 100%;
-					}
-				
-					&.big {
-						width: 85rpx;
-						height: 85rpx;
 					}
 				}
 				.page_bottom {

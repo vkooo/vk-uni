@@ -4,6 +4,7 @@
 		<view class="container">
 			12313
 		</view>
+		<vk-tabbar />
 	</view>
 </template>
 
