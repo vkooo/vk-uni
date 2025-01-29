@@ -4,6 +4,7 @@ import vkNoticeBar from "./vk-notice-bar.vue";
 import vkSearch from "./vk-search.vue";
 import vkFloat from "./vk-float.vue";
 import vkSingleImg from "./vk-single-img.vue";
+import vkMultipleImg from "./vk-multiple-img.vue";
 
 export default {
 	components: {
@@ -13,5 +14,6 @@ export default {
 		vkSearch,
 		vkFloat,
 		vkSingleImg,
+		vkMultipleImg,
 	}
 }
