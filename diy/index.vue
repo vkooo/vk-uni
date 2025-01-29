@@ -25,7 +25,7 @@
 			/>
 			<vk-single-img v-if="item.moduleId === 'single-img'" :data="item.data" />
 			<vk-multiple-img v-if="item.moduleId === 'multiple-img'" :data="item.data" />
-			
+			<vk-rich-text v-if="item.moduleId === 'rich-text'" :data="item.data" />
 			<view class="diy-template-del"  @tap.stop="delItem(index)">移除</view>
 		</view>
 	</view>

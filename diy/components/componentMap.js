@@ -5,7 +5,7 @@ import vkSearch from "./vk-search.vue";
 import vkFloat from "./vk-float.vue";
 import vkSingleImg from "./vk-single-img.vue";
 import vkMultipleImg from "./vk-multiple-img.vue";
-
+import vkRichText from "./vk-rich-text.vue";
 export default {
 	components: {
 		vkText,
@@ -15,5 +15,6 @@ export default {
 		vkFloat,
 		vkSingleImg,
 		vkMultipleImg,
+		vkRichText
 	}
 }
