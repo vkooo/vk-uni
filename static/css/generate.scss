@@ -1,3 +1,16 @@
+/**
+ * 外边距 
+ * 	.m-xxx 
+ * 	.m-b/t/l/r-xxx
+ * 圆角 
+ * 	.b-r-xxx
+ * 内边距
+ * 	.p-xxx 
+ * 	.p-b/t/l/r-xxx
+ * 字体大小
+ * 	.fs-xxx
+ */
+
 @mixin generate-margin() {
 	$directions: (
 		"": "", 
@@ -52,7 +65,6 @@
 @include generate-padding();
 
 
-
 @mixin generate-border-radius() {
 	@for $i from 0 through 120 {
 		.b-r-#{$i} {
@@ -61,3 +73,12 @@
 	}
 }
 @include generate-border-radius();
+
+@mixin generate-font-size() {
+	@for $i from 0 through 120 {
+		.fs-#{$i} {
+			font-size: #{$i}px !important;
+		}
+	}
+}
+@include generate-font-size();
