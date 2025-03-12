@@ -12,6 +12,7 @@
 		>
 			<vk-text v-if="item.moduleId === 'text'" :data="item.data" />
 			<vk-gap v-if="item.moduleId === 'gap'" :data="item.data" />
+			<vk-divider v-if="item.moduleId === 'divider'" :data="item.data" />
 			<vk-notice-bar v-if="item.moduleId === 'notice-bar'" :data="item.data" />
 			<vk-search v-if="item.moduleId === 'search'" :data="item.data" />
 			<vk-float 
@@ -26,6 +27,7 @@
 			<vk-single-img v-if="item.moduleId === 'single-img'" :data="item.data" />
 			<vk-multiple-img v-if="item.moduleId === 'multiple-img'" :data="item.data" />
 			<vk-rich-text v-if="item.moduleId === 'rich-text'" :data="item.data" />
+			<vk-nav-btn v-if="item.moduleId === 'nav-btn'" :data="item.data" />
 			<view class="diy-template-del"  @tap.stop="delItem(index)">移除</view>
 		</view>
 	</view>
@@ -127,11 +129,12 @@
 		.diy-template-item{
 			box-sizing: border-box;
 			position: relative;
+			border: 1rpx solid transparent;
 			&.active{
-				border: 2rpx solid #479ee3;
+				border: 1rpx solid #479ee3;
 			}
 			&:hover {
-				border: 2rpx dashed #479ee3;
+				border: 1rpx dashed #479ee3;
 				.diy-template-del{
 					display: block;
 				}

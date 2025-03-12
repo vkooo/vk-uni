@@ -17,7 +17,7 @@
 			<view class="money">
 				{{eye? info.money: '****'}}
 			</view>
-			<view class="vk-flex btn">
+			<view class="flex btn">
 				<u-button shape="circle" text="提现" />
 				<u-button shape="circle" type="primary" text="充值" />
 			</view>

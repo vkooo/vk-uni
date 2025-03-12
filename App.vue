@@ -68,33 +68,11 @@
 	@import "uview-ui/index.scss";
 	@import "@/static/css/common.scss";
 	@import "@/static/css/generate.scss";
+	@import "@/static/css/layout.scss";
 
 	@import url("static/iconfont/iconfont.css");
 	/*每个页面公共css */
 	
-	.vk-flex {
-		display: flex;
-		&.align_items{
-			align-items: center;
-		}
-		&.align_items_end{
-			align-items: flex-end;
-		}
-		&.justify_center{
-			justify-content: center;
-		}
-		&.justify_between{
-			justify-content: space-between;
-		}
-	}
-	
-	.vk-flex-column{
-		flex-flow: column;
-	}
-	
-	.vk--flex__item{
-		flex: 1;
-	}
 	.container{
 		font-size: $vk-font-size;
 	}

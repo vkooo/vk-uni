@@ -1,5 +1,7 @@
 import env from "../env.js"
 import store from "@/store"
+import { getToken } from '../utils/auth';
+
 //是否已经连接上ws
 let isOpenSocket = false
 //心跳间隔，单位毫秒
@@ -48,7 +50,18 @@ function init() {
 	})
 	socketTask.onMessage((res) => {
 		//自定义处理onMessage方法
-		console.log(res)
+		const data = JSON.parse(res.data)
+		console.log(data)
+		switch(data.type){
+			// 初始化
+			case "INIT":
+				break;
+			// 单聊消息
+			case "RECEIVESINGLEMSG":
+				ws.store.dispatch("chat/receive", data)
+				break;
+			
+		}
 	})
 	socketTask.onClose(() => {
 		if (isOpenSocket) {
@@ -68,13 +81,14 @@ function init() {
 function heartBeat() {
 	heartBeatInterval = setInterval(() => {
 		console.log(heartBeatText)
-		send(JSON.stringify(heartBeatText));
+		send({
+			type: heartBeatText
+		});
 	}, heartBeatDelay)
 }
 
 function send(value) {
-	let user_id = store.state.member.info.id
-	value.req_user_id = user_id
+	value.token = getToken()
 	ws.socketTask.send({
 		data: value,
 		async success() {

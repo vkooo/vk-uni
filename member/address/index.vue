@@ -21,7 +21,7 @@
 					<text class="detail">{{ item.address_info }}</text>
 				</view>
 				<view class="line"></view>
-				<view class="item-option vk-flex align_items justify_between">
+				<view class="item-option flex align_items justify_between">
 					<view class="_left">
 						<label class="item-radio" @click.stop="handleSetDefault(item)">
 							<radio class="radio" color="#fa2209" :checked="item.default == 1"></radio>

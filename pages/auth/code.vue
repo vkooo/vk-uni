@@ -9,7 +9,7 @@
 			<view class="key-input">
 				<view class="title">输入验证码</view>
 				<view class="tips">验证码已发送至 {{mobile}}</view>
-				<view class="code-flex vk-flex">
+				<view class="flex-x-center">
 					<u-code-input fontSize="24"
 						:space="40"
 						mode="line" hairline v-model="value" :maxlength="maxlength"
@@ -116,10 +116,6 @@ export default {
 	margin: 30rpx 0;
 	font-size: 30rpx;
 	color: 555;
-}
-.code-flex{
-	display: flex;
-	justify-content: center;
 }
 .key-input {
 	padding: 30rpx 0;

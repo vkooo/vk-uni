@@ -9,9 +9,9 @@
 					<u-icon name="/static/image/user/setup.png" color="#ffffff" size="24" @click="$utils.navigate('/member/setting')" />
 				</view>
 				<u-gap height="25" />
-				<view class="vk-flex">
+				<view class="flex">
 					<u-avatar :src="info.avatar" shape="circle" size="58" @click="getInfo" />
-					<view class="box vk-flex" @click="getInfo">
+					<view class="box flex" @click="getInfo">
 						<view class="username">
 							{{hasLogin? info.nickname: "点击登录"}}
 						</view>
@@ -24,16 +24,16 @@
 					</view>
 				</view>
 			</view>
-			<view class="custom_field vk-flex" v-if="hasLogin">
-				<navigator url="/member/finance/balance" hover-class="none" class="item vk-flex">
+			<view class="custom_field flex" v-if="hasLogin">
+				<navigator url="/member/finance/balance" hover-class="none" class="item flex">
 					<text class="t2">{{info.money}}</text>
 					<text class="t1">余额</text>
 				</navigator>
-				<navigator url="/member/finance/scoreLog" hover-class="none" class="item vk-flex">
+				<navigator url="/member/finance/scoreLog" hover-class="none" class="item flex">
 					<text class="t2">{{info.score}}</text>
 					<text class="t1">积分</text>
 				</navigator>
-				<view class="item vk-flex">
+				<view class="item flex">
 					<text class="t2">0.00</text>
 					<text class="t1">优惠券</text>
 				</view>
@@ -50,8 +50,8 @@
 					size="14"
 					iconStyle="font-size: 14px;color: #999;" text="查看全部订单" />
 			</view>
-			<view class="content vk-flex">
-				<view class="item vk-flex" v-for="(item, index) in orderBtn" >
+			<view class="content flex">
+				<view class="item flex" v-for="(item, index) in orderBtn" >
 					<view class="icon">
 						<image :src="item.icon" mode="widthFix" />
 					</view>
