@@ -7,7 +7,7 @@ import styleMixin from '@/mixin/style.js'
 import ws from '@/utils/ws.js'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
-
+import '@/static/css/quill/snow.scss'
 import GlobalException from '@/exception/GlobalException.js';
 Vue.prototype.$utils = utils
 Vue.prototype.$upload = upload
