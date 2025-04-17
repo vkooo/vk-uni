@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-navbar
-			title="更改密码"
+			title="更改支付密码"
 			@rightClick="rightClick"
 			leftIcon=""
 			:autoBack="true"
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-	import { setPassword } from '@/api/member.js';
+	import { setPayPassword } from '@/api/member.js';
 	import { getSmsCode } from '@/api/auth.js';
 	
 	import {
@@ -103,7 +103,7 @@
 						title: '加载中',
 					});
 					let form = that.form
-					setPassword(form).then(res=>{
+					setPayPassword(form).then(res=>{
 						if(res.code == 200){
 							that.$u.toast("操作成功")
 							setTimeout(function(){
@@ -125,7 +125,7 @@
 					uni.showLoading({
 						title: '正在获取验证码'
 					})
-					getSmsCode("modify_password", {
+					getSmsCode("modify_pay_password", {
 						mobile: that.info.mobile
 					}).then(res=>{
 						if(res.code == 200){

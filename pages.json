@@ -97,6 +97,13 @@
 					}
 				},
 				{
+					"path": "info/modify/pay_password",
+					"style": {
+						"navigationBarTitleText": "修改支付密码",
+						"navigationStyle": "custom"
+					}
+				},
+				{
 					"path": "info/modify/birthday",
 					"style": {
 						"navigationBarTitleText": "修改生日",
@@ -152,9 +159,29 @@
 					}
 				},
 				{
-					"path": "finance/charge/log",
+					"path": "finance/charge/index",
+					"style": {
+						"navigationBarTitleText": "充值",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "finance/charge/record",
 					"style": {
 						"navigationBarTitleText": "充值记录"
+					}
+				},
+				{
+					"path": "finance/withdraw/index",
+					"style": {
+						"navigationBarTitleText": "提现",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "finance/withdraw/record",
+					"style": {
+						"navigationBarTitleText": "提现记录"
 					}
 				}
 			]

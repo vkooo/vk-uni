@@ -51,7 +51,7 @@ export default {
 	onLoad(options) {
 		if(this.hasLogin){
 			uni.reLaunch({
-				url: "/pages/tabBar/index"
+				url: "/pages/index/index"
 			})
 			return
 		}

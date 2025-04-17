@@ -42,7 +42,7 @@ mutations = {
 		if(redirectUrl){
 			redirectUrl = decodeURIComponent(Base64.decode(redirectUrl))
 		}else{
-			redirectUrl = "pages/tabBar/member"
+			redirectUrl = "pages/index/index"
 			if(state.redirect){
 				redirectUrl = decodeURIComponent(Base64.decode(state.redirect))
 			}

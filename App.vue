@@ -44,7 +44,7 @@
 				console.log('onNetworkStatusChange', res);
 				if (res.isConnected) {
 					uni.reLaunch({
-						url: '/pages/tabBar/index'
+						url: '/pages/index/index'
 					})
 				}
 			})

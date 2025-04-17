@@ -32,6 +32,14 @@ export function setPassword(data) {
 	})
 }
 
+export function setPayPassword(data) {
+	return request({
+		url: '/set_pay_password',
+		method: 'POST',
+		data
+	})
+}
+
 export function setRealname(data) {
 	return request({
 		url: '/set_realname',

@@ -18,8 +18,8 @@
 				{{eye? info.money: '****'}}
 			</view>
 			<view class="flex btn">
-				<u-button shape="circle" text="提现" />
-				<u-button shape="circle" type="primary" text="充值" />
+				<u-button shape="circle" text="提现" @click="$utils.navigate('/member/finance/withdraw/index')" />
+				<u-button shape="circle" type="primary" text="充值"  @click="$utils.navigate('/member/finance/charge/index')" />
 			</view>
 			<u-gap height="10" />
 			<u-cell-group :border="false">

@@ -18,8 +18,12 @@
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
 						
-						<u-form-item label="登录密码" @click="modifyPassword">
+						<u-form-item label="登录密码" borderBottom @click="modifyPassword">
 							<u-text :color="color()" :text="info.mobile? '修改登录密码': '请先绑定手机'" />
+							<u-icon slot="right" name="arrow-right" />
+						</u-form-item>
+						<u-form-item label="支付密码" @click="modifyPayPassword">
+							<u-text :color="color()" :text="info.mobile? '修改支付密码': '请先绑定手机'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
 					</view>
@@ -68,6 +72,13 @@
 			modifyPassword(){
 				if(this.info.mobile){
 					this.$utils.navigate('/member/info/modify/password')
+				}else{
+					this.$utils.navigate('/member/info/modify/mobile')
+				}
+			},
+			modifyPayPassword(){
+				if(this.info.mobile){
+					this.$utils.navigate('/member/info/modify/pay_password')
 				}else{
 					this.$utils.navigate('/member/info/modify/mobile')
 				}

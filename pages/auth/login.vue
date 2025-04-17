@@ -106,7 +106,7 @@
 		onLoad() {
 			if (this.hasLogin) {
 				uni.reLaunch({
-					url: "/pages/tabBar/index"
+					url: "/pages/index/index"
 				})
 				return
 			}
@@ -141,7 +141,7 @@
 				
 			},
 			leftClick() {
-				this.$utils.reLaunch("/pages/tabBar/index")
+				this.$utils.reLaunch("/pages/index/index")
 			},
 			wxOauth() {
 				this.$store.dispatch("member/wxOauth")
