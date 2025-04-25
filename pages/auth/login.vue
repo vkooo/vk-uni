@@ -239,7 +239,7 @@
 				font-size: 25rpx;
 				color: #909399;
 				display: flex;
-				/deep/ .u-checkbox-label--left{
+				::v-deep .u-checkbox-label--left{
 					flex-direction: column;
 				}
 
@@ -248,7 +248,7 @@
 				}
 			}
 		}
-		/deep/ .u-input{
+		::v-deep .u-input{
 			background: #ffffff;
 			padding-top: 20rpx !important;
 			padding-bottom: 20rpx !important;

@@ -156,7 +156,7 @@ export function uploadImage(opt, successCallback, errorCallback) {
 	})
 }
 
-async function uploadApi(filePath){
+export async function uploadApi(filePath){
 	let baseUrl = ""
 	if(env.baseUrl){
 		baseUrl = env.baseUrl

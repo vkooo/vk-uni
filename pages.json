@@ -114,13 +114,21 @@
 				{
 					"path": "bankcard/index",
 					"style": {
+						"navigationBarTitleText": "银行卡列表",
+						"enablePullDownRefresh": false,
+						"navigationBarBackgroundColor": "#23224b",
+						"navigationBarTextStyle": "white"
+						,"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "bankcard/edit",
+					"style": {
 						"navigationBarTitleText": "绑定银行卡",
 						"enablePullDownRefresh": false,
 						"navigationBarBackgroundColor": "#23224b",
 						"navigationBarTextStyle": "white"
-						// #ifdef H5
 						,"navigationStyle": "custom"
-						// #endif
 					}
 				},
 				

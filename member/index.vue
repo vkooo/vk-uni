@@ -208,7 +208,7 @@
 		padding: 40rpx 30rpx 0 30rpx;
 		position: relative;
 		text-align: center;
-		/deep/ .user {
+		::v-deep .user {
 			padding: 15px;
 			.u-avatar{
 				margin-right: 15rpx;

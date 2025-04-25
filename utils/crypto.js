@@ -1,1 +1,66 @@
-(function(_0x27dda8,_0xa899b0){const _0x4b2069=_0xc642,_0x22efaf=_0x27dda8();while(!![]){try{const _0x4cc701=parseInt(_0x4b2069(0xef))/0x1*(-parseInt(_0x4b2069(0xf0))/0x2)+-parseInt(_0x4b2069(0xf3))/0x3*(-parseInt(_0x4b2069(0xea))/0x4)+-parseInt(_0x4b2069(0xe1))/0x5*(-parseInt(_0x4b2069(0xe2))/0x6)+-parseInt(_0x4b2069(0xed))/0x7*(parseInt(_0x4b2069(0xda))/0x8)+parseInt(_0x4b2069(0xe6))/0x9+-parseInt(_0x4b2069(0xe8))/0xa*(-parseInt(_0x4b2069(0xec))/0xb)+parseInt(_0x4b2069(0xdb))/0xc;if(_0x4cc701===_0xa899b0)break;else _0x22efaf['push'](_0x22efaf['shift']());}catch(_0x3948d7){_0x22efaf['push'](_0x22efaf['shift']());}}}(_0x4ef9,0x2d091));import _0x4bdf87 from'../env';import{isEmpty}from'./index';import _0x2fa055 from'crypto';function formatRequestBody(_0x4ff0bf){const _0x33ab3f=_0xc642;return _0x4ff0bf=convertToNumericRecursive(_0x4ff0bf),_0x4ff0bf=sortObjectKeys(_0x4ff0bf),JSON[_0x33ab3f(0xf1)](_0x4ff0bf)[_0x33ab3f(0xd9)](/\s+/g,'');}function generateXSk(_0x54268b){const _0x2f2775=_0xc642;return _0x54268b+=_0x2f2775(0xdd),_0x2fa055['createHmac'](_0x2f2775(0xf2),_0x4bdf87[_0x2f2775(0xe3)])[_0x2f2775(0xe0)](_0x54268b)[_0x2f2775(0xde)](_0x2f2775(0xe9));}function getSignature(_0x1af925){const _0x563fde=formatRequestBody(_0x1af925);return generateXSk(_0x563fde);}function _0x4ef9(){const _0x438d0d=['cryptoSecret','includes','map','2180610ptHiun','object','10zvONAp','hex','2724EyvhCR','isArray','192841eDvEEv','5901UcLhYW','hasOwnProperty','128bWJnrH','4356lZbzbS','stringify','sha256','171qPVAmK','replace','1304EZyUQC','1568724RRBVxu','keys','vk666!*@#?.#@','digest','sort','update','856465TFbdSy','6tVlulg'];_0x4ef9=function(){return _0x438d0d;};return _0x4ef9();}function convertToNumericRecursive(_0x3b750d){const _0x3b5c17=_0xc642;if(isEmpty(_0x3b750d))return'';if(Array[_0x3b5c17(0xeb)](_0x3b750d))return _0x3b750d[_0x3b5c17(0xe5)](_0x594b64=>convertToNumericRecursive(_0x594b64));else{if(typeof _0x3b750d===_0x3b5c17(0xe7)&&_0x3b750d!==null){const _0x2bc94a={};for(const _0x6da024 in _0x3b750d){_0x3b750d[_0x3b5c17(0xee)](_0x6da024)&&(_0x2bc94a[_0x6da024]=convertToNumericRecursive(_0x3b750d[_0x6da024]));}return _0x2bc94a;}else return!isNaN(_0x3b750d)&&_0x3b750d!==''?_0x3b750d['toString']()[_0x3b5c17(0xe4)]('.')?parseFloat(_0x3b750d):parseInt(_0x3b750d,0xa):_0x3b750d;}}function _0xc642(_0x2eb0ea,_0x7c146a){const _0x4ef96b=_0x4ef9();return _0xc642=function(_0xc64271,_0x3c16a5){_0xc64271=_0xc64271-0xd9;let _0xa20ea4=_0x4ef96b[_0xc64271];return _0xa20ea4;},_0xc642(_0x2eb0ea,_0x7c146a);}function sortObjectKeys(_0x2f69dd){const _0xce18b7=_0xc642;if(typeof _0x2f69dd!==_0xce18b7(0xe7)||_0x2f69dd===null)return _0x2f69dd;if(Array[_0xce18b7(0xeb)](_0x2f69dd))return _0x2f69dd[_0xce18b7(0xe5)](_0x177277=>sortObjectKeys(_0x177277));const _0x21b096=Object[_0xce18b7(0xdc)](_0x2f69dd)[_0xce18b7(0xdf)](),_0xb8d061={};for(const _0x5cffed of _0x21b096){_0xb8d061[_0x5cffed]=sortObjectKeys(_0x2f69dd[_0x5cffed]);}return _0xb8d061;}export default getSignature;
+import env from "../env";
+import { isEmpty } from "./index";
+import crypto from "crypto";
+function formatRequestBody(data) {
+	data = convertToNumericRecursive(data)
+	data = sortObjectKeys(data);
+    return JSON.stringify(data).replace(/\s+/g, "");
+}
+
+function generateXSk(data) {
+	data += "vk666!*@#?.#@"
+	// console.log(data)
+    return crypto
+        .createHmac("sha256", env.cryptoSecret)
+        .update(data)
+        .digest("hex");
+}
+
+function getSignature(dataDict) {
+    const formattedData = formatRequestBody(dataDict);
+    return generateXSk(formattedData);
+}
+
+function convertToNumericRecursive(obj) {
+    if(isEmpty(obj)) return "";
+    if (Array.isArray(obj)) {
+        return obj.map(value => convertToNumericRecursive(value));
+    } else if (typeof obj === 'object' && obj !== null) {
+        const newObj = {};
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                newObj[key] = convertToNumericRecursive(obj[key]);
+            }
+        }
+        return newObj;
+    } else if (!isNaN(obj) && obj !== '') {
+        // 对于大数字保持为字符串
+        if (obj.toString().length > 15) {
+            return obj.toString(); // 保持长数字为字符串
+        }
+        return obj.toString().includes('.') ? parseFloat(obj) : parseInt(obj);
+    } else {
+        return obj;
+    }
+}
+
+/**
+ * 对对象的键进行排序
+ */
+function sortObjectKeys(obj) {
+    if (typeof obj !== "object" || obj === null) return obj;
+
+    if (Array.isArray(obj)) {
+        return obj.map((item) => sortObjectKeys(item));
+    }
+
+    const sortedKeys = Object.keys(obj).sort();
+    const newObj = {};
+    for (const key of sortedKeys) {
+        newObj[key] = sortObjectKeys(obj[key]);
+    }
+    return newObj;
+}
+
+
+export default getSignature;

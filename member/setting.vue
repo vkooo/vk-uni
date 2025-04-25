@@ -30,9 +30,6 @@
 </script>
 
 <style lang="scss">
-	page{
-		background-color: #f5f5f5;
-	}
 	.logout{
 		position: fixed;
 		bottom: 20px;

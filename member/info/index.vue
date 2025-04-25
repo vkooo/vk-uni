@@ -121,7 +121,7 @@
 				}
 			}
 		}
-		/deep/ .u-text{
+		::v-deep .u-text{
 			justify-content: flex-end !important;
 		}
 	}

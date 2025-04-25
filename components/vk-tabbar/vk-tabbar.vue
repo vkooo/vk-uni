@@ -107,7 +107,7 @@
 
 
 
-	/deep/ .u-border-top {
+	::v-deep .u-border-top {
 		border: 0;
 	}
 </style>
