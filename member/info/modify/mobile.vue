@@ -22,7 +22,7 @@
 						<u-input placeholder="请输入新手机号" type="number" maxlength="11" border="none" v-model="form.newMobile" />
 					</u-form-item>
 					
-					<u-form-item label="验证码" prop="code" borderBottom>
+					<u-form-item label="验证码" prop="code" >
 						<u-input placeholder="请输入验证码" type="number" border="none" v-model="form.code" maxlength="4" />
 						<template slot="right">
 							<u-button size="mini" type="primary" :plain="true"  :text="tips" @click="getCode" />

@@ -22,17 +22,16 @@
 					<u-form-item borderBottom label="联系电话" prop="mobile">
 						<u-input placeholder="请输入你的联系电话" border="none" type="number" maxlength="11" v-model="form.mobile" />
 					</u-form-item>
-					<u-form-item borderBottom label="所在地区" prop="region_codes">
+					<u-form-item borderBottom label="所在地区" prop="street_code">
 						<view style="width: 100%;">
-							<vk-address-picker ref="address" @onchange="addrressConfirm" :codes="form.region_codes"/>
-							<!-- <u-input placeholder="请选择你的所在地区" border="none" v-model="form.region_text" /> -->
+							<vk-address-picker ref="address" @onchange="addrressConfirm" :codes="form.street_code"/>
 							<u-icon slot="right" name="arrow-right" />
 						</view>
 					</u-form-item>
 					<u-form-item borderBottom label="详细地址" labelPosition="top" prop="address_info">
 						<u-textarea placeholder="请输入你的详细地址" border="none" v-model="form.address_info" />
 					</u-form-item>
-					<u-form-item borderBottom label="默认地址" prop="default">
+					<u-form-item  label="默认地址" prop="default">
 						<u-switch v-model="form.default" 
 							:inactiveValue="0"
 							:activeValue="1"
@@ -71,6 +70,7 @@
 					mobile: null,
 					region_text: '',
 					address_info: "",
+					street_code: "",
 					region_code: []
 				},
 				rules: {
@@ -89,7 +89,8 @@
 							return uni.$u.test.mobile(value)
 						},
 					},
-					region_codes: {
+					street_code: {
+						type: "number",
 						required: true,
 						message: '请选择你的所在地区',
 						trigger: ['change', 'blur'],
@@ -111,8 +112,9 @@
 				findById(options.id).then(res=>{
 					if(res.code == 200){
 						that.form = res.data
-						that.form.region_codes = res.data.street_code
-						
+						that.form.street_code = res.data.street_code
+						that.$set(that.form, "street_code", res.data.street_code)
+						that.$forceUpdate()
 					}
 				})
 			}
@@ -122,7 +124,7 @@
 		},
 		methods: {
 			addrressConfirm(e){
-				this.form.region_codes = e.codes
+				this.form.street_code = e.codes
 				this.form = Object.assign(this.form, e.data)
 				this.$forceUpdate()
 			},
@@ -134,7 +136,7 @@
 						if(res.code == 200){
 							that.$u.toast("操作成功")
 							setTimeout(function(){
-								uni.navigateBack()
+								that.$utils.back()
 							}, 1000)
 						}
 					})
@@ -144,7 +146,7 @@
 	}
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 	
 	page{
 		background-color: #fafafa;

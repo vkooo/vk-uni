@@ -19,7 +19,7 @@
 						{{form.mobile}}
 					</u-form-item>
 					
-					<u-form-item label="验证码" prop="code" borderBottom>
+					<u-form-item label="验证码" prop="code" >
 						<u-input placeholder="请输入验证码" type="number" border="none" v-model="form.code" maxlength="4" />
 						<template slot="right">
 							<u-button size="mini" type="primary" :plain="true"  :text="tips" @click="getCode" />
@@ -32,7 +32,7 @@
 						<u-input placeholder="请输入新密码" type="number" border="none" v-model="form.password" />
 					</u-form-item>
 					
-					<u-form-item label="确认密码" prop="confirm_password" borderBottom>
+					<u-form-item label="确认密码" prop="confirm_password" >
 						<u-input placeholder="请输入确认密码" type="number" border="none" v-model="form.confirm_password" />
 					</u-form-item>
 				</view>

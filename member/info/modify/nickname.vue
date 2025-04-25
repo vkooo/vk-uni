@@ -15,7 +15,7 @@
 		<view class="form">
 			<u-form ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
 				<view class="p-20 p-b-0" >
-					<u-form-item label="昵称" borderBottom>
+					<u-form-item label="昵称" >
 						<u-input placeholder="请输入您的昵称" border="none" v-model="data" />
 					</u-form-item>
 				</view>

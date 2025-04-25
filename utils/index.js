@@ -1,4 +1,5 @@
 import env from '@/env';
+import store from '@/store';
 
 export function getLocation() {
 	uni.getLocation({
@@ -41,10 +42,8 @@ export function back() {
 	if (getCurrentPages().length > 1) {
 		uni.navigateBack()
 	} else {
-		const homePath = __uniConfig.tabBar.list[0].pagePath;
-		uni.switchTab({
-			url: "/" + homePath
-		});
+		const homePath = store.getters["website/tabbar"].btns[0].pagePath;
+		reLaunch(homePath);
 	}
 }
 

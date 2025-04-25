@@ -53,7 +53,7 @@
 					arr.push(e.detail.value[i].value)
 				}
 				let codes = {
-					codes: arr[3],
+					code: arr[3],
 					data: {
 						province_code: arr[0],
 						city_code: arr[1],
