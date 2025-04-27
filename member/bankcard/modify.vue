@@ -68,10 +68,15 @@
 						</u-input>
 					</u-form-item>
 					
-					<u-form-item label="预留手机号" prop="mobile">
+					<u-form-item label="预留手机号" prop="mobile" borderBottom>
 						<u-input v-model="form.mobile" placeholder="银行预留手机号"
 							border="none" type="number" inputAlign="right" maxlength="11">
 						</u-input>
+					</u-form-item>
+					<u-form-item label="设置默认" prop="mobile">
+						<view style="width: 100%;" class="flex flex-justify-end">
+							<u-switch :activeValue="1" :inactiveValue="2"  v-model="form.default" />
+						</view>
 					</u-form-item>
 
 				</u-form>
@@ -241,6 +246,7 @@
 							title: '正在绑定...',
 							mask: true
 						});
+						this.form.ss = undefined
 						bankcardSubmit(this.form).then(res=>{
 							console.log(res)
 							setTimeout(function(){

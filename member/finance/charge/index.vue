@@ -63,9 +63,9 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	page{
-		background-color: #f6f7f8;
+		background-color: #f5f5f5;
 	}
 	.h-navbar{
 		height: 25vh;

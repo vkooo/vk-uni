@@ -176,3 +176,7 @@ export function isEmpty(value, checkArr) {
 	}
 	return value === '' || value === ' ' || value === undefined || value === null || value === 'null'
 }
+
+export function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}

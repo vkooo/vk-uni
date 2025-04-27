@@ -1,15 +1,23 @@
 import env from "../env";
-import { isEmpty } from "./index";
+import { isEmpty, deepClone } from "./index";
 import crypto from "crypto";
+
 function formatRequestBody(data) {
-	data = convertToNumericRecursive(data)
+	data = normalizeData(deepClone(data));
 	data = sortObjectKeys(data);
-    return JSON.stringify(data).replace(/\s+/g, "");
+    return JSON.stringify(data, replacer).replace(/\s+/g, "");
+}
+
+function replacer(key, value) {
+    if (value === undefined) {
+        return null;
+    }
+    return value;
 }
 
 function generateXSk(data) {
-	data += "vk666!*@#?.#@"
-	// console.log(data)
+	data += "vk666!*@#?.#@";
+	console.log(data);
     return crypto
         .createHmac("sha256", env.cryptoSecret)
         .update(data)
@@ -17,36 +25,41 @@ function generateXSk(data) {
 }
 
 function getSignature(dataDict) {
+	console.log(dataDict);
     const formattedData = formatRequestBody(dataDict);
     return generateXSk(formattedData);
 }
 
-function convertToNumericRecursive(obj) {
-    if(isEmpty(obj)) return "";
+function normalizeData(obj) {
+    if (obj === undefined) return null;
+    if (obj === null) return null;
+    if (typeof obj === 'boolean') return obj;
     if (Array.isArray(obj)) {
-        return obj.map(value => convertToNumericRecursive(value));
-    } else if (typeof obj === 'object' && obj !== null) {
-        const newObj = {};
+        return obj.map(item => normalizeData(item));
+    }
+    if (typeof obj === 'object') {
+        const result = {};
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
-                newObj[key] = convertToNumericRecursive(obj[key]);
+                result[key] = normalizeData(obj[key]);
             }
         }
-        return newObj;
-    } else if (!isNaN(obj) && obj !== '') {
-        // 对于大数字保持为字符串
-        if (obj.toString().length > 15) {
-            return obj.toString(); // 保持长数字为字符串
+        return result;
+    }
+    if (typeof obj === 'string') {
+        const trimmed = obj.trim();
+        if (trimmed === '') return '';
+        if (!isNaN(trimmed)) {
+            if (trimmed.length > 15) {
+                return trimmed; // 超长数字保留字符串
+            }
+            return trimmed.includes('.') ? parseFloat(trimmed) : parseInt(trimmed, 10);
         }
-        return obj.toString().includes('.') ? parseFloat(obj) : parseInt(obj);
-    } else {
         return obj;
     }
+    return obj;
 }
 
-/**
- * 对对象的键进行排序
- */
 function sortObjectKeys(obj) {
     if (typeof obj !== "object" || obj === null) return obj;
 
@@ -61,6 +74,5 @@ function sortObjectKeys(obj) {
     }
     return newObj;
 }
-
 
 export default getSignature;

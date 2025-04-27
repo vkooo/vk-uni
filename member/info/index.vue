@@ -13,7 +13,7 @@
 							<u-icon slot="right" name="arrow-right"/>
 						</u-form-item>
 						
-						<u-form-item label="电话" borderBottom @click="$utils.navigate('/member/info/modify/mobile')">
+						<u-form-item label="手机号" borderBottom @click="$utils.navigate('/member/info/modify/mobile')">
 							<u-text :color="color(info.mobile)" :text="info.mobile || '立即绑定手机'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
@@ -102,7 +102,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	
 	page{
 		background-color: #fafafa;

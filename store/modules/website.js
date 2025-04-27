@@ -10,6 +10,12 @@ getters = {
 	tabbar(state){
 		return state.website.tabbar || {};
 	},
+	balanceObj(state){
+		return state.website.balance || {};
+	},
+	withdrawObj(state){
+		return state.website.withdraw || {};
+	},
 },
 mutations = {
 	SET_DATA(state, data){
