@@ -98,7 +98,7 @@
 					setProfile(form).then(res=>{
 						if(res.code == 200){
 							setTimeout(function(){
-								that.$utils.switchTab("/pages/tabBar/member")
+								that.$utils.back()
 							}, 1000)
 						}
 					})

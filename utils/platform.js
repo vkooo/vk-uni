@@ -15,6 +15,10 @@ export function getPlatform() {
 	return "wx_mini"
 	// #endif
 	
+	// #ifdef MP-MP-ALIPAY
+	return "ali_mini"
+	// #endif
+	
 	// #ifdef H5
 	if(isWechat()){
 		return "wx_official"

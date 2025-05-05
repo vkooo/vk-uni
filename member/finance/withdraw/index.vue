@@ -8,7 +8,12 @@
 			:titleStyle="{
 				color: '#ffffff'
 			}"
-		/>
+		>
+			<view slot="right" 
+				@click="$utils.navigate('/member/finance/withdraw/record')" class="nav-right-btn">
+				提现记录
+			</view>
+		</u-navbar>
 		<view class="h-navbar" />
 		<view class="content">
 			<view class="title">
@@ -19,23 +24,6 @@
 			</view>
 		</view>
 		
-		<!-- <view class="section-card m-t-15">
-			<view class="section-title">选择提现金额</view>
-			<view class="amount-options">
-				<view class="amount-option" v-for="item in list" :key="item.id"
-					:class="[{ active: amountId == item.id }, { disabled: item.price > info.money }]"
-					@click="amount = item.price, amountId = item.id">
-					¥{{ item.price }}
-				</view>
-				<view class="amount-option" :class="{ active: amount == info.money }" @click="amount = info.money">
-					全部提现</view>
-			</view>
-			<view class="actual-amount" v-if="amount">
-				实际到账金额：
-				<text class="highlight">¥{{ actualAmount }}</text>
-			</view>
-		</view> -->
-		<!-- 提现金额选择 -->
 		<view class="section-card m-t-15">
 			<view class="section-title">选择提现金额</view>
 			<view class="amount-grid">
@@ -44,10 +32,10 @@
 					:key="item.id"
 					class="amount-item"
 					:class="{
-						'active': amountId == item.id, 
-						'disabled': item.price > info.money
+						'active': ruleId == item.id, 
+						'disabled': item.price > parseFloat(info.money)
 					}"
-					@click="amount = item.price, amountId = item.id"
+					@click="amount = item.price, ruleId = item.id"
 				>
 					<text class="prefix">¥</text>
 					<text class="value">{{ item.price }}</text>
@@ -55,7 +43,7 @@
 				<view 
 					class="amount-item all-amount"
 					:class="{ 'active': amount == info.money }" 
-					@click="amount = info.money"
+					@click="ruleId = null, amount = info.money"
 				>
 					全部提现
 				</view>
@@ -64,7 +52,7 @@
 			<view class="actual-amount" v-if="amount">
 				实际到账金额：
 				<text class="highlight">¥{{ actualAmount }}</text>
-				<text class="fee-rate" v-if="fee_rate">(手续费{{fee_rate}}%)</text>
+				<text class="fee-rate" v-if="withdrawObj.fee_rate">(手续费{{withdrawObj.fee_rate}}%)</text>
 			</view>
 		</view>
 		
@@ -117,7 +105,7 @@
 
 <script>
 	import {
-		withdrawInit,
+		withdrawInit, withdrawSubmit,
 	} from '@/api/finance';
 	import {
 		mapState, mapGetters
@@ -128,7 +116,7 @@
 			...mapGetters('website', ["withdrawObj"]),
 			actualAmount() {
 				const amt = parseFloat(this.amount)
-				return amt ? (amt * (1 - this.fee_rate / 100)) : '0.00'
+				return amt ? (amt * (1 - this.withdrawObj.fee_rate / 100)) : '0.00'
 			},
 			canSubmit() {
 				if (this.amount <= 0 || this.withdrawMethod == 0) return false
@@ -146,12 +134,12 @@
 				eye: true,
 				list: [],
 				amount: null,
-				amountId: null,
+				ruleId: null,
 				withdrawMethod: 0,
 				methods: [{
 						label: '支付宝',
 						value: 1,
-						page: "/member/bankcard/index"
+						page: "/member/info/modify/aliaccount"
 					},
 					{
 						label: '银行卡',
@@ -159,7 +147,6 @@
 						page: "/member/bankcard/index"
 					}
 				],
-				fee_rate: "",
 			}
 		},
 		mounted() {
@@ -170,8 +157,11 @@
 				withdrawInit().then(res=>{
 					if(res.code == 200){
 						const { list, total } = res.data
-						this.list = list
-						this.methods =this.safeMethodCheck(this.methods, this.withdrawObj.method)
+						this.list = list.map(item => ({
+						  ...item,
+						  price: parseFloat(item.price)
+						}));
+						this.methods = this.safeMethodCheck(this.methods, this.withdrawObj.method)
 					}
 				})
 			},
@@ -183,7 +173,20 @@
 			        item?.value !== undefined && 
 			        targetValues.includes(item.value)
 				);
-			}
+			},
+			submitWithdraw(){
+				uni.showLoading({
+					title: '加载中',
+				});
+				withdrawSubmit({
+					ruleId: this.ruleId,
+					amount: this.amount,
+					method: this.withdrawMethod,
+				}).then(res=>{
+					this.$u.toast(res.msg)
+					this.$store.dispatch("member/getInfo")
+				})
+			},
 		}
 		
 	}
@@ -197,6 +200,7 @@
 		height: 25vh;
 		background: linear-gradient(to bottom, #5993f0 0%, #7fb4f0 50%, #f6f6f6 100%);
 	}
+	
 	.content {
 		background: #ffffff;
 		width: 85%;
@@ -213,7 +217,7 @@
 	
 		.money {
 			font-weight: bold;
-			font-size: 65rpx;
+			font-size: 75rpx;
 			margin: 15rpx 0;
 		}
 	}
@@ -321,7 +325,6 @@
 			}
 		}
 	}
-	
 	
 	.submit-btn {
 		margin: 40rpx auto;

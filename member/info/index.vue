@@ -19,11 +19,15 @@
 						</u-form-item>
 						
 						<u-form-item label="登录密码" borderBottom @click="modifyPassword">
-							<u-text :color="color()" :text="info.mobile? '修改登录密码': '请先绑定手机'" />
+							<u-text :color="color()" :text="info.mobile? '修改登录密码': '去绑定手机号'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
-						<u-form-item label="支付密码" @click="modifyPayPassword">
-							<u-text :color="color()" :text="info.mobile? '修改支付密码': '请先绑定手机'" />
+						<u-form-item label="支付密码" borderBottom @click="modifyPayPassword">
+							<u-text :color="color()" :text="info.mobile? '修改支付密码': '去绑定手机号'" />
+							<u-icon slot="right" name="arrow-right" />
+						</u-form-item>
+						<u-form-item label="绑定支付宝" @click="$utils.navigate('/member/info/modify/aliaccount')">
+							<u-text :color="color()" :text="info.ali_account? '查看': '去绑定'" />
 							<u-icon slot="right" name="arrow-right" />
 						</u-form-item>
 					</view>

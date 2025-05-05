@@ -7,21 +7,37 @@
 				:list="tabList" 
 				:is-scroll="false" :current="current" @change="change" />
 		</u-sticky>
-		<block  v-if="list.length > 0">
+		<block v-if="list.length > 0">
 			<u-cell-group>
 				<u-cell v-for="(item, index) in list"
-					:title="item.memo" 
-					:value="(item.type == 1?'+ ':'- ') + item.score"
+					:title="`${item.method_text}-提现金额：${item.amount}元`" 
+					:value="item.status_text"
 					:label="item.created_at"
-				/>
+				>
+					<view
+						slot="title"
+						class="flex-start-center"
+					>
+						<text class="m-r-5">提现金额：{{item.amount}}元</text>
+						<u-tag
+							:text="item.method_text"
+							plain
+							size="mini"
+							type="warning"
+						/>
+					</view>
+				</u-cell>
 			</u-cell-group>
+			<u-loadmore :status="status" @loadmore="loadList()"/>
 		</block>
 		<vk-empty v-else />
 	</view>
 </template>
 
 <script>
-	import { scoreLog } from '@/api/finance';
+	import {
+		withdrawLists
+	} from '@/api/finance';
 	export default {
 		data() {
 			return {
@@ -31,29 +47,42 @@
 					{
 						name: '全部'
 					}, {
-						name: '增加'
+						name: '审核中'
 					}, {
-						name: '减少'
+						name: '已打款'
+					}, {
+						name: '已驳回'
 					}
 				],
 				current: 0,
+				status: "loadmore",
 			}
 		},
 		onLoad() {
 			this.getList()
 		},
+		onReachBottom(){
+			this.loadList()
+		},
 		methods: {
+			loadList(){
+				this.status = 'loading';
+				this.page = ++this.page;
+				this.getList()
+			},
 			getList(){
-				scoreLog({
+				withdrawLists({
 					page: this.page,
-					type: this.current
+					status: this.current
 				}).then(res=>{
 					if(res.code == 200){
 						const { list, total } = res.data
 						if(list.length > 0){
 							this.list = this.list.concat(list)
+							this.status = 'loadmore';
 						}else{
 							this.page = this.page - 1
+							this.status = 'nomore';
 						}
 					}
 				})

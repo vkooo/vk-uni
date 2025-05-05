@@ -17,7 +17,7 @@ function replacer(key, value) {
 
 function generateXSk(data) {
 	data += "vk666!*@#?.#@";
-	console.log(data);
+	// console.log(data);
     return crypto
         .createHmac("sha256", env.cryptoSecret)
         .update(data)
@@ -25,9 +25,10 @@ function generateXSk(data) {
 }
 
 function getSignature(dataDict) {
-	console.log(dataDict);
+	// console.log(dataDict);
     const formattedData = formatRequestBody(dataDict);
-    return generateXSk(formattedData);
+   // console.log(formattedData);
+	return generateXSk(formattedData);
 }
 
 function normalizeData(obj) {

@@ -24,10 +24,19 @@ export function chargeInit() {
 	})
 }
 
-export function withdrawInit() {
+export function chargeSubmit(data) {
 	return request({
-		url: '/finance/withdraw/init',
+		url: '/finance/charge/submit',
+		method: 'POST',
+		data
+	})
+}
+
+export function chargeLists(data) {
+	return request({
+		url: '/finance/charge/lists',
 		method: 'GET',
+		data
 	})
 }
 
@@ -35,6 +44,29 @@ export function chargeRecord(data) {
 	return request({
 		url: '/finance/charge/record',
 		method: 'GET',
+		data
+	})
+}
+
+export function withdrawLists(data) {
+	return request({
+		url: '/finance/withdraw/lists',
+		method: 'GET',
+		data
+	})
+}
+
+export function withdrawInit() {
+	return request({
+		url: '/finance/withdraw/init',
+		method: 'GET',
+	})
+}
+
+export function withdrawSubmit(data) {
+	return request({
+		url: '/finance/withdraw/submit',
+		method: 'POST',
 		data
 	})
 }

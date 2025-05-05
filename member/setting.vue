@@ -3,23 +3,20 @@
 		<view class="content">
 			<u-cell-group :border="false" :customStyle="{background: '#ffffff'}">
 				<u-cell title="个人资料" isLink url="/member/info/index" />
-				<u-cell :border="false" title="手机号" isLink
+				<u-cell title="手机号" isLink
 					:value="info.mobile || '立即绑定手机'"
 					url="/member/info/modify/mobile" />
 				<u-cell :border="false" title="收货地址" isLink value="立即前往" url="/member/address/index" />
 			</u-cell-group>
 			<u-gap height="8"/>
 			<u-cell-group :border="false" :customStyle="{background: '#ffffff'}">
-				<u-cell title="关于我们" isLink url="/pages/help/about"></u-cell>
-				<u-cell title="用户协议" isLink url="/pages/help/userAgreement"></u-cell>
-				<u-cell title="隐私政策" :border="false" isLink url="/pages/help/privacyPolicy"></u-cell>
+				<u-cell title="关于我们" isLink url="/pages/help/about" />
+				<u-cell title="用户协议" isLink url="/pages/help/userAgreement" />
+				<u-cell title="隐私政策" :border="false" isLink url="/pages/help/privacyPolicy" />
 			</u-cell-group>
 			
 			<view class="logout">
-				<u-button :customStyle="{
-					width: '90%',
-					margin: '0 auto'
-				}" :style="[btnStyle]" shape="circle" type="error" text="退出登录" @click='logout' />
+				<u-button :style="[btnStyle]" shape="circle" type="error" text="退出登录" @click='logout' />
 			</view>
 		</view>
 	</view>
@@ -51,7 +48,9 @@
 			.logout{
 				position: fixed;
 				bottom: 20px;
-				width: 100%;
+				width: 90%;
+				transform: translateX(-50%);
+				left: 50%;
 			}
 		}
 		

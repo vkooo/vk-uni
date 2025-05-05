@@ -143,14 +143,14 @@
 						name: "余额记录",
 						icon: 'list',
 						fun(that) {
-							that.$utils.navigate('/member/finance/moneyLog')
+							that.$utils.navigate('/member/finance/balanceLog')
 						}
 					},
 					{
 						name: "联系客服",
 						icon: 'kefu-ermai',
 						fun(that) {
-							that.$utils.handleNavigate('/pages/common/service')
+							that.$utils.navigate('/pages/customer-service/index')
 						}
 					},
 					{

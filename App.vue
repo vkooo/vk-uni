@@ -49,6 +49,8 @@
 				}
 			})
 			
+			
+			
 			console.log('App Launch')
 		},
 		onShow: function() {

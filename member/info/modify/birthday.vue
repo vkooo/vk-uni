@@ -65,7 +65,7 @@
 					if(res.code == 200){
 						that.$u.toast("操作成功")
 						setTimeout(function(){
-							uni.navigateBack()
+							that.$utils.back()
 						}, 1000)
 					}
 				})

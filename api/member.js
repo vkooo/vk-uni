@@ -40,6 +40,14 @@ export function setPayPassword(data) {
 	})
 }
 
+export function setAliAccount(data) {
+	return request({
+		url: '/set_ali_account',
+		method: 'POST',
+		data
+	})
+}
+
 export function getRealname() {
 	return request({
 		url: '/get_realname',

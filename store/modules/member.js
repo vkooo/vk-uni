@@ -47,7 +47,7 @@ mutations = {
 				redirectUrl = decodeURIComponent(Base64.decode(state.redirect))
 			}
 		}
-		console.log(redirectUrl)
+		// console.log(redirectUrl)
 		state.redirect = ""
 		uni.reLaunch({
 			url: "/" + redirectUrl
