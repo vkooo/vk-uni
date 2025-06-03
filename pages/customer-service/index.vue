@@ -6,6 +6,7 @@
       :autoBack="true"
       bgColor="#ffffff"
       titleColor="#333"
+	  :placeholder="true"
     ></u-navbar>
 
     <!-- 聊天内容区域 -->
@@ -15,6 +16,9 @@
       scroll-with-animation
       class="chat-container"
       @scroll="handleScroll"
+      :enhanced="true"
+      :show-scrollbar="false"
+      :bounces="false"
     >
       <view class="chat-list">
         <!-- 系统消息 -->
@@ -28,12 +32,13 @@
           :key="index"
           :class="['message-item', item.type]"
         >
-          <!-- 客服消息 -->
-          <view v-if="item.type === 'service'" class="message-box service">
+          <view :class="['message-box', item.type]">
             <image
+              v-if="item.type === 'service'"
               class="avatar"
-              src="/static/images/service-avatar.png"
+              :src="item.avatar || '/static/images/service-avatar.png'"
               mode="aspectFill"
+              @error="handleImageError"
             ></image>
             <view class="content">
               <view class="text" v-if="item.contentType === 'text'">{{ item.content }}</view>
@@ -42,29 +47,17 @@
                   :src="item.content"
                   mode="widthFix"
                   @click="previewImage(item.content)"
-                ></image>
-              </view>
-              <view class="time">{{ item.time }}</view>
-            </view>
-          </view>
-
-          <!-- 用户消息 -->
-          <view v-if="item.type === 'user'" class="message-box user">
-            <view class="content">
-              <view class="text" v-if="item.contentType === 'text'">{{ item.content }}</view>
-              <view class="image" v-if="item.contentType === 'image'">
-                <image
-                  :src="item.content"
-                  mode="widthFix"
-                  @click="previewImage(item.content)"
+                  @error="handleImageError"
                 ></image>
               </view>
               <view class="time">{{ item.time }}</view>
             </view>
             <image
+              v-if="item.type === 'user'"
               class="avatar"
               :src="userInfo.avatar || '/static/images/default-avatar.png'"
               mode="aspectFill"
+              @error="handleImageError"
             ></image>
           </view>
         </view>
@@ -72,7 +65,7 @@
     </scroll-view>
 
     <!-- 底部输入区域 -->
-    <view class="input-area">
+    <view class="input-area" :style="{ paddingBottom: keyboardHeight + 'px' }">
       <view class="input-box">
         <u-input
           v-model="inputMessage"
@@ -80,6 +73,7 @@
           border="none"
           confirmType="send"
           @confirm="sendMessage"
+          :adjustPosition="false"
         ></u-input>
       </view>
       <view class="action-btns">
@@ -99,7 +93,7 @@
     </view>
     
     <!-- 底部安全区域 -->
-    <view class="safe-area-bottom"></view>
+    <view class="safe-area-bottom" />
   </view>
 </template>
 
@@ -123,7 +117,8 @@ export default {
       },
       scrollTop: 0,
       oldScrollTop: 0,
-      showDateTip: true
+      showDateTip: true,
+      keyboardHeight: 5,
     }
   },
   computed: {
@@ -134,53 +129,50 @@ export default {
       return this.inputMessage.trim() || this.tempImage
     }
   },
+  onLoad() {
+    // #ifdef APP-PLUS || MP-WEIXIN
+    // 监听键盘高度变化
+    uni.onKeyboardHeightChange((res) => {
+      this.keyboardHeight = res.height
+      this.scrollToBottom()
+    })
+    // #endif
+  },
+  onUnload() {
+    // #ifdef APP-PLUS || MP-WEIXIN
+    // 移除键盘监听
+    uni.offKeyboardHeightChange()
+    // #endif
+  },
   methods: {
-    // 发送消息
-    sendMessage() {
-      if (!this.canSend) return
-      
-      if (this.inputMessage.trim()) {
-        this.sendTextMessage()
-      }
-    },
-    
-    // 发送文字消息
-    sendTextMessage() {
-      const msg = this.inputMessage.trim()
-      const newMsg = {
-        type: 'user',
-        contentType: 'text',
-        content: msg,
-        time: this.formatTime(new Date()),
-        date: this.formatDate(new Date())
-      }
-      
-      this.addMessage(newMsg)
-      this.inputMessage = ''
-      
-      // 模拟客服回复
-      setTimeout(() => {
-        this.addMessage({
-          type: 'service',
-          contentType: 'text',
-          content: '我们已经收到您的消息，将尽快回复您',
-          time: this.formatTime(new Date()),
-          date: this.formatDate(new Date())
-        })
-      }, 1000)
+    // 处理图片加载错误
+    handleImageError(e) {
+      console.error('图片加载失败', e)
     },
     
     // 选择图片
     chooseImage() {
+      // #ifdef APP-PLUS
       uni.chooseImage({
         count: 1,
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          const tempFilePaths = res.tempFilePaths
-          this.sendImageMessage(tempFilePaths[0])
+          this.sendImageMessage(res.tempFilePaths[0])
         }
       })
+      // #endif
+      
+      // #ifdef MP-WEIXIN
+      uni.chooseMedia({
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album', 'camera'],
+        success: (res) => {
+          this.sendImageMessage(res.tempFiles[0].tempFilePath)
+        }
+      })
+      // #endif
     },
     
     // 发送图片消息
@@ -194,17 +186,55 @@ export default {
       }
       
       this.addMessage(newMsg)
+      this.addMessage({
+        type: 'service',
+        contentType: 'text',
+        content: '图片已收到',
+        time: this.formatTime(new Date()),
+        date: this.formatDate(new Date())
+      })
+    },
+    
+    // 滚动到底部
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const query = uni.createSelectorQuery().in(this)
+        query.select('.chat-container').boundingClientRect()
+        query.select('.chat-list').boundingClientRect()
+        query.exec((res) => {
+          if (res[0] && res[1]) {
+            const containerHeight = res[0].height
+            const listHeight = res[1].height
+            this.scrollTop = listHeight - containerHeight
+          }
+        })
+      })
+    },
+    
+    // 发送消息
+    sendMessage() {
+      if (!this.canSend) return
       
-      // 模拟客服回复
-      setTimeout(() => {
+      if (this.inputMessage.trim()) {
+        const newMsg = {
+          type: 'user',
+          contentType: 'text',
+          content: this.inputMessage.trim(),
+          time: this.formatTime(new Date()),
+          date: this.formatDate(new Date())
+        }
+        
+        this.addMessage(newMsg)
+        this.inputMessage = ''
+        
         this.addMessage({
           type: 'service',
           contentType: 'text',
-          content: '图片已收到',
+          content: '我们已经收到您的消息，将尽快回复您',
           time: this.formatTime(new Date()),
           date: this.formatDate(new Date())
         })
-      }, 1000)
+      }
     },
     
     // 添加消息到列表
@@ -224,13 +254,6 @@ export default {
       uni.previewImage({
         urls: [url],
         current: 0
-      })
-    },
-    
-    // 滚动到底部
-    scrollToBottom() {
-      this.$nextTick(() => {
-        this.scrollTop = this.oldScrollTop + 1
       })
     },
     
@@ -270,14 +293,18 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #ededed;
+  // #ifdef H5
+  height: calc(100vh - var(--window-top));
+  // #endif
 }
 
 .chat-container {
   flex: 1;
-  padding: 20rpx;
   box-sizing: border-box;
   overflow: hidden;
+  background-color: #ededed;
+  padding: 10rpx 20rpx 0;
 }
 
 .chat-list {
@@ -293,7 +320,7 @@ export default {
   text {
     display: inline-block;
     padding: 6rpx 20rpx;
-    background-color: #e0e0e0;
+    background-color: #d8d8d8;
     border-radius: 20rpx;
     color: #999;
     font-size: 24rpx;
@@ -301,7 +328,7 @@ export default {
 }
 
 .message-item {
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
 }
 
 .message-box {
@@ -309,28 +336,31 @@ export default {
   max-width: 80%;
   
   .avatar {
-    width: 80rpx;
-    height: 80rpx;
-    border-radius: 50%;
+    width: 88rpx;
+    height: 88rpx;
+    border-radius: 8rpx;
     flex-shrink: 0;
+    border: 2rpx solid #e6e6e6;
   }
   
   .content {
     margin: 0 20rpx;
-    max-width: calc(100% - 120rpx);
+    max-width: calc(100% - 128rpx);
     
     .text {
       padding: 16rpx 24rpx;
-      border-radius: 12rpx;
-      font-size: 28rpx;
+      border-radius: 8rpx;
+      font-size: 30rpx;
       line-height: 1.5;
       word-break: break-word;
       position: relative;
+      box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
     }
     
     .image {
       border-radius: 8rpx;
       overflow: hidden;
+      box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
       
       image {
         max-width: 300rpx;
@@ -368,8 +398,8 @@ export default {
   
   .content {
     .text {
-      background-color: #2979ff;
-      color: #fff;
+      background-color: #95ec69;
+      color: #333;
       border-top-right-radius: 0;
     }
     
@@ -383,16 +413,26 @@ export default {
 .input-area {
   display: flex;
   align-items: center;
-  padding: 20rpx;
-  background-color: #fff;
-  border-top: 1rpx solid #eee;
+  padding: 12rpx 20rpx;
+  background-color: #f7f7f7;
+  border-top: 1rpx solid #e6e6e6;
+  // #ifdef H5
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+  // #endif
   
   .input-box {
     flex: 1;
-    background-color: #f5f5f5;
-    border-radius: 40rpx;
-    padding: 0 20rpx;
+    background-color: #fff;
+    border-radius: 8rpx;
+    padding: 12rpx 20rpx;
     margin-right: 20rpx;
+    box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+    
+    .u-input {
+      font-size: 28rpx;
+    }
   }
   
   .action-btns {
@@ -401,12 +441,30 @@ export default {
     
     .u-icon {
       margin-right: 20rpx;
+      transition: transform 0.2s;
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+    
+    .u-button {
+      background-color: #07c160;
+      border: none;
+      border-radius: 8rpx;
+      padding: 0 24rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      font-size: 26rpx;
+      
+      &[disabled] {
+        background-color: #9ee2b8;
+      }
     }
   }
 }
 
 .safe-area-bottom {
   height: env(safe-area-inset-bottom);
-  background-color: #fff;
+  background-color: #f7f7f7;
 }
 </style>

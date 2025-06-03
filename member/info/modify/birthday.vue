@@ -2,32 +2,33 @@
 	<view>
 		<u-navbar
 			title="编辑名称"
-			@rightClick="rightClick"
-			leftIcon=""
+			:leftIconSize="0"
 			:autoBack="true"
 			leftText="取消"
 			:placeholder="true"
 		>
-			<template slot="right">
-				<text :style="{color: data ? '#b44a51': '#9b9b9b'}">保存</text>
-			</template>
 		</u-navbar>
 		<view class="form">
 			<u-form ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
 				<view class="p-20 p-b-0" >
-					<u-form-item label="出生日期" borderBottom @click="birthdayShow = true">
+					<u-form-item label="出生日期" borderBottom @click="birthdayShow = true, timestamp = $utils.dateToTimestamp(data, '-')">
 						<u-text mode="date" :text="data"></u-text>
 					</u-form-item>
 				</view>
 				
 			</u-form>
 		</view>
+		<view class="fixed-bottom-btn-wrap">
+			<u-button type="primary" :customStyle="btnStyle" @click="rightClick">
+				保存
+			</u-button>
+		</view>
 		
 		<u-datetime-picker
 			:show="birthdayShow"
-			v-model="data"
+			v-model="timestamp"
 			mode="date"
-			@confirm="birthdayShow = false"
+			@confirm="datetimeConfirm"
 			@cancel="birthdayShow = false"
 			:minDate="$utils.minYear()"
 		/>
@@ -50,6 +51,7 @@
 		data() {
 			return {
 				data: '',
+				timestamp: "",
 				birthdayShow: false,
 			}
 		},
@@ -69,6 +71,13 @@
 						}, 1000)
 					}
 				})
+			},
+			datetimeConfirm(e){
+				let value
+					, format = "yyyy-mm-dd"
+				value = uni.$u.timeFormat(e.value, format);
+				this.data = value
+				this.birthdayShow = false
 			},
 		}
 	}

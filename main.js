@@ -3,7 +3,7 @@ import App from './App'
 import uView from "uview-ui";
 import store from 'store/index.js'
 import { isMiniProgram, isWechat } from '@/utils/platform'
-import styleMixin from '@/mixin/style.js'
+import styleMixin from '@/mixins/styleMixin.js'
 import ws from '@/utils/ws.js'
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'

@@ -30,7 +30,7 @@
 					</view>
 					<view class="_right">
 						<view class="events">
-							<view class="event-item" @click="$utils.navigate('modify?id=' + item.id)">
+							<view class="event-item" @click="$utils.navigate('modify', {id: item.id})">
 								<text class="iconfont icon-edit"></text>
 								<u-text prefixIcon="edit-pen" iconStyle="font-size: 19px" text="编辑" />
 							</view>

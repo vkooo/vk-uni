@@ -131,7 +131,7 @@
 			submit() {
 				let way = this.way
 				if (way == 1) {
-					this.$utils.navigate('/pages/auth/code?mobile=' + this.mobile)
+					this.$utils.navigate('/pages/auth/code', {mobile: this.mobile})
 				} else if (way == 2) {
 					this.$store.dispatch("member/login", {
 						account: this.account,

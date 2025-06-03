@@ -65,7 +65,11 @@
 						const { list, total } = res.data
 						if(list.length > 0){
 							this.list = this.list.concat(list)
-							this.status = 'loadmore';
+							if (this.list.length >= total) {
+								this.status = 'nomore';
+							} else {
+								this.status = 'loadmore';
+							}
 						}else{
 							this.page = this.page - 1
 							this.status = 'nomore';

@@ -2,15 +2,11 @@
 	<view>
 		<u-navbar
 			title="绑定手机号"
-			@rightClick="rightClick"
-			leftIcon=""
+			:leftIconSize="0"
 			:autoBack="true"
 			leftText="取消"
 			:placeholder="true"
 		>
-			<template slot="right">
-				<text>保存</text>
-			</template>
 		</u-navbar>
 		<view class="form">
 			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
@@ -30,6 +26,11 @@
 					</u-form-item>
 				</view>
 			</u-form>
+		</view>
+		<view class="fixed-bottom-btn-wrap">
+			<u-button type="primary" :customStyle="btnStyle" @click="rightClick">
+				保存
+			</u-button>
 		</view>
 		<u-code :seconds="second" 
 			ref="uCode"

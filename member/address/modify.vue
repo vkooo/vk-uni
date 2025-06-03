@@ -2,15 +2,11 @@
 	<view>
 		<u-navbar
 			title="编辑收货地址"
-			@rightClick="rightClick"
-			leftIcon=""
+			:leftIconSize="0"
 			:autoBack="true"
 			leftText="取消"
 			:placeholder="true"
 		>
-			<template slot="right">
-				保存
-			</template>
 		</u-navbar>
 		<view class="form">
 			<u-form :model="form" ref="uForm" :rules="rules" labelWidth="80" 
@@ -42,14 +38,11 @@
 				
 			</u-form>
 		</view>
-		
-		<u-datetime-picker
-			:show="birthdayShow"
-			v-model="form.birthday"
-			mode="date"
-			@confirm="birthdayShow = false"
-			@cancel="birthdayShow = false"
-		/>
+		<view class="fixed-bottom-btn-wrap">
+			<u-button type="primary" :customStyle="btnStyle" @click="rightClick">
+				保存
+			</u-button>
+		</view>
 	</view>
 </template>
 
@@ -102,7 +95,6 @@
 						trigger: ['change', 'blur'],
 					}
 				},
-				birthdayShow: false,
 				code: null,
 			}
 		},

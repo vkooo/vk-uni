@@ -1,7 +1,7 @@
 <template>
 	<view class="recharge-page">
 		<!-- 导航栏 -->
-		<u-navbar title="充值中心" :autoBack="true" bgColor="transparent" leftIconColor="#ffffff" 
+		<u-navbar title="充值中心" :autoBack="true" 	:bgColor="navBgColor" leftIconColor="#ffffff" 
 		:titleStyle="{
 			color: '#ffffff'
 		}">
@@ -63,8 +63,9 @@
 		mapState, mapGetters
 	} from "vuex"
 	import { handlePayment } from '@/utils/payment';
-
+	import scrollNavbarMixin from '@/mixins/scrollNavbarMixin';
 	export default {
+		mixins: [scrollNavbarMixin],
 		computed: {
 			...mapState('member', ["info", "hasLogin"]),
 			...mapGetters('website', ["balanceObj"]),

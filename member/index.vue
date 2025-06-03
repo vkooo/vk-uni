@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="header"  :style="{height: hasLogin? '33vh': '20vh'}">
+		<view class="header"  :style="{height: hasLogin || platform === 'wx_mini'? '33vh': '20vh'}">
 			<!-- #ifdef MP -->
 			<u-gap height="44" />
 			<!-- #endif -->
@@ -40,7 +40,7 @@
 			</view>
 		</view>
 		<view class="userinfo-order" :style="{
-			margin: hasLogin? '-40px 11px 11px': '-20px 11px 11px'
+			margin: hasLogin || platform === 'wx_mini'? '-40px 11px 11px': '-20px 11px 11px'
 		}">
 			<view class="vk-group-info pl10 pr10">
 				<text class="f1">
@@ -67,7 +67,20 @@
 		}">
 			其他功能
 		</view>
-		<view class="menu-list">
+		<u-grid @click="(index) => toolClick(index, 'moreMenu')">
+			<u-grid-item
+				v-for="(item, index) in moreMenu"
+				:key="index"
+			>
+				<u-icon
+					:customStyle="{paddingTop: '20rpx'}"
+					:name="item.icon"
+					:size="25"
+				></u-icon>
+				<text class="grid-text">{{item.name}}</text>
+			</u-grid-item>
+		</u-grid>
+		<!-- <view class="menu-list">
 			<u-cell-group 
 				:border="false"
 			>
@@ -89,7 +102,7 @@
 					v-for="(item,index) in moreMenu" :key="index" 
 				/>
 			</u-cell-group>
-		</view>
+		</view> -->
 		<vk-tabbar />
 	</view>
 </template>
@@ -101,6 +114,9 @@
 	export default {
 		computed: {
 			...mapState('member', ["info", "hasLogin"]),
+			platform(){
+				return getApp().globalData.platform 
+			},
 			capsuleHeight(){
 				let top = "15px";
 				// #ifdef MP
@@ -167,13 +183,6 @@
 							that.$utils.navigate('/pages/help/userAgreement')
 						}
 					},
-					{
-						name: "退出登录",
-						icon: 'man-delete',
-						fun(that) {
-							that.$store.dispatch("member/logout")
-						}
-					},
 				]
 			}
 		},
@@ -188,17 +197,14 @@
 			getInfo(){
 				this.$store.dispatch("member/getInfo")
 			},
-			itemClick(item){
-				item.fun(this)
-			}
+			toolClick(index, key){
+				this[key][index].fun(this)
+			},
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	page{
-		background-color: #f5f5f5;
-	}
 	.header {
 		padding-top: 60rpx;
 		color: #000000;
@@ -271,20 +277,20 @@
 	}
 	.userinfo-order{
 		background: #fff;
-		padding: 8rpx 20rpx;
+		padding: 20rpx;
 		border-radius: 8px;
 		position: relative;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 		.head{
 			align-items: center;
 			width: 100%;
 			padding: 8px 0;
-			.f1{
-				flex: auto;
-				font-size: 15px;
-				padding-left: 8px;
-				font-weight: 700;
-				color: #333;
-			}
+		}
+		.f1{
+			flex: auto;
+			font-size: 30rpx;
+			font-weight: bold;
+			color: #333;
 		}
 		.content{
 			width: 100%;
@@ -312,5 +318,13 @@
 				}
 			}
 		}
+	}
+	
+	.grid-text {
+		font-size: 14px;
+		padding: 8rpx 0rpx;
+		/* #ifndef APP-PLUS */
+		box-sizing: border-box;
+		/* #endif */
 	}
 </style>

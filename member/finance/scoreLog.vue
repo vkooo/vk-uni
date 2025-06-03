@@ -12,7 +12,6 @@
 				<u-cell v-for="(item, index) in list"
 					:title="item.memo" 
 					:label="item.created_at"
-					:border="list.length != index + 1"
 				>
 					<text slot="value" :style="{
 						color: item.type == 1? 'red': ''
@@ -68,7 +67,11 @@
 						const { list, total } = res.data
 						if(list.length > 0){
 							this.list = this.list.concat(list)
-							this.status = 'loadmore';
+							if (this.list.length >= total) {
+								this.status = 'nomore';
+							} else {
+								this.status = 'loadmore';
+							}
 						}else{
 							this.page = this.page - 1
 							this.status = 'nomore';

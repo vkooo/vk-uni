@@ -38,12 +38,38 @@ export function copy(data) {
 	})
 }
 
-export function back() {
-	if (getCurrentPages().length > 1) {
-		uni.navigateBack()
-	} else {
-		const homePath = store.getters["website/tabbar"].btns[0].pagePath;
-		reLaunch(homePath);
+export function back(timeout = 1000) {
+	setTimeout(function(){
+		// if (getCurrentPages().length > 1) {
+		// 	uni.navigateBack()
+		// } else {
+		// 	const homePath = store.getters["website/tabbar"].btns[0].pagePath;
+		// 	reLaunch(homePath);
+		// }
+		 try {
+		    const pages = getCurrentPages();
+		    if (pages.length > 1) {
+				uni.navigateBack();
+		    } else {
+		        const targetPath = fallbackPath || getDefaultHomePath();
+		        uni.reLaunch({ url: targetPath });
+		    }
+		} catch (error) {
+		    console.error('返回操作失败:', error);
+		    // 降级处理：尝试跳转到默认首页
+		    uni.reLaunch({ url: getDefaultHomePath() });
+		}
+	}, timeout)
+}
+/**
+ * 获取TabBar首页路径（封装以复用和容错）
+ */
+function getDefaultHomePath() {
+	try {
+		const tabbar = store.getters["website/tabbar"]?.btns;
+		return tabbar?.[0]?.pagePath || '/pages/index/index';
+	} catch {
+		return '/pages/index/index'; // 极端情况下回退到默认路径
 	}
 }
 
@@ -55,15 +81,23 @@ export function getCurrentPage() {
 	return currentUrl;
 }
 
-export function navigateTime(url, timeout = 1000) {
+export function navigateTime(url, params = {}, timeout = 1000) {
 	setTimeout(function() {
-		navigate(url)
+		navigate(url, params)
 	}, timeout)
 }
 
-export function navigate(url) {
+export function navigate(url, params = {}) {
+	const queryString = Object.entries(params)
+		.filter(([_, value]) => value != null) // 过滤 null/undefined
+		.map(([key, value]) => 
+			`${encodeURIComponent(key)}=${encodeURIComponent(value)}` // 编码键和值
+		)
+		.join('&');
+	const targetUrl = url + (queryString ? `?${queryString}` : '');
+
 	uni.navigateTo({
-		url: url,
+		url: targetUrl,
 		success(e) {
 			console.log(e)
 		},
@@ -179,4 +213,13 @@ export function isEmpty(value, checkArr) {
 
 export function deepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
+}
+
+export function dateToTimestamp(dateStr, ex = ""){
+	if(!dateStr) return
+	if(ex){
+		dateStr = dateStr.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3');
+	}
+	const timestamp = new Date(dateStr).getTime();
+	return timestamp
 }

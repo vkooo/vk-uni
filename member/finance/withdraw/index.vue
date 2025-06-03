@@ -3,7 +3,7 @@
 		<u-navbar
 			title="余额"
 			:autoBack="true"
-			bgColor="transparent"
+			:bgColor="navBgColor"
 			leftIconColor="#ffffff"
 			:titleStyle="{
 				color: '#ffffff'
@@ -110,7 +110,9 @@
 	import {
 		mapState, mapGetters
 	} from "vuex"
+	import scrollNavbarMixin from '@/mixins/scrollNavbarMixin';
 	export default {
+		mixins: [scrollNavbarMixin],
 		computed: {
 			...mapState('member', ["info", "hasLogin"]),
 			...mapGetters('website', ["withdrawObj"]),

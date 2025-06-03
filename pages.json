@@ -226,6 +226,7 @@
 		"selectedColor": "#fe8113",
 		"borderStyle": "black",
 		"backgroundColor": "#fff",
+		"custom": true,
 		"list": [
 			// {
 			// 	"pagePath": "pages/tabBar/index",

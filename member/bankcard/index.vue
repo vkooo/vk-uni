@@ -7,7 +7,7 @@
 		</u-navbar>
 		<view class="lists" v-if="list.length > 0">
 			
-			<view class="card-display" v-for="item in list" @click="$utils.navigate('/member/bankcard/modify?id=' + item.id)">
+			<view class="card-display" v-for="item in list" @click="$utils.navigate('/member/bankcard/modify', {id: item.id})">
 				<view class="bank-card" :style="cardStyle(item)">
 					<view class="card-top">
 						<view class="bank-info">

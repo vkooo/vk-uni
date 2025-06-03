@@ -90,4 +90,11 @@
 			color: #333;
 		}
 	}
+	.fixed-bottom-btn-wrap{
+		position: fixed;
+		bottom: 20px;
+		width: 90%;
+		transform: translateX(-50%);
+		left: 50%;
+	}
 </style>

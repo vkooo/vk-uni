@@ -36,7 +36,6 @@ export function getUrlQuery(name) {
 	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||[, ''])[1].replace(/\+/g, '%20')) || null
 }
 
-// #ifdef H5
 export function getRedirectUrl() {
 	let pathOptions = uni.getLaunchOptionsSync()
 	const queryString = Object.keys(pathOptions.query)
@@ -50,6 +49,7 @@ export function getRedirectUrl() {
 	return ""
 }
 
+// #ifdef H5
 export function getWxCode() {
 	let urlRedirect = `${env.redirectUrl}?redirect=${getRedirectUrl()}`
 	let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + env.wxappid +

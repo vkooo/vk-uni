@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<u-navbar
-			title="余额"
+			title="我的资金"
 			:autoBack="true"
-			bgColor="transparent"
+			:bgColor="navBgColor"
 			leftIconColor="#ffffff"
 			:titleStyle="{
 				color: '#ffffff'
@@ -12,7 +12,7 @@
 		<view class="h-navbar" />
 		<view class="content header">
 			<view class="title">
-				账户余额(元) <span style="padding-left: 10rpx;" /> <u-icon size="20" :name="eye? 'eye': 'eye-off'"  @click="eye = !eye"/>
+				账户总余额(元) <span style="padding-left: 10rpx;" /> <u-icon size="20" :name="eye? 'eye': 'eye-off'"  @click="eye = !eye"/>
 			</view>
 			<view class="money">
 				{{eye? info.money: '****'}}
@@ -39,7 +39,7 @@
 		<view class="content detail">
 			<view class="vk-group-info bb-1">
 				<text class="f1">
-					余额变动明细
+					账户明细
 				</text>
 				<u-text suffixIcon="arrow-right"
 					iconStyle="font-size: 14px; color:#999999;" 
@@ -70,10 +70,13 @@
 
 <script>
 	import { moneyLog } from '@/api/finance';
+	import scrollNavbarMixin from '@/mixins/scrollNavbarMixin';
+
 	import {
 		mapState
 	} from "vuex"
 	export default {
+		mixins: [scrollNavbarMixin],
 		computed: {
 			...mapState('member', ["info", "hasLogin"]),
 		},
@@ -103,7 +106,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	page{
 		background-color: #f6f6f6;
 	}
@@ -120,7 +123,7 @@
 		margin: 0 auto;
 	}
 	.content.header{
-		margin: -20vh auto 0;
+		margin: -18vh auto 0;
 		padding: 40rpx 20rpx 10rpx;
 		.title{
 			display: flex;

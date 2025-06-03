@@ -2,15 +2,11 @@
 	<view>
 		<u-navbar
 			title="编辑名称"
-			@rightClick="rightClick"
-			leftIcon=""
+			:leftIconSize="0"
 			:autoBack="true"
 			leftText="取消"
 			:placeholder="true"
 		>
-			<template slot="right">
-				<text>保存</text>
-			</template>
 		</u-navbar>
 		<view class="form">
 			<u-form ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
@@ -21,7 +17,11 @@
 				</view>
 			</u-form>
 		</view>
-		
+		<view class="fixed-bottom-btn-wrap">
+			<u-button type="primary" :customStyle="btnStyle" @click="rightClick">
+				保存
+			</u-button>
+		</view>
 	</view>
 </template>
 
