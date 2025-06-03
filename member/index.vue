@@ -67,7 +67,7 @@
 		}">
 			其他功能
 		</view>
-		<u-grid @click="(index) => toolClick(index, 'moreMenu')">
+		<u-grid col="4" @click="(index) => toolClick(index, 'moreMenu')">
 			<u-grid-item
 				v-for="(item, index) in moreMenu"
 				:key="index"
@@ -321,7 +321,7 @@
 	}
 	
 	.grid-text {
-		font-size: 14px;
+		font-size: 26rpx;
 		padding: 8rpx 0rpx;
 		/* #ifndef APP-PLUS */
 		box-sizing: border-box;

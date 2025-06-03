@@ -5,7 +5,7 @@
 				:scrollable="false"
 				active-color="#87ceeb"
 				:list="tabList" 
-				:is-scroll="false" :current="current" @change="change" />
+				:is-scroll="false" @change="change" />
 		</u-sticky>
 		<block v-if="list.length > 0">
 			<u-cell-group>
@@ -37,14 +37,17 @@
 				status: "loadmore",
 				tabList: [
 					{
-						name: '全部'
+						name: '全部',
+						status: 0,
 					}, {
-						name: '增加'
+						name: '增加',
+						status: 1,
 					}, {
-						name: '减少'
+						name: '减少',
+						status: 2,
 					}
 				],
-				current: 0,
+				type: 0,
 			}
 		},
 		onReachBottom(){
@@ -57,12 +60,13 @@
 			loadList(){
 				this.status = 'loading';
 				this.page = ++this.page;
+				this.list = []
 				this.getList()
 			},
 			getList(){
 				moneyLog({
 					page: this.page,
-					type: this.current
+					type: this.type
 				}).then(res=>{
 					if(res.code == 200){
 						const { list, total } = res.data
@@ -81,7 +85,8 @@
 				})
 			},
 			change(e){
-				this.current = e.index
+				console.log(e)
+				this.type = e.status
 				this.page = 1
 				this.list = []
 				this.getList()
