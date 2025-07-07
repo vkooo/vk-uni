@@ -8,7 +8,8 @@
 		<view class="lists" v-if="list.length > 0">
 			
 			<view class="card-display" v-for="item in list" @click="$utils.navigate('/member/bankcard/modify', {id: item.id})">
-				<view class="bank-card" :style="cardStyle(item)">
+				<!-- :style="cardStyle(item)" -->
+				<view class="bank-card" >
 					<view class="card-top">
 						<view class="bank-info">
 							<image v-if="item.icon" :src="item.icon" mode="aspectFit"
@@ -44,6 +45,21 @@
 <script>
 	import { bankcardLists } from '@/api/member.js';
 	export default {
+		computed: {
+			cardStyle(bank) {
+				const defaultStyle = {
+					background: 'linear-gradient(135deg, #2979ff, #4a90e2)',
+					color: '#fff'
+				};
+				if (bank && bank.bgColor) {
+					return {
+						background: `linear-gradient(135deg, ${bank.bgColor}, ${this.lightenColor(bank.bgColor, 20)})`,
+						color: '#fff'
+					};
+				}
+				return defaultStyle;
+			},
+		},
 		data() {
 			return {
 				page: 1,
@@ -81,19 +97,7 @@
 					}
 				})
 			},
-			cardStyle(bank) {
-				const defaultStyle = {
-					background: 'linear-gradient(135deg, #2979ff, #4a90e2)',
-					color: '#fff'
-				};
-				if (bank && bank.bgColor) {
-					return {
-						background: `linear-gradient(135deg, ${bank.bgColor}, ${this.lightenColor(bank.bgColor, 20)})`,
-						color: '#fff'
-					};
-				}
-				return defaultStyle;
-			},
+			
 			// 颜色变亮
 			lightenColor(color, percent) {
 				const num = parseInt(color.replace('#', ''), 16);

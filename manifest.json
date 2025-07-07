@@ -70,7 +70,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxeba49675d74bd647",
+        "appid" : "wx4983b005be3fd56c",
         "setting" : {
             "urlCheck" : false,
             "ignoreUploadUnusedFiles" : false,

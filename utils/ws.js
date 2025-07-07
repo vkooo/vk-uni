@@ -1,21 +1,30 @@
+import Vue from 'vue'
 import env from "../env.js"
 import store from "@/store"
 import { getToken } from '../utils/auth';
 
+// 只有以下方法才能触发事件
+const MODE_LIST = [
+	"RECEIVE_KEFU_MSG", // 接收客服发送的消息
+];
+
+// 开启调试模式
+const debug = false
+const wsUrl = env.wsUrl
+
 //是否已经连接上ws
 let isOpenSocket = false
 //心跳间隔，单位毫秒
-let heartBeatDelay = 3000
+const heartBeatDelay = 3000
 let heartBeatInterval = null
 //心跳时发送的消息文本
-let heartBeatText = "PING"
+const heartBeatText = "PING"
 //最大重连次数
-let reconnectTimes = 10
+const reconnectTimes = 10
 let reconnectInterval = null
 //重连间隔，单位毫秒
-let reconnectDelay = 3000
+const reconnectDelay = 3000
 
-let wsUrl = env.wsUrl
 
 let socketTask = null
 
@@ -30,6 +39,7 @@ let canReconnect = false
 let ws = {
 	socketTask: null,
 	init,
+	send,
 	completeClose
 }
 
@@ -40,7 +50,7 @@ function init() {
 		complete: () => {}
 	})
 	socketTask.onOpen((res) => {
-		console.log("ws连接成功")
+		log("ws连接成功")
 		clearInterval(heartBeatInterval)
 		clearInterval(reconnectInterval)
 		isOpenSocket = true
@@ -50,24 +60,35 @@ function init() {
 	})
 	socketTask.onMessage((res) => {
 		//自定义处理onMessage方法
-		const data = JSON.parse(res.data)
-		console.log(data)
-		switch(data.type){
-			// 初始化
-			case "INIT":
-				break;
-			// 单聊消息
-			case "RECEIVESINGLEMSG":
-				ws.store.dispatch("chat/receive", data)
-				break;
-			
+		try{
+			log("接收的原始数据", res)
+			const decodedData = atob(res.data);
+			const data = JSON.parse(decodedData);
+			log("[WebSocket] Received raw data:", res.data);
+			log("[WebSocket] Parsed data:", data);
+			if (!data || typeof data !== 'object') {
+			    throw new Error("Invalid message format: expected object");
+			}
+
+			if (data.mode && MODE_LIST.includes(data.mode)) {
+				switch(data.mode){
+					// 单聊消息
+					case "RECEIVE_KEFU_MSG":
+						store.dispatch("kefu/receiveMsg", data)
+						break;
+					
+				}
+			}
+		}catch (error) {
+			log("WebSocket message processing failed:", error);
+			log("Original message:", res.data);
 		}
 	})
 	socketTask.onClose(() => {
 		if (isOpenSocket) {
-			console.log("ws与服务器断开")
+			log("ws与服务器断开")
 		} else {
-			console.log("连接失败")
+			log("连接失败")
 		}
 		isOpenSocket = false
 		if (canReconnect) {
@@ -80,19 +101,37 @@ function init() {
 
 function heartBeat() {
 	heartBeatInterval = setInterval(() => {
-		console.log(heartBeatText)
+		// log(heartBeatText)
 		send({
-			type: heartBeatText
+			mode: heartBeatText
 		});
 	}, heartBeatDelay)
 }
 
 function send(value) {
+	if(!isOpenSocket)
+		Vue.prototype.$throw("ws与服务器断开")
 	value.token = getToken()
+	value.req_member_id = store.state.member.info.id
+	value.identity = "member"
 	ws.socketTask.send({
-		data: value,
-		async success() {
-			console.log("消息发送成功")
+		data: btoa(JSON.stringify(value)),
+		success() {
+			// success
+			store.dispatch('kefu/updateMsgStatus', {
+				// id: value.id,
+				status: 'success',
+				...value
+			});
+			// log("消息发送成功")
+		},
+		fail(err) {
+			store.dispatch('kefu/updateMsgStatus', {
+				// id: value.id,
+				status: 'failed',
+				...value
+			});
+			log("消息发送失败", err)
 		}
 	});
 }
@@ -104,13 +143,13 @@ function reconnect() {
 	if (!isOpenSocket) {
 		let count = 0;
 		reconnectInterval = setInterval(() => {
-			console.log("正在尝试重连")
+			log("正在尝试重连")
 			init();
 			count++
 			//重连一定次数后就不再重连
 			if (count >= reconnectTimes) {
 				clearInterval(reconnectInterval)
-				console.log("网络异常或服务器错误")
+				log("网络异常或服务器错误")
 			}
 		}, reconnectDelay)
 	}
@@ -124,6 +163,12 @@ function completeClose() {
 	if (ws.socketTask) {
 		ws.socketTask.close()
 	}
+}
+
+function log(...data) {
+    if(!debug) return
+
+    console.log(data)
 }
 
 module.exports = ws

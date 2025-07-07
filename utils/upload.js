@@ -6,14 +6,20 @@ import {getToken} from '../utils/auth';
  * @param callable successCallback 成功执行方法 data 
  * @param callable errorCallback 失败执行方法 
  *
- uploadpic: function() {
- 	let that = this;
- 	that.$util.uploadImageOne('upload/image', function(res) {
- 		console.log(res, '回调')
- 		that.uploadImg.push(res.data.path);
- 		that.$set(that, 'uploadImg', that.uploadImg);
- 	});
- },
+ let that = this
+ this.$upload.uploadImage({
+	count: count, // 默认1
+	sizeType: ['compressed'], // 是否压缩
+	sourceType: ['album', 'camera'], // 选择位置
+ }, function(res) {
+ 	let url = res.full_url
+ 	setProfile({
+ 		avatar: url
+ 	}).then(res=>{
+ 		that.avatar = url
+ 		that.$forceUpdate()
+ 	})
+ })
  
  */
 export function uploadFile(opt, successCallback, errorCallback) {

@@ -4,7 +4,8 @@
 		<u-notice-bar mode="closable" text="请填写本人真实姓名和银行卡信息" />
 		<view class="content">
 			<view class="card-display">
-				<view class="bank-card " :style="cardStyle">
+				 <!-- :style="cardStyle" -->
+				<view class="bank-card ">
 					<view class="card-top">
 						<view class="bank-info">
 							<image v-if="form.icon" :src="form.icon" mode="aspectFit"

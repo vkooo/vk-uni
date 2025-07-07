@@ -61,7 +61,7 @@
 		},
 		methods: {
 			tabBarChange(index, item) {
-				console.log(item)
+				// console.log(item)
 				this.$utils.reLaunch(item.pagePath)
 			},
 		}
