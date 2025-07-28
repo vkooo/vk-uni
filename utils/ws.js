@@ -103,7 +103,8 @@ function heartBeat() {
 	heartBeatInterval = setInterval(() => {
 		// log(heartBeatText)
 		send({
-			mode: heartBeatText
+			mode: heartBeatText,
+			session_id: store.state.kefu.session_id
 		});
 	}, heartBeatDelay)
 }

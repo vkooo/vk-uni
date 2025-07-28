@@ -5,7 +5,7 @@
 		<view class="content">
 			<view class="card-display">
 				 <!-- :style="cardStyle" -->
-				<view class="bank-card ">
+				<view class="bank-card " :style="cardStyle">
 					<view class="card-top">
 						<view class="bank-info">
 							<image v-if="form.icon" :src="form.icon" mode="aspectFit"
@@ -175,7 +175,7 @@
 		},
 		computed: {
 			// 银行卡样式
-			cardStyle() {
+			cardStyleObj() {
 				const defaultStyle = {
 					background: 'linear-gradient(135deg, #2979ff, #4a90e2)',
 					color: '#fff'
@@ -190,6 +190,11 @@
 					}
 				}
 				return defaultStyle;
+			},
+			// 样式字符串形式（小程序中建议使用）
+			cardStyle() {
+				const styleObj = this.cardStyleObj;
+				return `background: ${styleObj.background}; color: ${styleObj.color};`;
 			},
 			code() {
 				if (this.form.code) {
