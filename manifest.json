@@ -97,13 +97,7 @@
         },
         "title" : "VK",
         "devServer" : {
-            "disableHostCheck" : true,
-            "proxy" : {
-                "/api" : {
-                    "target" : "http://vk.ak7.cc",
-                    "changeOrigin" : true
-                }
-            }
+            "disableHostCheck" : true
         }
     }
 }

@@ -13,6 +13,11 @@ Vue.prototype.$utils = utils
 Vue.prototype.$upload = upload
 
 
+import priceFormat from '@/components/priceFormat.vue';
+// <priceFormat v-if="business_partner_price" :price="business_partner_price" weight intSize="58" floatSize="40" labelSize="32" />
+Vue.component('priceFormat', priceFormat)
+
+
 Vue.use(uView);
 Vue.mixin(styleMixin)
 
