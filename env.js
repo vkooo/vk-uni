@@ -2,9 +2,7 @@
 
 export default { //存放变量的容器
 	baseApi: '/api',
-	//#ifdef APP || MP
-	baseUrl: 'http://vk.ak7.cc',
-	//#endif
+	baseUrl: 'https://vk.ak7.cc',
 	
 	wxappid: "wx89bc57b9eb5e0e1d",
 	//#ifdef H5

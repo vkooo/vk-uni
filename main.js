@@ -27,14 +27,6 @@ Vue.prototype.$throw = function (message) {
 };
 
 Vue.prototype.$ws = ws
-// if (!store.state.member.hasLogin) {
-// 	// #ifdef H5
-// 	// 公众号
-// 	if(isWechat() && !isMiniProgram()){
-// 		store.dispatch('wechat/authorize');
-// 	}
-// 	// #endif
-// }
 
 // #ifndef VUE3
 import Vue from 'vue'

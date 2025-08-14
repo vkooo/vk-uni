@@ -56,9 +56,11 @@ export function copy(data) {
 	selectText(input, 0, textString.length);
 	if (document.execCommand('copy')) {
 		document.execCommand('copy');
-		this.$util.Tips({
-			title: '复制成功'
-		});
+		uni.showToast({
+			title: "复制成功",
+			icon: "none",
+			mask: true
+		})
 	}
 	input.blur();
 	// input自带的select()方法在苹果端无法进行选择
@@ -74,6 +76,24 @@ export function copy(data) {
 			textbox.setSelectionRange(startIndex, stopIndex);
 			textbox.focus();
 		}
+	}
+	// #endif
+}
+
+export function paste() {
+	// #ifdef MP || APP-PLUS
+	return new Promise((resolve, reject) => {
+	    uni.getClipboardData({
+			success: (res) => resolve(res.data),
+			fail: (err) => reject(err)
+	    });
+	});
+	// #endif
+	// #ifdef H5
+	try {
+	    return navigator.clipboard.readText();
+	} catch (err) {
+	    console.error('H5粘贴失败:', err);
 	}
 	// #endif
 }
@@ -121,6 +141,17 @@ export function getCurrentPage() {
 	return currentUrl;
 }
 
+export function buildUrl(url, params = {}) {
+    const queryString = Object.entries(params)
+    	.filter(([_, value]) => value != null) // 过滤 null/undefined
+    	.map(([key, value]) => 
+    		`${encodeURIComponent(key)}=${encodeURIComponent(value)}` // 编码键和值
+    	)
+    	.join('&');
+    const targetUrl = url + (queryString ? `?${queryString}` : '');
+	return targetUrl
+}
+
 export function navigateTime(url, params = {}, timeout = 1000) {
 	setTimeout(function() {
 		navigate(url, params)
@@ -128,16 +159,8 @@ export function navigateTime(url, params = {}, timeout = 1000) {
 }
 
 export function navigate(url, params = {}) {
-	const queryString = Object.entries(params)
-		.filter(([_, value]) => value != null) // 过滤 null/undefined
-		.map(([key, value]) => 
-			`${encodeURIComponent(key)}=${encodeURIComponent(value)}` // 编码键和值
-		)
-		.join('&');
-	const targetUrl = url + (queryString ? `?${queryString}` : '');
-
 	uni.navigateTo({
-		url: targetUrl,
+		url: buildUrl(url, params),
 		success(e) {
 			console.log(e)
 		},
@@ -156,7 +179,13 @@ export function reLaunch(url) {
 
 export function redirectTo(url) {
 	uni.redirectTo({
-		url: url
+		url: buildUrl(url, params),
+		success(e) {
+			console.log(e)
+		},
+		fail(err) {
+			console.log(err)
+		}
 	});
 }
 

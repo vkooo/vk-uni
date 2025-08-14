@@ -18,6 +18,19 @@
 			// 邀请码
 			if(options.query.ii){
 				uni.setStorageSync('ii', options.query.ii)
+			}else{
+				// #ifdef H5
+				if (location.href.includes('#/')) {
+					const url = location.href;
+					const [base, hash] = url.split('#/');
+					if (base.includes('?ii=')) {
+						const ii = new URL(base).searchParams.get('ii');
+						uni.setStorageSync('ii', ii)
+						const cleanUrl = location.origin + location.pathname + '#/' + (hash || '');
+						history.replaceState(null, '', cleanUrl);
+					}
+				}
+				// #endif
 			}
 			
 			// #ifdef H5
