@@ -32,8 +32,11 @@ function getSignature(dataDict) {
 }
 
 function normalizeData(obj) {
-    if (obj === undefined) return null;
-    if (obj === null) return null;
+    // if (obj === undefined) return null;
+    // if (obj === null) return null;
+	if (obj === undefined) return "";
+	if (obj === null) return "";
+	if (obj === "") return "";
     if (typeof obj === 'boolean') return obj;
     if (Array.isArray(obj)) {
         return obj.map(item => normalizeData(item));

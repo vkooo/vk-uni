@@ -188,15 +188,11 @@
 		},
 		onShow() {
 			let that = this
-			this.getInfo()
 			if(this.hasLogin){
-				
+				this.$store.dispatch("member/getInfo")
 			}
 		},
 		methods: {
-			getInfo(){
-				this.$store.dispatch("member/getInfo")
-			},
 			toolClick(index, key){
 				this[key][index].fun(this)
 			},

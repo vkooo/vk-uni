@@ -30,16 +30,7 @@
 		},
 		methods: {
 			logout() {
-				uni.showModal({
-					title: '提示',
-					content: '确定要退出登录吗？',
-					confirmColor: '#f56c6c', // 红色按钮
-					success: (res) => {
-						if (res.confirm) {
-							this.$store.dispatch("member/logout")
-						}
-					}
-				});
+				this.$store.dispatch("member/logout")
 			}
 		}
 	}

@@ -172,10 +172,21 @@ mutations = {
 		})
 	},
 	logout({ commit }){
-		commit("CLEAR_USER_INFO")
-		uni.reLaunch({
-			url: "/pages/auth/login"
-		})
+		uni.showModal({
+			title: "提示",
+			content: "确定要退出登录吗？",
+			success: (res) => {
+				if (res.confirm) {
+					logout().then(res=>{
+						commit("CLEAR_USER_INFO")
+						uni.reLaunch({
+							url: "/pages/auth/login"
+						})
+					})
+				}
+			}
+		});
+		
 	}
 };
 
