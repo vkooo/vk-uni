@@ -3,7 +3,9 @@
 		<u-sticky bgColor="#fff">
 			<u-tabs
 				:scrollable="false"
-				active-color="#87ceeb"
+				:activeStyle="$env.tabs.activeStyle"
+				:inactiveStyle="$env.tabs.inactiveStyle"
+				:lineColor="$env.tabs.lineColor"
 				:list="tabList" 
 				:is-scroll="false" :current="current" @change="change" />
 		</u-sticky>

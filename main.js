@@ -5,6 +5,7 @@ import store from 'store/index.js'
 import { isMiniProgram, isWechat } from '@/utils/platform'
 import styleMixin from '@/mixins/styleMixin.js'
 import ws from '@/utils/ws.js'
+import env from "@/env";
 import * as utils from '@/utils'
 import * as upload from '@/utils/upload'
 import '@/static/css/quill/snow.scss'
@@ -26,6 +27,7 @@ Vue.prototype.$throw = function (message) {
 	throw new GlobalException(message);
 };
 
+Vue.prototype.$env = env
 Vue.prototype.$ws = ws
 
 // #ifndef VUE3

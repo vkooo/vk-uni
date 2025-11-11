@@ -3,7 +3,7 @@
 		<view class="container">
 			<view class="form">
 				<u-form  ref="uForm" 
-				  labelWidth="80" :labelStyle="{color: '#282828', padding: '3px 0'}">
+				  labelWidth="80" :labelStyle="$env.form.labelStyle">
 					<view class="avatar p-15">
 						<image :src="avatar? avatar: '/static/image/avatar.png'" @click="upload" />
 					</view>

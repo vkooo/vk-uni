@@ -8,6 +8,13 @@ export function login(data) {
 	})
 }
 
+export function logout() {
+	return request({
+		url: '/logout',
+		method: 'GET',
+	})
+}
+
 export function wechatOfficial(data) {
 	return request({
 		url: '/authorize/wechat/official',

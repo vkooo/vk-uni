@@ -7,7 +7,7 @@
 		>
 		</u-navbar>
 		<view class="form">
-			<u-form ref="uForm" :model="form" labelWidth="80" :labelStyle="{color: '#333333'}">
+			<u-form ref="uForm" :model="form" labelWidth="80" :labelStyle="$env.form.labelStyle">
 				<view class="p-l-20 p-r-20 p-b-0" >
 					<u-form-item label="真实姓名" borderBottom>
 						<u-input placeholder="请输入您的昵称" border="none" v-model="form.realname" :disabled="!!(form.is_realname == 1)"/>

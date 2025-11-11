@@ -9,7 +9,7 @@
 		>
 		</u-navbar>
 		<view class="form">
-			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="80" :labelStyle="{color: '#808080'}">
+			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="80" :labelStyle="$env.form.labelStyle">
 				<view class="p-20 p-b-0" >
 					<u-form-item v-if="form.mobile" label="旧手机号" borderBottom>
 						{{form.mobile}}

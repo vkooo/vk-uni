@@ -196,6 +196,9 @@
 			toolClick(index, key){
 				this[key][index].fun(this)
 			},
+			getInfo(){
+				this.$store.dispatch("member/getInfo")
+			},
 		}
 	}
 </script>

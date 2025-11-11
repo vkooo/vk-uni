@@ -39,7 +39,7 @@
 					<view class="title-line" />
 				</view>
 
-				<u-form :model="form" :rules="rules" ref="uForm" labelWidth="120" errorType="toast">
+				<u-form :model="form" :rules="rules" ref="uForm" labelWidth="120" :labelStyle="$env.form.labelStyle" errorType="toast">
 					<u-form-item label="持卡人姓名" prop="realname" borderBottom>
 						<u-input v-model="form.realname" placeholder="请输入与银行卡一致的姓名"
 							border="none" inputAlign="right" :customStyle="{ padding: '20rpx 0' }"></u-input>

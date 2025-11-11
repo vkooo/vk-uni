@@ -9,7 +9,7 @@
 		>
 		</u-navbar>
 		<view class="form">
-			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="90" :labelStyle="{color: '#808080'}">
+			<u-form :model="form" :rules="rules" ref="uForm" labelWidth="90" :labelStyle="$env.form.labelStyle">
 				<view class="p-20 p-b-0" >
 					<u-form-item label="支付宝姓名" prop="ali_name" borderBottom>
 						<u-input placeholder="请输入支付宝姓名" type="text" border="none" v-model="form.ali_name" />

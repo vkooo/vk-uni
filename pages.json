@@ -26,21 +26,15 @@
 			}
 		},
 		{
-			"path": "pages/help/about",
+			"path": "pages/common/parse",
 			"style": {
-				"navigationBarTitleText": "关于我们"
+				"navigationBarTitleText": "协议"
 			}
 		},
 		{
-			"path": "pages/help/userAgreement",
+			"path": "pages/common/webview",
 			"style": {
-				"navigationBarTitleText": "用户协议"
-			}
-		},
-		{
-			"path": "pages/help/privacyPolicy",
-			"style": {
-				"navigationBarTitleText": "隐私政策"
+				"navigationBarTitleText": ""
 			}
 		},
 		{

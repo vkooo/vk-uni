@@ -1,4 +1,4 @@
-import { wechatOfficial, wechatMini, wechatApp, login, loginBySms } from '@/api/auth.js';
+import { wechatOfficial, wechatMini, wechatApp, login, loginBySms, logout } from '@/api/auth.js';
 import { info } from '@/api/member.js';
 import * as platformUtils from '@/utils/platform';
 import { setToken, removeToken } from '@/utils/auth.js';
